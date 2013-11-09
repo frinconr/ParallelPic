@@ -2,7 +2,7 @@
 
 CC = g++
 CFLAGS = -fopenmp
-LFLAGS = ../build/image.o -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+LFLAGS = ../build/ParallelPic.o -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 EFLAGS = -o
 
 # All the targets
@@ -13,3 +13,6 @@ hello:
 
 suma:
 	$(CC) $(CFLAGS) suma.cpp $(EFLAGS) suma.exe $(LFLAGS)
+
+sumsec:
+	$(CC) $(CFLAGS) sumsec.cpp $(EFLAGS) sumsec.exe $(LFLAGS)
