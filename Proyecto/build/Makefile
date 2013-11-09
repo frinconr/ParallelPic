@@ -2,8 +2,8 @@ CC = g++
 CFLAGS = -c -Wall -fopenmp
 LFLAGS = -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 
-all: parlpic
+all: ParallelPic
 
-parlpic:
+ParallelPic:
 	$(CC) $(CFLAGS) ../src/ParallelPic.cpp $(LFLAGS)
 

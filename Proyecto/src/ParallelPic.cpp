@@ -1,4 +1,4 @@
-#include "../include/image.hh"
+#include "../include/ParallelPic.hh"
 
 
 /**\file ../include/image.hh
