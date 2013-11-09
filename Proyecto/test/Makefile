@@ -6,13 +6,20 @@ LFLAGS = ../build/ParallelPic.o -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 EFLAGS = -o
 
 # All the targets
-all: hello suma
+all: 
 
-hello: 
+hello: hello.cpp
 	$(CC) $(CFLAGS) hello.cpp $(EFLAGS) hello.exe 
 
-suma:
+suma:	suma.cpp
 	$(CC) $(CFLAGS) suma.cpp $(EFLAGS) suma.exe $(LFLAGS)
 
-sumsec:
+sumsec:	sumsec.cpp
 	$(CC) $(CFLAGS) sumsec.cpp $(EFLAGS) sumsec.exe $(LFLAGS)
+
+hellomp: hellomp.cpp
+	$(CC) $(CFLAGS) hellomp.cpp $(EFLAGS) hello.exe 
+
+sumasch: sumasch.cpp
+	$(CC) $(CFLAGS) sumasch.cpp $(EFLAGS) sumasch.exe $(LFLAGS)
+
