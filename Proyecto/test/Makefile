@@ -23,3 +23,5 @@ hellomp: hellomp.cpp
 sumasch: sumasch.cpp
 	$(CC) $(CFLAGS) sumasch.cpp $(EFLAGS) sumasch.exe $(LFLAGS)
 
+coorrel_par: coorrel_par.cpp
+	$(CC) $(CFLAGS) coorrel_par.cpp $(EFLAGS) coorrel_par.exe $(LFLAGS)

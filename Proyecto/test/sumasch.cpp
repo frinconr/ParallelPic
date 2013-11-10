@@ -1,6 +1,7 @@
 #include "../include/ParallelPic.hh"
+#include <omp.h>
 
-Image Image :: sum_par(Image image2)
+Image Image :: operator+ (Image image2)
 {
 	unsigned int c,z,x,y,pixel,sum;
 	
@@ -14,21 +15,19 @@ Image Image :: sum_par(Image image2)
 
 			for(z = 0; z < this->get_depth(); z++)
 			{
-			
+			//#pragma omp parallel for schedule(dynamic,this->get_height()) private(sum,x,y) shared(z,c,result)
 				for(x = 0; x < this->get_width(); x++)
 				{
-				#pragma omp parallel private(sum) shared(x,z,c,result) 
-				{
-					#pragma omp for schedule(dynamic,1) private(sum)
+					#pragma omp parallel for schedule(dynamic, this->get_width()) private(sum) shared(x,z,c,result)
 					for(y = 0; y < this->get_height(); y++)
 					{
-						
 						sum= this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
 						
 						if (sum <= 255)
 						{
 							pixel = static_cast<unsigned int>(sum);
 						}
+						
 						else
 						{
 							pixel = 255;
@@ -40,17 +39,16 @@ Image Image :: sum_par(Image image2)
 				}
 			}
 		}
-	}}
+	}
 		
-	
 	return result;
 }
 
 int main()
 {
 	Image img1 ("../../Multimedia/openmp.jpg");
-	img1.display("soba");
-	Image result = img1.sum_par(img1);
+	img1.display("original");
+	Image result = img1+img1;
 	result.display("disp");
 	return 0;
 }

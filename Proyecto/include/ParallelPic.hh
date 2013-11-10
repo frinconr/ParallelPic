@@ -89,7 +89,7 @@ public:
 
 	Image sum_img(Image); ///\fn sum image allows to sum the pixel values of two images.
 	
-	Image sum_par(Image);
+	Image operator+ (Image);
 	
 	Image multiply_img(double); /// \fn image multiplier multiplies an image by a factor.
 
@@ -228,6 +228,9 @@ public:
 	Image coorrelogram(unsigned int,unsigned int); ///\fn This function computes the coorrelogram of an image in gray scale.
 	
 	Image coorrelogram_ZC(unsigned int,unsigned int,unsigned int, unsigned int); /// \fn This function computes the coorrelogram of a specified depth and spectrum in the image. 
+
+	Image coorrelogram_par(unsigned int,unsigned int,unsigned int, unsigned int); /// \fn This function computes the coorrelogram of a specified depth and spectrum in the image. 
+
 };
 
 #endif
