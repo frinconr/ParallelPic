@@ -17,12 +17,12 @@ Image Image :: sum_par(Image image2)
 			
 				for(x = 0; x < this->get_width(); x++)
 				{
-				#pragma omp parallel private(sum) shared(x,z,c) 
+				#pragma omp parallel private(sum) shared(x,z,c,result) 
 				{
-					#pragma omp for ordered schedule(dynamic,1)
+					#pragma omp for schedule(dynamic,1) private(sum)
 					for(y = 0; y < this->get_height(); y++)
 					{
-						#pragma omp ordered
+						
 						sum= this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
 						
 						if (sum <= 255)
@@ -34,7 +34,7 @@ Image Image :: sum_par(Image image2)
 							pixel = 255;
 						}
 								
-					
+						#pragma omp critical
 						result.set_pixel_value(x,y,z,c,pixel);
 					}
 				}
