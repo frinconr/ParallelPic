@@ -25,3 +25,8 @@ sumasch: sumasch.cpp
 
 coorrel_par: coorrel_par.cpp
 	$(CC) $(CFLAGS) coorrel_par.cpp $(EFLAGS) coorrel_par.exe $(LFLAGS)
+coorrel: correl.cpp
+	$(CC) $(CFLAGS) correl.cpp $(EFLAGS) coorrel.exe $(LFLAGS)
+	
+HSV: HSV.cpp
+	$(CC) $(CFLAGS) HSV.cpp $(EFLAGS) HSV.exe $(LFLAGS)
