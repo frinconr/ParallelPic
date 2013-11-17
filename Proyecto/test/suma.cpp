@@ -1,89 +1,46 @@
 #include "../include/ParallelPic.hh"
+#include <omp.h>
 
 Image Image :: sum_par(Image image2)
 {
+	unsigned int x,y,z,c,pixel,sum;
+	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
 	{
-		#pragma omp sections
-		{
-		#pragma omp section
-		{
 		
-		for(unsigned int c = 0; c < this->get_spectrum(); c++)
+		for(c = 0; c < this->get_spectrum(); ++c)
 		{
-
-			for(unsigned int z = 0; z < this->get_depth(); z++)
+					
+			for(z = 0; z < this->get_depth(); ++z)
 			{
-
-				for(unsigned int x = 0; x < this->get_width(); x++)
+				#pragma omp parallel for schedule(dynamic, this->get_width()/2) private(sum,pixel) shared(z,c,result)
+				for(x = 0; x < this->get_width(); ++x)
 				{
-
-					for(unsigned int y = 0; y < this->get_height()/2; y++)
+					//#pragma omp schedule(dynamic, this->get_height()/2) 
+					for(y = 0; y < this->get_height(); ++y)
 					{
-						unsigned char pixel;
-						int sum = this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
+						
+						sum = this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
 
+						if (sum <= 255)
 						{
-
-							{
-								if (sum <= 255)
-								{
-									pixel = static_cast<unsigned int>(sum);
-								}
-							}
-	
-							{
-								if(sum>255)
-								{
-								pixel = 255;
-								}
-							}
+							pixel = static_cast<unsigned int>(sum);
 						}
+						else
+						{
+							pixel = 255;
+						}
+						
+						#pragma omp critical
 						result.set_pixel_value(x,y,z,c,pixel);
 					}
 				}
 			}
-		}}
-		#pragma omp section
-		{
+		}
 		
-		for(unsigned int c = 0; c < this->get_spectrum(); c++)
-		{
-
-			for(unsigned int z = 0; z < this->get_depth(); z++)
-			{
-
-				for(unsigned int x = 0; x < this->get_width(); x++)
-				{
-
-					for(unsigned int y = this->get_height()/2; y < this->get_height(); y++)
-					{
-						unsigned char pixel;
-						int sum = this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
-
-						{
-
-							{
-								if (sum <= 255)
-								{
-									pixel = static_cast<unsigned int>(sum);
-								}
-							}
-	
-							{
-								if(sum>255)
-								{
-								pixel = 255;
-								}
-							}
-						}
-						result.set_pixel_value(x,y,z,c,pixel);
-					}
-				}
-			}
-		}}}}
+	}	
 	
 	return result;
 }
@@ -91,7 +48,7 @@ Image Image :: sum_par(Image image2)
 int main()
 {
 	Image img1 ("../../Multimedia/openmp.jpg");
-	img1.display("soba");
+	img1.display("original");
 	Image result = img1.sum_par(img1);
 	result.display("disp");
 	return 0;
