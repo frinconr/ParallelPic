@@ -214,6 +214,8 @@ public:
 	Image filter_minimum();/// Assigns the lowest value in the neighborhood.
 
 	Image gray_scale();/// Converts an RGB image to gray scale
+	
+	double** rgb_hsv(Image);
 
 
 // *************************************************************************
