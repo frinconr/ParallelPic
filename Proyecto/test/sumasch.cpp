@@ -4,6 +4,8 @@
 Image Image :: operator+ (Image image2)
 {
 	unsigned int c,z,x,y,pixel,sum=0;
+	 
+	int n = this->get_height()/omp_get_num_threads();
 	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
@@ -18,23 +20,25 @@ Image Image :: operator+ (Image image2)
 			//#pragma omp parallel for schedule(dynamic,this->get_height()) private(sum,x,y) shared(z,c,result)
 				for(x = 0; x < this->get_width(); x++)
 				{
-					#pragma omp parallel for schedule(dynamic, this->get_height()/2) firstprivate(sum) reduction(+:pixel) shared(x,z,c,result)
-					for(y = 0; y < this->get_height(); y++)
-					{
-						sum= this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
-						
-						if (sum <= 255)
+					for (int m=0; m<omp_get_num_threads(); ++m){
+						#pragma omp parallel for schedule(dynamic, n) private(sum,y) shared(x,z,c,result)
+						for(y = m*n; y < this->get_height(); y++)
 						{
-							pixel = static_cast<unsigned int>(sum);
-						}
+							sum= this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
 						
-						else
-						{
-							pixel = 255;
-						}
+							if (sum <= 255)
+							{
+								pixel = static_cast<unsigned int>(sum);
+							}
+						
+							else
+							{
+								pixel = 255;
+							}
 								
-						#pragma omp critical
-						result.set_pixel_value(x,y,z,c,pixel);
+							#pragma omp critical
+							result.set_pixel_value(x,y,z,c,pixel);
+						}
 					}
 				}
 			}
