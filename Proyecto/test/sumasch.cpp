@@ -20,9 +20,10 @@ Image Image :: operator+ (Image image2)
 			//#pragma omp parallel for schedule(dynamic,this->get_height()) private(sum,x,y) shared(z,c,result)
 				for(x = 0; x < this->get_width(); x++)
 				{
-					for (int m=0; m<omp_get_num_threads(); ++m){
+					for (int m=0; m<omp_get_num_threads(); ++m)
+					{	
 						#pragma omp parallel for schedule(dynamic, n) private(sum,y) shared(x,z,c,result)
-						for(y = m*n; y < this->get_height(); y++)
+						for(y = m*n; y < n*(m+1); y++)
 						{
 							sum= this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
 						
@@ -35,8 +36,7 @@ Image Image :: operator+ (Image image2)
 							{
 								pixel = 255;
 							}
-								
-							#pragma omp critical
+							//#pragma omp critical
 							result.set_pixel_value(x,y,z,c,pixel);
 						}
 					}
