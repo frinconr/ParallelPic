@@ -3,23 +3,23 @@
 
 Image Image :: operator+ (Image image2)
 {
-	unsigned int c,z,x,y,pixel,sum=0;
+	unsigned int pixel,sum=0;
 	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
 	{
-		
-		for(c = 0; c < this->get_spectrum(); c++)
+	#pragma omp parallel for schedule(dynamic,1)
+		for(int c = 0; c < this->get_spectrum(); c++)
 		{
-
-			for(z = 0; z < this->get_depth(); z++)
+	//#pragma omp parallel for schedule(dynamic,1) /*private(sum) private(sum) shared(z,c,result)*/
+			for(int z = 0; z < this->get_depth(); z++)
 			{
-			//#pragma omp parallel for schedule(dynamic,this->get_height()) private(sum,x,y) shared(z,c,result)
-				for(x = 0; x < this->get_width(); x++)
+			//#pragma omp parallel for schedule(dynamic,this->get_width()/2) /*private(sum) private(sum) shared(z,c,result)*/
+				for(int x = 0; x < this->get_width(); x++)
 				{
-					#pragma omp parallel for schedule(dynamic, this->get_height()/2) firstprivate(sum) reduction(+:pixel) shared(x,z,c,result)
-					for(y = 0; y < this->get_height(); y++)
+				//#pragma omp parallel for schedule(dynamic, this->get_height()/2) firstprivate(sum) reduction(+:pixel) shared(x,z,c,result)
+					for(int y = 0; y < this->get_height(); y++)
 					{
 						sum= this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
 						
