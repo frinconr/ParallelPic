@@ -50,7 +50,7 @@ Image Image :: operator+ (Image image2)
 
 int main()
 {
-	Image img1 ("../../Multimedia/openmp.jpg");
+	Image img1 ("../../Multimedia/huge.jpg");
 	img1.display("original");
 	Image result = img1+img1;
 	result.display("disp");
