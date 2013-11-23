@@ -1,7 +1,9 @@
 # This makefile is intented to compile every test made in the development of this library.
 
 CC = g++
+CMPI=mpic++
 CFLAGS = -fopenmp
+
 LFLAGS = ../build/ParallelPic.o -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 EFLAGS = -o
 
@@ -30,3 +32,9 @@ coorrel: correl.cpp
 	
 HSV: HSV.cpp
 	$(CC) $(CFLAGS) HSV.cpp $(EFLAGS) HSV.exe $(LFLAGS)
+
+hsv: hsv.cpp
+	$(CC) $(CFLAGS) hsv.cpp $(EFLAGS) hsv.exe $(LFLAGS)
+	
+sumampi: sumampi.cpp
+	$(CMPI) sumampi.cpp $(EFLAGS) sumampi.exe $(LFLAGS)
