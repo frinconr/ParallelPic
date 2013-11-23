@@ -42,7 +42,7 @@ Image Image :: sum_par(Image image2)
 
 int main()
 {
-	Image img1 ("../../Multimedia/openmp.jpg");
+	Image img1 ("../../Multimedia/huge.jpg");
 	img1.display("original");
 	Image result = img1.sum_par(img1);
 	result.display("disp");

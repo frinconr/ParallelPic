@@ -30,3 +30,6 @@ coorrel: correl.cpp
 	
 HSV: HSV.cpp
 	$(CC) $(CFLAGS) HSV.cpp $(EFLAGS) HSV.exe $(LFLAGS)
+	
+average_omp: average_omp.cpp
+	$(CC) $(CFLAGS) average_omp.cpp $(EFLAGS) average_omp.exe $(LFLAGS)
