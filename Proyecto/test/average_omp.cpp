@@ -10,7 +10,7 @@ Image Image::average_omp(int dim){
 	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
-	#pragma omp parallel for schedule(dynamic,1) private(sum,c,pixel,i,j) shared(filtered,dim)
+	#pragma omp parallel for ordered schedule(dynamic,1) private(sum,c,pixel,i,j) shared(filtered,dim)
 	
 	for(c =0; c < this->get_spectrum(); c++)
 	{
@@ -32,6 +32,8 @@ Image Image::average_omp(int dim){
 					}
 			
 					pixel = (unsigned char)static_cast<unsigned char> (sum/((dim*2+1)*(dim*2+1)));
+					
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -44,10 +46,22 @@ Image Image::average_omp(int dim){
 	
 int main()
 {
+	clock_t time;  
+	
 	Image img1 ("../../Multimedia/openmp.jpg");
-	img1.display("original");
-	Image result = img1.average_omp(2);
-	result.display("disp");
-	img1.filter_average(2).display("sec");
+	//img1.display("original");
+	
+	time= clock();
+	img1.average_omp(3);
+	time= clock()-time;
+	cout<<"Tiempo de ejecucion paralela (s) : "<<((float)time)/CLOCKS_PER_SEC<<endl;
+	
+	
+	
+	time= clock();
+	img1.filter_average(3);
+	time= clock()-time;
+	cout<<"Tiempo de ejecucion secuencial (s) : "<<((float)time)/CLOCKS_PER_SEC<<endl;
+	
 	return 0;
 }

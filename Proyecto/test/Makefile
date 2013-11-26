@@ -35,6 +35,9 @@ HSV: HSV.cpp
 	
 average_omp: average_omp.cpp
 	$(CC) $(CFLAGS) average_omp.cpp $(EFLAGS) average_omp.exe $(LFLAGS)
+	
+sum_omp: sum_omp.cpp
+	$(CC) $(CFLAGS) sum_omp.cpp $(EFLAGS) sum_omp.exe $(LFLAGS)
 
 hsv: hsv.cpp
 	$(CC) $(CFLAGS) hsv.cpp $(EFLAGS) hsv.exe $(LFLAGS)

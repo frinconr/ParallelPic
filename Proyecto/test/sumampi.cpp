@@ -10,7 +10,7 @@ Image Image :: sum_par(Image image2)
 	
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
 	{
-		MPI_INIT();
+		MPI_Init();
 		MPI_Comm_rank(MPI_COMM_WORLD, &id);
 		MPI_Comm_size(MPI_COMM_WORLD, &procs);
 
