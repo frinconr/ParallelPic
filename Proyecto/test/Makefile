@@ -1,7 +1,7 @@
 # This makefile is intented to compile every test made in the development of this library.
 
 CC = g++
-CMPI=mpicxx.openmpi
+CMPI=mpiCC.openmpi
 CFLAGS = -fopenmp
 
 LFLAGS = ../build/ParallelPic.o -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
