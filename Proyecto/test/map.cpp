@@ -31,19 +31,16 @@ class pixel{
 		
 	};
 	
-	
-typedef pair<pixel,pixel> pixel_par;	
+
 int main(){
 	
 	pixel pic1(0,0,0);
 	pixel pic2(19,29,890);
+	pair<pixel,pixel> pixel_par(pic1,pic2);
+	map<pixel,pixel> LUT;
 	
-	//map<pixel,pixel> LUT;
+	LUT.insert(pixel_par);
 	
-	//LUT.insert(pixel_par(pic1,pic2));
-
-	
-	cout<<*pic1.pix<<endl;
 	return 0;
 
 }
