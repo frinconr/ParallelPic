@@ -8,7 +8,6 @@ Image Image :: operator+(Image image2)
 	
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
 	{
-	
 		for(unsigned int c = 0; c < this->get_spectrum(); c++)
 		{
 

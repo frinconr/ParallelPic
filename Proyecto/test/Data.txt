@@ -1,0 +1,8 @@
+Tiempo de ejecucion paralela (s) : 8.12
+Tiempo de ejecucion secuencial (s) : 7.88
+Tiempo de ejecucion paralela (s) : 8.12
+Tiempo de ejecucion secuencial (s) : 7.62
+Tiempo de ejecucion paralela (s) : 8.18
+Tiempo de ejecucion secuencial (s) : 7.87
+Tiempo de ejecucion paralela (s) : 8.21
+Tiempo de ejecucion secuencial (s) : 7.85
