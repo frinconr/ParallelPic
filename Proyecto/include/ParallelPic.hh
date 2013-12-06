@@ -133,6 +133,8 @@ public:
 	
 	Image filter_average(int); /// \fn Average filter calculates the average of a certain group of pixels values.
 	
+	Image average_omp(int);
+	
 	Image filter_gaussian(int, int); /// \fn Gaussian filter applies a gaussian kernel to the image.
 	
 	Image filter_modal(int); /// \fn Modal filter calculates the modal of a certain group of pixels, in case there is no especific modal it calculates the average.

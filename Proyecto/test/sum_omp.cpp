@@ -5,8 +5,8 @@
 Image Image :: operator+ (Image image2)
 {
 	unsigned int c,pixel,sum=0;
-	int cont1,cont2=0;
-	int n = this->get_spectrum()/(omp_get_num_threads()+1);
+	//int cont1,cont2=0;
+	//int n = this->get_spectrum()/(omp_get_num_threads()+1);
 	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
@@ -14,7 +14,7 @@ Image Image :: operator+ (Image image2)
 	{
 			
 		#pragma omp parallel for ordered schedule(dynamic,1) private(sum,c) shared(result)
-		for(c =omp_get_thread_num()*n; c < this->get_spectrum(); c++)
+		for(c =0; c < this->get_spectrum(); c++)
 		
 		{
 			for(int z = 0; z < this->get_depth(); z++)
@@ -36,8 +36,8 @@ Image Image :: operator+ (Image image2)
 								pixel = 255;
 							}
 							
-							if(omp_get_thread_num()==0){++cont1;}
-							if(omp_get_thread_num()==1){++cont2;}
+							//if(omp_get_thread_num()==0){++cont1;}
+							//if(omp_get_thread_num()==1){++cont2;}
 							
 							#pragma omp ordered
 							result.set_pixel_value(x,y,z,c,pixel);
@@ -48,8 +48,8 @@ Image Image :: operator+ (Image image2)
 			}
 		} 
 	
-	cout<<"Cantidad de operaciones del thread 0: "<<cont1<<endl;
-	cout<<"Cantidad de operaciones del thread 1: "<<cont2<<endl;
+	//cout<<"Cantidad de operaciones del thread 0: "<<cont1<<endl;
+	//cout<<"Cantidad de operaciones del thread 1: "<<cont2<<endl;
 		
 	return result;
 }
@@ -65,6 +65,8 @@ int main()
 	Image result = img1+img1;
 	time= clock()-time;
 	cout<<"Tiempo de ejecucion paralela (s) : "<<((float)time)/CLOCKS_PER_SEC<<endl;
+	
+	result.display("original");
 	
 	time= clock();
 	img1.sum_img(img1);
