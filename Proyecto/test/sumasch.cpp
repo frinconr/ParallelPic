@@ -1,11 +1,11 @@
 #include "../include/ParallelPic.hh"
 #include <omp.h>
-
+#include <time.h>
 
 Image Image :: operator+ (Image image2)
 {
 	unsigned int c,z,x,y,m,pixel,sum=0;
-	int contador, cont2;
+	//int contador, cont2;
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
@@ -22,7 +22,7 @@ Image Image :: operator+ (Image image2)
 				#pragma omp parallel private(sum,x,y,m) shared(z,c,result)
 				{
 					int n = this->get_width()/omp_get_num_threads();
-					#pragma omp for schedule(dynamic, 1) 
+					#pragma omp for ordered schedule(dynamic, 1) 
 					for(m=0;m<omp_get_num_threads(); ++m){	
 					for(x = n*m; x < (m+1)*n; ++x)
 					{		
@@ -43,11 +43,11 @@ Image Image :: operator+ (Image image2)
 								pixel = 255;
 							}
 							
-							if(omp_get_thread_num()==0)
+							/*if(omp_get_thread_num()==0)
 								++contador;
 							if(omp_get_thread_num()==1)
-								++cont2;
-							//sleep(0.01);
+								++cont2;*/
+							#pragma omp ordered
 							result.set_pixel_value(x,y,z,c,pixel);
 						}
 						
@@ -59,16 +59,20 @@ Image Image :: operator+ (Image image2)
 			}
 		}
 	}
-	cerr<<contador<<endl;
-	cerr<<cont2<<endl;	
+	//cerr<<contador<<endl;
+	//cerr<<cont2<<endl;	
 	return result;
 }
 
 int main()
 {
+	clock_t time;
 	Image img1 ("../../Multimedia/openmp.jpg");
 	img1.display("original");
+	time = clock();
 	Image result = img1+img1;
+	time = clock() -time;
 	result.display("disp");
+	 cout<<((float)time)/CLOCKS_PER_SEC<<endl;
 	return 0;
 }

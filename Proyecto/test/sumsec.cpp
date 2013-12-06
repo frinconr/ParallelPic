@@ -40,11 +40,13 @@ Image Image :: sum_par(Image image2)
 	return result;
 }
 
-int main()
+int main(int argc, char** argv)
 {
-	Image img1 ("../../Multimedia/huge.jpg");
-	img1.display("original");
-	Image result = img1.sum_par(img1);
-	result.display("disp");
+	Image img1 (argv[1]);
+	Image img2 (argv[2]);
+	img1.display("imagen1");
+	img2.display("imagen2");
+	Image result = img1.sum_par(img2);
+	result.display("suma");
 	return 0;
 }
