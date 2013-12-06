@@ -39,8 +39,9 @@ average_omp: average_omp.cpp
 sum_omp: sum_omp.cpp
 	$(CC) $(CFLAGS) sum_omp.cpp $(EFLAGS) sum_omp.exe $(LFLAGS)
 
-hsv: hsv.cpp
-	$(CC) $(CFLAGS) hsv.cpp $(EFLAGS) hsv.exe $(LFLAGS)
-	
 sumampi: sumampi.cpp
 	$(CMPI) sumampi.cpp $(EFLAGS) sumampi.exe $(LFLAGS)
+
+map: map.cpp
+	$(CC) $(CFLAGS) map.cpp $(EFLAGS) map.exe $(LFLAGS)
+	
