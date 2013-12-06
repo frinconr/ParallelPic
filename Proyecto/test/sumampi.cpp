@@ -1,28 +1,14 @@
 #include "../include/ParallelPic.hh"
-#include "mpi.h"
+#include <mpi.h>
 
-Image Image :: sum_par(Image image2)
+Image Image :: operator+(Image image2)
 {
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
-	
-	int procs, id;
-	Image result_local ();
+
 	
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
 	{
-		MPI_INIT();
-		MPI_Comm_rank(MPI_COMM_WORLD, &id);
-		MPI_Comm_size(MPI_COMM_WORLD, &procs);
-
-		if(id==0)
-		{
-			result_local(this->get_width()/procs , this->get_height(), this->get_depth(), this->get_spectrum(), 0); 	
-		}
-		
-		MPI_Barrier(MPI_COMM_WORLD);	
-		//MPI_Bcast(id,this->get_width()/procs, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
-		//MPI_Scatter(result_local,this->get_width()/procs , MPI_UNSIGNED_CHAR, result, this->get_width(), MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
-		
+	
 		for(unsigned int c = 0; c < this->get_spectrum(); c++)
 		{
 
@@ -52,19 +38,48 @@ Image Image :: sum_par(Image image2)
 				}
 			}
 		}
-		//MPI_Reduce(**DIRECCION PRODUCTO LOCAL**, **DIRECCION PRODUCTO GLOBAL**, **CANTIDAD DE DATOS**, MPI_DOUBLE, **OPERACION**, **RECEPTOR**, MPI_COMM_WORLD);
-		MPI_Barrier(MPI_COMM_WORLD);
 
-		MPI_FINALIZE();
 	}
 	return result;
 }
 
-int main()
+int main(int argc, char** argv)
 {
-	Image img1 ("../../Multimedia/huge.jpg");
-	img1.display("original");
-	Image result = img1.sum_par(img1);
+	Image img1 (argv[1]);
+	Image img2 (argv[2]);
+	img1.display("imagen 1");
+	img2.display("imagen 2");
+		
+	int procs;
+	int id;
+	long local_size=0;
+	Image result_local;
+	Image result, img2_local, img1_local;
+	
+	MPI_INIT(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &id);
+	MPI_Comm_size(MPI_COMM_WORLD, &procs);
+	local_size=floor(img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()/procs);
+	if(id==0)
+	{
+		result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 	
+	
+		//result_local( img1.get_width()/procs, img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 	
+	}	
+
+	MPI_Barrier(MPI_COMM_WORLD);
+	MPI_Bcast(&local_size,1, MPI_LONG, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&result,1, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&result_local,1, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+	
+	MPI_Scatter(&img1,local_size , MPI_UNSIGNED_CHAR, img1_local, local_size, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+	MPI_Scatter(&img2,local_size , MPI_UNSIGNED_CHAR, img2_local, local_size, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+
+	result_local = img1_local+img2_local;
+	
+	MPI_Gather(&result_local, local_size, MPI_UNSIGNED_CHAR, result, local_size, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+	MPI_Barrier(MPI_COMM_WORLD);
+	MPI_FINALIZE();
+	
 	result.display("disp");
-	return 0;
 }
