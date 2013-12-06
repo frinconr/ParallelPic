@@ -2,7 +2,7 @@
 #include <omp.h>
 #include <time.h>
 
-Image Image :: operator+ (Image image2. int number_threas)
+Image Image :: operator+ (Image image2, int number_threas)
 {
 	unsigned int c,z,x,y,m,pixel,sum=0;
 	//int contador, cont2;
