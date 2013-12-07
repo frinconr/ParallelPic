@@ -1,5 +1,5 @@
 #include "../include/ParallelPic.hh"
-#include <mpi.h>
+#include "mpi.h"
 
 Image Image :: sum_par(Image image2)
 {
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 	Image result_local;
 	Image result, img2_local, img1_local;
 	
-	MPI_INIT(&argc, &argv);
+	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &id);
 	MPI_Comm_size(MPI_COMM_WORLD, &procs);
 	local_size=floor(img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()/procs);
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
 	
 		//result_local( img1.get_width()/procs, img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 	
 	}	
-
+/*
 	MPI_Barrier(MPI_COMM_WORLD);
 	MPI_Bcast(&local_size,1, MPI_LONG, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&result,1, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
@@ -78,7 +78,8 @@ int main(int argc, char** argv)
 	
 	MPI_Gather(&result_local, local_size, MPI_UNSIGNED_CHAR, result, local_size, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
 	MPI_Barrier(MPI_COMM_WORLD);
-	MPI_FINALIZE();
+	*/
+	MPI_Finalize();
 	
 	result.display("disp");
 }
