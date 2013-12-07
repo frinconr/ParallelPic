@@ -216,8 +216,6 @@ public:
 	Image filter_minimum();/// Assigns the lowest value in the neighborhood.
 
 	Image gray_scale();/// Converts an RGB image to gray scale
-	
-	double** rgb_hsv(Image);
 
 
 // *************************************************************************
@@ -235,7 +233,7 @@ public:
 
 	Image coorrelogram_par(unsigned int,unsigned int,unsigned int, unsigned int); /// \fn This function computes the coorrelogram of a specified depth and spectrum in the image. 
 
-	//double** rgb_hsv(Image);
+	Image rgb_hsv(Image);
 	
 
 };
