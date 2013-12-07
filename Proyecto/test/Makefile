@@ -41,7 +41,3 @@ sum_omp: sum_omp.cpp
 
 sumampi: sumampi.cpp
 	$(CMPI) sumampi.cpp $(EFLAGS) sumampi.exe $(LFLAGS)
-
-map: map.cpp
-	$(CC) $(CFLAGS) map.cpp $(EFLAGS) map.exe $(LFLAGS)
-	
