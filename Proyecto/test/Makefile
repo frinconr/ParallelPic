@@ -41,3 +41,7 @@ sum_omp: sum_omp.cpp
 
 sumampi: sumampi.cpp
 	$(CMPI) sumampi.cpp $(EFLAGS) sumampi.exe $(LFLAGS)
+
+
+median: Median_par.cpp
+	$(CC) $(CFLAGS) Median_par.cpp $(EFLAGS) median.exe $(LFLAGS)
