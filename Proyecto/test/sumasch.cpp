@@ -2,7 +2,7 @@
 #include <omp.h>
 #include <time.h>
 
-Image Image :: operator+ (Image image2)
+Image Image :: sum_par (Image image2, int number_threads)
 {
 	unsigned int c,z,x,y,m,pixel,sum=0;
 	//int contador, cont2;
@@ -21,9 +21,9 @@ Image Image :: operator+ (Image image2)
 						
 				#pragma omp parallel private(sum,x,y,m) shared(z,c,result)
 				{
-					int n = this->get_width()/omp_get_num_threads();
+					int n = this->get_width()/number_threads;
 					#pragma omp for ordered schedule(dynamic, 1) 
-					for(m=0;m<omp_get_num_threads(); ++m){	
+					for(m=0;m<number_threads; ++m){	
 					for(x = n*m; x < (m+1)*n; ++x)
 					{		
 						//#pragma omp parallel for schedule(dynamic, n) private(sum,y) shared(x,z,c,result)
@@ -64,15 +64,18 @@ Image Image :: operator+ (Image image2)
 	return result;
 }
 
-int main()
+int main(int argc, char** argv)
 {
-	clock_t time;
-	Image img1 ("../../Multimedia/openmp.jpg");
-	img1.display("original");
-	time = clock();
-	Image result = img1+img1;
-	time = clock() -time;
-	result.display("disp");
-	 cout<<((float)time)/CLOCKS_PER_SEC<<endl;
-	return 0;
+        clock_t time;
+        Image img1 (argv[1]);
+        Image img2(argv[2]);
+        int number_threads=atoi(argv[3]);
+		//img1.display("original");
+        time = clock();
+        Image result = img1.sum_par(img2,number_threads);
+        time = clock() -time;
+		//result.display("disp");
+        cout<<((float)time)/CLOCKS_PER_SEC<<endl;
+        return 0;
 }
+

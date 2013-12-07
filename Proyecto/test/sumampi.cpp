@@ -1,7 +1,7 @@
 #include "../include/ParallelPic.hh"
 #include <mpi.h>
 
-Image Image :: operator+(Image image2)
+Image Image :: sum_par(Image image2)
 {
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
@@ -74,7 +74,7 @@ int main(int argc, char** argv)
 	MPI_Scatter(&img1,local_size , MPI_UNSIGNED_CHAR, img1_local, local_size, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
 	MPI_Scatter(&img2,local_size , MPI_UNSIGNED_CHAR, img2_local, local_size, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
 
-	result_local = img1_local+img2_local;
+	result_local = img1_local.sum_par(img2_local);
 	
 	MPI_Gather(&result_local, local_size, MPI_UNSIGNED_CHAR, result, local_size, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
 	MPI_Barrier(MPI_COMM_WORLD);

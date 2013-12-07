@@ -1,6 +1,7 @@
 #include "../include/ParallelPic.hh"
+#include <time.h>
 
-Image Image :: sum_par(Image image2)
+Image Image :: operator+ (Image image2)
 {
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
@@ -42,11 +43,15 @@ Image Image :: sum_par(Image image2)
 
 int main(int argc, char** argv)
 {
+	clock_t time;
 	Image img1 (argv[1]);
 	Image img2 (argv[2]);
-	img1.display("imagen1");
-	img2.display("imagen2");
-	Image result = img1.sum_par(img2);
-	result.display("suma");
+	//img1.display("imagen1");
+	//img2.display("imagen2");
+	time = clock();
+	Image result = img1+(img2);
+	time = clock() -time;
+    cout<<((float)time)/CLOCKS_PER_SEC<<endl;
+	//result.display("suma");
 	return 0;
 }
