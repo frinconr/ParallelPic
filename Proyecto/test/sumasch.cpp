@@ -2,7 +2,7 @@
 #include <omp.h>
 #include <time.h>
 
-Image Image :: operator+ (Image image2, int number_threas)
+Image Image :: sum_par (Image image2, int number_threads)
 {
 	unsigned int c,z,x,y,m,pixel,sum=0;
 	//int contador, cont2;
@@ -72,7 +72,7 @@ int main(int argc, char** argv)
         int number_threads=atoi(argv[3]);
 		//img1.display("original");
         time = clock();
-        Image result = img1+(img2,number_threads);
+        Image result = img1.sum_par(img2,number_threads);
         time = clock() -time;
 		//result.display("disp");
         cout<<((float)time)/CLOCKS_PER_SEC<<endl;

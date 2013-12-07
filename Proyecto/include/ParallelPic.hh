@@ -88,8 +88,8 @@ public:
 	Image substract_img(Image); /// \fn substract image allows to substract the pixel values of two images.
 
 	Image sum_img(Image); ///\fn sum image allows to sum the pixel values of two images.
-	Image sum_par(Image);
-	Image operator+ (Image,int);
+	Image sum_par(Image,int=1);
+	Image operator+ (Image);
 	
 	Image multiply_img(double); /// \fn image multiplier multiplies an image by a factor.
 
