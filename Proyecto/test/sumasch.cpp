@@ -18,12 +18,12 @@ Image Image :: sum_par (Image image2, int number_threads)
 			{
 			//for (int m=0; m<=omp_get_num_threads(); ++m)
 			
-						
-				#pragma omp parallel private(sum,x,y,m) shared(z,c,result)
+				omp_set_num_threads(number_threads);	
+				#pragma omp copying(result) parallel private(sum,x,y,m) shared(z,c) 
 				{
 					int n = this->get_width()/number_threads;
-					#pragma omp for ordered schedule(dynamic, 1) 
-					for(m=0;m<number_threads; ++m){	
+					#pragma omp for schedule(dynamic, 1) 
+					for(m=0;m<omp_get_num_threads(); ++m){	
 						if(m=number_threads){n=n+this->get_width()%number_threads;}
 					for(x = n*m; x < (m+1)*n; ++x)
 					{		
@@ -48,7 +48,7 @@ Image Image :: sum_par (Image image2, int number_threads)
 								++contador;
 							if(omp_get_thread_num()==1)
 								++cont2;*/
-							#pragma omp ordered
+							//#pragma omp ordered
 							result.set_pixel_value(x,y,z,c,pixel);
 						}
 						
