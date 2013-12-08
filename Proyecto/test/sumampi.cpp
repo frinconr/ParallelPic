@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <mpi.h>
 #include "../include/ParallelPic.hh"
 
@@ -74,10 +75,12 @@ int main(int argc, char** argv)
 		
 	int procs;
 	int id;
+
 	long local_size,size;
 	Image result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 
 	int *matrix2_local, *matrix_local, *result_local;
 	int i=0;
+
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &id);
 	MPI_Comm_size(MPI_COMM_WORLD, &procs);
@@ -104,6 +107,7 @@ int main(int argc, char** argv)
 	/*for(i=0; i<local_size; ++i)
 		result_local[i] = matrix_local[i]+matrix2_local[i];
 	
+
 	MPI_Gather(&result_local, local_size, MPI_UNSIGNED, &mat_result, local_size, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
 	MPI_Barrier(MPI_COMM_WORLD);*/
 	MPI_Finalize();
@@ -120,6 +124,8 @@ int main(int argc, char** argv)
 			}
 		}
 	}*/
+
+	MPI_Finalize();
 	
 	result.display("disp");
 }
