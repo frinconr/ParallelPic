@@ -6,29 +6,33 @@
 
 using namespace std;
 
-Image Image::rgb_hsv(Image imagen)
+Image Image::rgb_hsv()
 {
 	int Max,Min;
 	double H,S,V;
-	unsigned int RGB[3];
+	double RGB[3];
 	vector<pair<pixel,pixel> > LUT;
 	bool is_in;
 	int cont;
 	
-	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0);
+	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(),255);
 
-	for(unsigned int z=0; z< imagen.get_depth(); ++z)
+	/*for(unsigned int z=0; z< this->get_depth(); ++z)
 	{	
-		for(unsigned int x=0; x<get_width();++x)
+		for(unsigned int x=0; x<this->get_width();++x)
 		{					
-			for(unsigned int y=0; y< imagen.get_height();++y)
+			for(unsigned int y=0; y< this->get_height();++y)
 			{	
-				Min=255;
-				Max=0;
-				for(unsigned int c=0; c< imagen.get_spectrum();++c)
+				//Min=255;
+				//Max=0;*/
+				//for(unsigned int c=0; c< this->get_spectrum();++c)
 				{
-				
-					RGB[c]=imagen.get_pixel_value(x,y,z,c);
+					result.Img= (&(this->Img)->RGBtoHSV());
+					//result.Img=&img;
+					//unsigned char pixel=static_cast<unsigned int>(this->get_pixel_value(x,y,z,c).get_RGBtoHSV());
+					//result.set_pixel_value(x,y,z,c,pixel);
+				/*
+					RGB[c]=imagen.get_pixel_value(x,y,z,c)/255;
 					if(Max<RGB[c]){Max=RGB[c];}
 					if(Min>RGB[c]){Min=RGB[c];}
 				}
@@ -78,21 +82,22 @@ Image Image::rgb_hsv(Image imagen)
 				
 				cout<<H<<"  "<<S<<"   "<<V<<endl;
 				
-				result.set_pixel_value(x,y,z,0,H);
-				result.set_pixel_value(x,y,z,1,S);
-				result.set_pixel_value(x,y,z,2,V);
-					
-			}
+				result.set_pixel_value(x,y,z,0,static_cast<double>(H*255/360));
+				result.set_pixel_value(x,y,z,1,static_cast<double>(S*255));
+				result.set_pixel_value(x,y,z,2,static_cast<double>(V*255));
+				cout<< H*255/360<<"   "<<S*255<<"    "<<V*255<<"    "<<endl;*/	
+	/*		}
+		}
 		}
 	}
-
+*/}
 	return result;
 }
 
 int main()
 {
 	Image img1 ("../../Multimedia/tulipanes.jpg");
-	Image result = img1.rgb_hsv(img1);
+	Image result = img1.rgb_hsv();
 	result.display("RESULT");
 	
 	return 0;

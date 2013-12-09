@@ -2,6 +2,7 @@
 #include <string>
 #include <cstddef>
 #include <iostream>
+#include <mpi.h>
 
 /**\brief image.hh implements a wrapper over the library CImg.
  * For more information go to cimg.sourceforge.net
@@ -234,7 +235,7 @@ public:
 
 	Image coorrelogram_par(unsigned int,unsigned int,unsigned int, unsigned int); /// \fn This function computes the coorrelogram of a specified depth and spectrum in the image. 
 
-	Image rgb_hsv(Image);
+	Image rgb_hsv();
 	
 
 };
