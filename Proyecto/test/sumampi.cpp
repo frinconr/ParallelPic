@@ -1,49 +1,5 @@
-<<<<<<< HEAD
 #include <mpi.h>
 #include "../include/ParallelPic.hh"
-
-
-/*Image Image :: sum_par(Image image2)
-{
-	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
-
-	
-	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
-	{
-		for(unsigned int c = 0; c < this->get_spectrum(); c++)
-		{
-
-			for(unsigned int z = 0; z < this->get_depth(); z++)
-			{
-
-				for(unsigned int x = 0; x < this->get_width(); x++)
-				{
-
-					for(unsigned int y = 0; y < this->get_height(); y++)
-					{
-						unsigned char pixel;
-						int sum = this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
-
-								if (sum <= 255)
-								{
-									pixel = static_cast<unsigned int>(sum);
-								}
-
-								if(sum>255)
-								{
-								pixel = 255;
-								}
-
-						result.set_pixel_value(x,y,z,c,pixel);
-					}
-				}
-			}
-		}
-
-	}
-	return result;
-}*/
-
 
 int main(int argc, char** argv)
 {
@@ -54,6 +10,8 @@ int main(int argc, char** argv)
 	int matrix[img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
 	int matrix2[img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
 	int mat_result [img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
+	
+	//creamos dos matrices de enteros apartir de la imagen
 	
 	for(int z=0; z< img1.get_depth(); ++z)
 	{	
@@ -66,6 +24,7 @@ int main(int argc, char** argv)
 					matrix[img1.get_height()*x+y+img1.get_height()*img1.get_width()*z+img1.get_height()*img1.get_width()*img1.get_depth()*c]=img1.get_pixel_value(x,y,z,c);
 					matrix2[img1.get_height()*x+y+img1.get_height()*img1.get_width()*z+img1.get_height()*img1.get_width()*img1.get_depth()*c]=img2.get_pixel_value(x,y,z,c);
 					
+
 				}	
 			}
 		}
@@ -76,7 +35,7 @@ int main(int argc, char** argv)
 	int procs;
 	int id;
 
-	long local_size,size;
+	int local_size,size;
 	Image result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 
 	int *matrix2_local, *matrix_local, *result_local;
 	int i=0;
@@ -89,29 +48,36 @@ int main(int argc, char** argv)
 	
 	if(id==0)
 	{
+		//crea las matrices locales que debe tener cada thread
 		matrix2_local[local_size];
 		matrix_local[local_size];
 		result_local[local_size];
 	}	
 
 	MPI_Barrier(MPI_COMM_WORLD);
-	MPI_Bcast(&local_size,1, MPI_LONG, 0, MPI_COMM_WORLD);
-	MPI_Bcast(matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(matrix2,size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(matrix2_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&local_size,1, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&matrix2,size, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&matrix2_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	
+	
+	MPI_Scatter(matrix,local_size , MPI_INT, &matrix_local, local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Scatter(matrix2,local_size , MPI_UNSIGNED, &matrix2_local, local_size, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
 
-	MPI_Scatter(&matrix,local_size , MPI_INT, matrix_local, local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	//MPI_Scatter(&matrix2,local_size , MPI_UNSIGNED, &matrix2_local, local_size, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
+	cout<<"aqui"<<endl;
 
-	/*for(i=0; i<local_size; ++i)
+	for(i=0; i<local_size; ++i)
 		result_local[i] = matrix_local[i]+matrix2_local[i];
 	
 
 	MPI_Gather(&result_local, local_size, MPI_UNSIGNED, &mat_result, local_size, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
-	MPI_Barrier(MPI_COMM_WORLD);*/
+	MPI_Barrier(MPI_COMM_WORLD);
+	
 	MPI_Finalize();
-	/*for(int z=0; z< img1.get_depth(); ++z)
+	
+	// Esto lo único que hace es volver a construir la matriz
+	for(int z=0; z< img1.get_depth(); ++z)
 	{	
 		for(int x=0; x<img1.get_height();++x)
 		{					
@@ -123,9 +89,9 @@ int main(int argc, char** argv)
 				}	
 			}
 		}
-	}*/
+	}
 
-	MPI_Finalize();
+	
 	
 	result.display("disp");
 }

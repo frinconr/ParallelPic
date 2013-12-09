@@ -139,61 +139,8 @@ unsigned int Image:: get_pixel_value(int x, int y, int z, int c)
 void Image:: set_pixel_value(int x, int y, int z, int c, unsigned char value)
 {
 	(*(this->Img))(x, y, z, c)= value;
-}
+} 
 
-
-// *************************************************************************
-// ************************** FILTER ***************************************
-// *************************************************************************
-
-
-/*! \fn Image Image :: filter (int [] *kernel )
- * \brief This function aplies a space domain filter, its a general function, and each filter will
- * depend on the \param kernel matrix, wich provides the respective weights to the surroundings.
- * \param int [] *kernel: Must be a square matrix, of anm uneven dimention, because the center value
- * must be the (x,y) value.
- * \param int dim: Is the dimention of the square matrix. 
- * \param float normalizer: Is a value in order to avoid the loss of information and normalize the output of the sum of the values of the pixel in the
- * neighborhood with the weight values of the kernel. Normally, this value could be the max value of the multiplication of the pixels in the neighborhoog
- * divided between 255 (Maximun of intensity). 
- */
- 
-Image Image :: filter (int kernel [], int dim, float normalizer)
-{
-	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
-	
-	int m = (int)(dim-1)/2;
-	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
-	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
-		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
-			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
-				{
-					double sum_values = 0;
-					
-					for(unsigned int i = (x-m); i <= (x+m); i++)
-					{
-						for(unsigned int j = (y-m); j<= (y+m); j++)
-						{
-							sum_values += (this->get_pixel_value(i, j, z, c)) * (kernel[ (i-x+m)*dim + (j-y+m)]); 
-						}
-					}
-					
-					unsigned char pixel = static_cast<unsigned char> (abs(sum_values/ normalizer));
-					
-					filtered.set_pixel_value(x, y, z, c, pixel);
-				}
-				
-			 }
-			 
-		 }
-	}  
-	 return filtered;
- }
- 
  
 // *************************************************************************
 // **************************Arithmetic and Logic **************************
@@ -204,22 +151,29 @@ Image Image :: filter (int kernel [], int dim, float normalizer)
  * \param Image image2: Is the image that will be substracted to the original image.
  * \return Image result: Is the result of the substraction of both images.
  */
-Image Image :: substract_img(Image image2)
+Image Image :: substract_img(Image image2, int num_threads)
 {
+	unsigned int x,y,c,z;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
+	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
 	{
-		for(unsigned int c = 0; c < this->get_spectrum(); c++)
+		for(c = 0; c < this->get_spectrum(); c++)
 		{
-			for(unsigned int z = 0; z < this->get_depth(); z++)
+			for(z = 0; z < this->get_depth(); z++)
 			{
-				for(unsigned int x = 0; x < this->get_width(); x++)
+				#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y) shared(z,c,result,chunk)
+				for(x = 0; x < this->get_width(); x++)
 				{
-					for(unsigned int y = 0; y < this->get_height(); y++)
+					for(y = 0; y < this->get_height(); y++)
 					{
-						unsigned char pixel= static_cast<unsigned int>(abs(this->get_pixel_value(x,y,z,c)-image2.get_pixel_value(x,y,z,c)));
-	
+						pixel= static_cast<unsigned int>(abs(this->get_pixel_value(x,y,z,c)-image2.get_pixel_value(x,y,z,c)));
+						
+						#pragma omp ordered
 						result.set_pixel_value(x,y,z,c,pixel);
 					}
 				}
@@ -230,22 +184,28 @@ Image Image :: substract_img(Image image2)
 }
 
 
-Image Image :: sum_img(Image image2)
+Image Image :: sum_img(Image image2, int num_threads)
 {
+	unsigned int x,y,c,z,sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
+	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
 	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
 	{
-		for(unsigned int c = 0; c < this->get_spectrum(); c++)
+		for(c = 0; c < this->get_spectrum(); c++)
 		{
-			for(unsigned int z = 0; z < this->get_depth(); z++)
+			for(z = 0; z < this->get_depth(); z++)
 			{
-				for(unsigned int x = 0; x < this->get_width(); x++)
+				#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,result,chunk)
+				for(x = 0; x < this->get_width(); x++)
 				{
-					for(unsigned int y = 0; y < this->get_height(); y++)
+					for(y = 0; y < this->get_height(); y++)
 					{
-						unsigned char pixel;
-						int sum = this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
+			
+						sum = this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
 						if (sum <= 255)
 						{
 							pixel = static_cast<unsigned int>(sum);
@@ -254,6 +214,7 @@ Image Image :: sum_img(Image image2)
 						{
 							pixel = 255;
 						}
+						#pragma omp ordered
 						result.set_pixel_value(x,y,z,c,pixel);
 					}
 				}
@@ -270,20 +231,27 @@ Image Image :: sum_img(Image image2)
  * \return Image result: Is the result of multiply the image.
  */
 
-Image Image :: multiply_img(double multiplier)
+Image Image :: multiply_img(double multiplier,int num_threads)
 {
+	unsigned int x,y,c,z;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
+	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0);
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel) shared(z,c,result,chunk)
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					unsigned char pixel= static_cast<unsigned int>(abs(this->get_pixel_value(x,y,z,c)*multiplier));
+					pixel= static_cast<unsigned int>(abs(this->get_pixel_value(x,y,z,c)*multiplier));
 					if (pixel >255)
 						pixel = 255;
+					#pragma omp parallel
 					result.set_pixel_value(x,y,z,c,pixel);
 				}
 			}
@@ -298,22 +266,30 @@ Image Image :: multiply_img(double multiplier)
  * \return Image result: Is the result of binarize the image.
  */
 
-Image Image :: binarize_img(unsigned int cutoff_value)
+Image Image :: binarize_img(unsigned int cutoff_value , int num_threads)
 {
+	unsigned int x,y,c,z;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);	
+	
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0);
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel) shared(z,c,result,chunk)
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					unsigned char pixel= static_cast<unsigned int>(this->get_pixel_value(x,y,z,c));
+					pixel= static_cast<unsigned int>(this->get_pixel_value(x,y,z,c));
 					if(pixel >= cutoff_value)
 						pixel=255;
 					else
 						pixel=0;
+						
+					#pragma omp ordered
 					result.set_pixel_value(x,y,z,c,pixel);
 
 				}
@@ -344,21 +320,27 @@ Image Image :: binarize_img(unsigned int cutoff_value)
  */
  
 
-Image Image::filter_Laplacian()
+Image Image::filter_Laplacian(int num_threads)
 {
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = 0;
+					sum = 0;
 					
 					for (unsigned int i = 0 ; i < 3; i++)
 					{
@@ -374,7 +356,9 @@ Image Image::filter_Laplacian()
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -390,31 +374,37 @@ Image Image::filter_Laplacian()
 * Applies the following filter: \f$ ((0, -1, 0) , (-1, 4, -1) , (0, -1, 0)) \f$
 * \return A filtered Image with the laplacian filter.
 */
-Image Image :: filter_Laplacian_no_diagonal()
+Image Image :: filter_Laplacian_no_diagonal(int num_threads)
 {
-	//int kernel[9] = {0, -1, 0, -1, 4, -1, 0, -1, 0};
-	
-	//return (this->filter(kernel, 3, 1));
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = 4*(this->get_pixel_value(x,y,z,c)) - (this->get_pixel_value(x-1,y,z,c) + this->get_pixel_value(x+1,y,z,c) + this->get_pixel_value(x,y-1,z,c) +this->get_pixel_value(x,y+1,z,c));
+					sum = 4*(this->get_pixel_value(x,y,z,c)) - (this->get_pixel_value(x-1,y,z,c) + this->get_pixel_value(x+1,y,z,c) + this->get_pixel_value(x,y-1,z,c) +this->get_pixel_value(x,y+1,z,c));
 					
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -433,26 +423,35 @@ Image Image :: filter_Laplacian_no_diagonal()
  * \return An image object that contains the original image after receiving a gradient filter in the 
  * horizontal direction. Could be used to identify horizontal borders.
  */ 
-Image Image :: filter_Gradient_horizontal()
+Image Image :: filter_Gradient_horizontal(int num_threads)
 {	
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
+	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = this->get_pixel_value(x-1, y-1, z, c) + 2*(this->get_pixel_value(x, y-1, z, c)) + this->get_pixel_value(x+1, y-1, z, c) - (this->get_pixel_value(x-1, y+1, z, c) + 2*(this->get_pixel_value(x, y+1, z, c)) + this->get_pixel_value(x+1, y+1, z, c));
+					sum = this->get_pixel_value(x-1, y-1, z, c) + 2*(this->get_pixel_value(x, y-1, z, c)) + this->get_pixel_value(x+1, y-1, z, c) - (this->get_pixel_value(x-1, y+1, z, c) + 2*(this->get_pixel_value(x, y+1, z, c)) + this->get_pixel_value(x+1, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -470,26 +469,34 @@ Image Image :: filter_Gradient_horizontal()
  * \return An image object that contains the original image after receiving a gradient filter in the 
  * vertical direction. Could be used to identify vertical borders.
  */ 
-Image Image :: filter_Gradient_vertical()
+Image Image :: filter_Gradient_vertical(int num_threads)
 {
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = get_pixel_value(x-1, y-1, z, c) + 2*get_pixel_value(x-1, y, z, c) + get_pixel_value(x-1, y+1, z, c) - (get_pixel_value(x+1, y-1, z, c) + 2*get_pixel_value(x+1, y, z, c) + get_pixel_value(x+1, y+1, z, c));
+					sum = get_pixel_value(x-1, y-1, z, c) + 2*get_pixel_value(x-1, y, z, c) + get_pixel_value(x-1, y+1, z, c) - (get_pixel_value(x+1, y-1, z, c) + 2*get_pixel_value(x+1, y, z, c) + get_pixel_value(x+1, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -517,28 +524,35 @@ Image Image :: filter_Gradient_vertical()
  */
 
 
-Image Image :: filter_Prewitt_N_S()
+Image Image :: filter_Prewitt_N_S(int num_threads)
 {
-	//int kernel[9] = {1, 1, 1, 0, 0, 0, -1, -1, -1};
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = get_pixel_value(x-1, y-1, z, c) + get_pixel_value(x, y-1, z, c) + get_pixel_value(x+1, y-1, z, c) - (get_pixel_value(x-1, y+1, z, c) + get_pixel_value(x, y+1, z, c) + get_pixel_value(x+1, y+1, z, c));
+					sum = get_pixel_value(x-1, y-1, z, c) + get_pixel_value(x, y-1, z, c) + get_pixel_value(x+1, y-1, z, c) - (get_pixel_value(x-1, y+1, z, c) + get_pixel_value(x, y+1, z, c) + get_pixel_value(x+1, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -551,30 +565,35 @@ Image Image :: filter_Prewitt_N_S()
 	
 }
 	
-Image Image ::filter_Prewitt_NE_SW()
+Image Image ::filter_Prewitt_NE_SW(int num_threads)
 {
-	//int kernel[9] = {0, 1, 1, -1, 0, 1, -1, -1, 0};
-	
-	//return (this->filter(kernel, 3, 1));
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = get_pixel_value(x, y-1, z, c) + get_pixel_value(x+1, y-1, z, c) + get_pixel_value(x+1, y, z, c) - (get_pixel_value(x-1, y, z, c) + get_pixel_value(x-1, y+1, z, c) + get_pixel_value(x, y+1, z, c));
+					sum = get_pixel_value(x, y-1, z, c) + get_pixel_value(x+1, y-1, z, c) + get_pixel_value(x+1, y, z, c) - (get_pixel_value(x-1, y, z, c) + get_pixel_value(x-1, y+1, z, c) + get_pixel_value(x, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -587,30 +606,35 @@ Image Image ::filter_Prewitt_NE_SW()
 	
 }
 
-Image Image ::filter_Prewitt_E_W()
+Image Image ::filter_Prewitt_E_W(int num_threads)
 {
-	//int kernel[9] = {1, 0, -1, 1, 0, -1, 1, 0, -1};
-	
-	//return (this->filter(kernel, 3, 1));	
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = get_pixel_value(x-1, y-1, z, c) + get_pixel_value(x-1, y, z, c) + get_pixel_value(x-1, y+1, z, c) - (get_pixel_value(x+1, y-1, z, c) + get_pixel_value(x+1, y, z, c) + get_pixel_value(x+1, y+1, z, c));
+					sum = get_pixel_value(x-1, y-1, z, c) + get_pixel_value(x-1, y, z, c) + get_pixel_value(x-1, y+1, z, c) - (get_pixel_value(x+1, y-1, z, c) + get_pixel_value(x+1, y, z, c) + get_pixel_value(x+1, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -623,30 +647,35 @@ Image Image ::filter_Prewitt_E_W()
 	
 }
 	
-Image Image ::filter_Prewitt_NW_SE()
+Image Image ::filter_Prewitt_NW_SE(int num_threads)
 {
-	//int kernel[9] = {-1, -1, 0, -1, 0, 1, 0, 1, 1};
-	
-	// (this->filter(kernel, 3, 1));	
+	unsigned int x,y,c,z;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);	
 	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = get_pixel_value(x-1, y-1, z, c) + get_pixel_value(x-1, y, z, c) + get_pixel_value(x, y-1, z, c) - (get_pixel_value(x+1, y, z, c) + get_pixel_value(x+1, y+1, z, c) + get_pixel_value(x, y+1, z, c));
+					sum = get_pixel_value(x-1, y-1, z, c) + get_pixel_value(x-1, y, z, c) + get_pixel_value(x, y-1, z, c) - (get_pixel_value(x+1, y, z, c) + get_pixel_value(x+1, y+1, z, c) + get_pixel_value(x, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -659,21 +688,28 @@ Image Image ::filter_Prewitt_NW_SE()
 		
 }
 
-Image Image ::filter_edge_enhacement_displacement(unsigned int horizontal_dis, unsigned int vertical_dis)
+Image Image ::filter_edge_enhacement_displacement(unsigned int horizontal_dis, unsigned int vertical_dis, int num_threads)
 {
+	unsigned int x,y,c,z;
+	unsigned char value;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); 
 	if((horizontal_dis < this->get_width()) && (vertical_dis < this->get_height()))
 	{
-		for(unsigned int c = 0; c < this->get_spectrum(); c++)
+		for(c = 0; c < this->get_spectrum(); c++)
 		{
-			for(unsigned int z = 0; z < this->get_depth(); z++)
+			for(z = 0; z < this->get_depth(); z++)
 			{
-				for(unsigned int x = horizontal_dis; x < this->get_width(); x++)
+				#pragma omp parallel for ordered schedule(dynamic,chunk) private(value) shared(z,c,result,chunk)
+
+				for(x = horizontal_dis; x < this->get_width(); x++)
 				{
-					for(unsigned int y = vertical_dis; y < this->get_height(); y++)
+					for(y = vertical_dis; y < this->get_height(); y++)
 					{
-						unsigned char value = static_cast<unsigned char>(abs(this->get_pixel_value(x,y,z,c) - this->get_pixel_value(x-horizontal_dis, y-vertical_dis, z, c)));
+						value = static_cast<unsigned char>(abs(this->get_pixel_value(x,y,z,c) - this->get_pixel_value(x-horizontal_dis, y-vertical_dis, z, c)));
 						
+						#pragma omp ordered
 						result.set_pixel_value(x,y,z,c, value);
 					}
 				}
@@ -683,21 +719,27 @@ Image Image ::filter_edge_enhacement_displacement(unsigned int horizontal_dis, u
 	return result;
 }
 
-Image Image :: filter_vertical_borders()
+Image Image :: filter_vertical_borders(int num_threads)
 {
+	unsigned int x,y,c,z;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = 0; y < this->get_height()-m; y++)
+				for(y = 0; y < this->get_height()-m; y++)
 				{
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(this->get_pixel_value(x-1, y, z, c) - get_pixel_value(x+1, y, z, c)));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(this->get_pixel_value(x-1, y, z, c) - get_pixel_value(x+1, y, z, c)));
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -708,21 +750,29 @@ Image Image :: filter_vertical_borders()
 	 return filtered;
 }
 
-Image Image :: filter_horizontal_borders()
+Image Image :: filter_horizontal_borders(int num_threads)
 {
+	unsigned int x,y,c,z;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel) shared(z,c,filtered,chunk,m)
+
+			for(x = 0; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(this->get_pixel_value(x, y-1, z, c) - get_pixel_value(x, y+1, z, c)));
+					
+					pixel = (unsigned char)static_cast<unsigned char> (abs(this->get_pixel_value(x, y-1, z, c) - get_pixel_value(x, y+1, z, c)));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -744,23 +794,26 @@ Image Image :: filter_horizontal_borders()
  * \return Image filtered which is the image with the median filter applied.
  */
 
-Image Image :: filter_median (int dim)
+Image Image :: filter_median (int dim, int num_threads)
 {
+	unsigned int x,y,c,z;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
-	
-	//int kernel [dim*dim];
 
 	int m = (dim-1)/2;
 	unsigned char pixel_values [dim*dim];
-	unsigned char temp;
+	unsigned char temp,pixel;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width(); x++)
+		#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel_values,temp,x,y) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width(); x++)
 			{
-				for(unsigned int y = m; y < this->get_height(); y++)
+				for(y = m; y < this->get_height(); y++)
 				{
 					for(unsigned int i = x-m; i < x+m; i++)
 					{
@@ -783,7 +836,8 @@ Image Image :: filter_median (int dim)
 							}
 						}
 					}					
-					unsigned char pixel = pixel_values[((dim*dim-1)/2)-1];
+					pixel = pixel_values[((dim*dim-1)/2)-1];
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -800,19 +854,25 @@ Image Image :: filter_median (int dim)
  * \return Image filtered which is the image with the average filter applied.
  */
 
-Image Image :: filter_average(int dim)
+Image Image :: filter_average(int dim, int num_threads)
 {
+	unsigned int y,c,z,sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,y,sum) shared(z,c,filtered,chunk)
+
 			for(unsigned int x = dim; x < this->get_width()-dim; x++)
 			{
-				for(unsigned int y = dim; y < this->get_height()-dim; y++)
+				for(y = dim; y < this->get_height()-dim; y++)
 				{
-					int sum = 0;
+					sum = 0;
 					for(unsigned int i = x-dim; i<= x+dim; i++)
 					{
 						for(unsigned int j = y-dim; j<= y+dim; j++)
@@ -821,7 +881,8 @@ Image Image :: filter_average(int dim)
 						}
 					}
 			
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (sum/((dim*2+1)*(dim*2+1)));
+					pixel = (unsigned char)static_cast<unsigned char> (sum/((dim*2+1)*(dim*2+1)));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -838,8 +899,13 @@ Image Image :: filter_average(int dim)
  * \return Image filtered which is the image with the gaussian filter applied.
  */
  
-Image Image :: filter_gaussian(int o, int dim_kernel)
+Image Image :: filter_gaussian(int o, int dim_kernel, int num_threads)
 {
+	unsigned int x,y,c,z,cont;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
+	
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0);
 
 	double kernel[dim_kernel*dim_kernel];
@@ -860,16 +926,18 @@ Image Image :: filter_gaussian(int o, int dim_kernel)
 	
 	
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,cont) shared(z,c,filtered,chunk,kernel)
+
+			for(x = m; x < this->get_width(); x++)
 			{
-				for(unsigned int y = m; y < this->get_height(); y++)
+				for(y = m; y < this->get_height(); y++)
 				{
-					int cont=0;
-					unsigned char pixel=0;
+					cont=0;
+					pixel=0;
 					
 					for(unsigned int i = x-m; i < x+m; i++)
 					{
@@ -879,6 +947,7 @@ Image Image :: filter_gaussian(int o, int dim_kernel)
 							cont++;
 						}
 					}
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, (pixel/2));
 				}
 				
@@ -895,22 +964,29 @@ Image Image :: filter_gaussian(int o, int dim_kernel)
  * \return Image filtered which is the image with the modal filter applied.
  */
 
-Image Image :: filter_modal(int dim)
+Image Image :: filter_modal(int dim, int num_threads)
 {
+	
+	unsigned int x,y,c,z;
+	unsigned char average=0;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0);
 	unsigned char pixel_values[dim*dim];
 	unsigned char moda;
-	unsigned char average=0;
+	
 	int m=(dim-1)/2;
 	unsigned char copy_pixels[dim*dim];
 
-  	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+  	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel_values,moda,x,y) shared(z,c,filtered,chunk,m)
+
+			for(x = m; x < this->get_width(); x++)
 			{
-				for(unsigned int y = m; y < this->get_height(); y++)
+				for(y = m; y < this->get_height(); y++)
 				{
 					for(unsigned int i = x-m; i < x+m; i++)
 					{
@@ -967,7 +1043,7 @@ Image Image :: filter_modal(int dim)
 
 						}	
 					}
-					
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, average);
 				}
 				
@@ -991,19 +1067,26 @@ return filtered;
  * \return An image object that contains the inverse of the original image, this means that every pixel value is substracted to 255.
  */ 
 
-Image Image ::inverse()
+Image Image ::inverse(int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image inverted (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y) shared(z,c,inverted,chunk)
+
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					unsigned char pixel= static_cast<unsigned int>(255-this->get_pixel_value(x,y,z,c));
+					pixel= static_cast<unsigned int>(255-this->get_pixel_value(x,y,z,c));
+					#pragma omp ordered
 					inverted.set_pixel_value(x,y,z,c,pixel);
 				}
 			}
@@ -1017,20 +1100,26 @@ Image Image ::inverse()
  *  where v(x,y,z,c) is the transformed pixel, and u(x,y,z,c) is the original pixel.
  * \return An image object that contains the inverse of the original image, this means that every pixel value is substracted to 255.
  */
-Image Image :: log_transformation()
+Image Image :: log_transformation(int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y) shared(z,c,filtered,chunk)
+
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					unsigned char pixel = static_cast<unsigned char>((255/log(256)) * log(1+this->get_pixel_value(x, y, z, c)));
-					
+					pixel = static_cast<unsigned char>((255/log(256)) * log(1+this->get_pixel_value(x, y, z, c)));
+					#pragma omp ordered
 					filtered.set_pixel_value(x,y,z,c, pixel);
 				}
 			}
@@ -1049,19 +1138,24 @@ Image Image :: log_transformation()
  * \param double gamma is the third multiplier.
  * \return An image object that contains the dilatated image.
  */ 
-Image Image ::filter_dynamic_range_dilatation(unsigned char a, unsigned char b, double alpha, double beta, double gamma)
+Image Image ::filter_dynamic_range_dilatation(unsigned char a, unsigned char b, double alpha, double beta, double gamma, int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); 
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y) shared(z,c,filtered,chunk)
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					unsigned char pixel=0;
+					pixel=0;
 					
 					if(this->get_pixel_value(x,y,z,c)<a)
 						pixel =abs(alpha*this->get_pixel_value(x,y,z,c));
@@ -1071,7 +1165,8 @@ Image Image ::filter_dynamic_range_dilatation(unsigned char a, unsigned char b, 
 					
 					else if(this->get_pixel_value(x,y,z,c)<=b)
 						
-						pixel=abs(gamma*(this->get_pixel_value(x,y,z,c)-b)+((beta*(b-a))+alpha*a));
+					pixel=abs(gamma*(this->get_pixel_value(x,y,z,c)-b)+((beta*(b-a))+alpha*a));
+					#pragma omp ordered
 					filtered.set_pixel_value(x,y,z,c,static_cast<unsigned int>(pixel));
 				}
 			}
@@ -1088,22 +1183,29 @@ Image Image ::filter_dynamic_range_dilatation(unsigned char a, unsigned char b, 
  *  \f$ \gamma \f$ is a parameter.
  * 	\return A filtered image with the power law transformation
  */
-Image Image :: power_law_transformatiom(double exponent)
+Image Image :: power_law_transformatiom(double exponent, int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
+	double power_law;
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	double k = (pow(255, 1-exponent));
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,power_law) shared(z,c,filtered,chunk,k)
+
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					double power_law = k * pow( (this->get_pixel_value(x,y,z,c)) , exponent);
-					unsigned char pixel = static_cast<unsigned char>(power_law);
+					power_law = k * pow( (this->get_pixel_value(x,y,z,c)) , exponent);
+					pixel = static_cast<unsigned char>(power_law);
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1121,25 +1223,33 @@ Image Image :: power_law_transformatiom(double exponent)
  * \param unsigned char color2[]: The end color of the color slicing.
  * \param unsigned char neutral: The intensity every other pixels that are not between the given colors will be set to.
  */
-Image Image :: color_slicing(unsigned char color1[], unsigned char color2[], unsigned char neutral[])
+Image Image :: color_slicing(unsigned char color1[], unsigned char color2[], unsigned char neutral[], int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); 
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y) shared(z,c,filtered,chunk)
+
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					unsigned char pixel = this->get_pixel_value(x,y,z,c);
+					pixel = this->get_pixel_value(x,y,z,c);
 					if(pixel > color1[c] && pixel < color2[c] )
 					{
+						#pragma omp ordered
 						filtered.set_pixel_value(x, y, z, c, pixel);
 					}
 					else
 					{
+						#pragma omp ordered
 						filtered.set_pixel_value(x,y,z,c, neutral[c]);
 					}
 				}
@@ -1225,26 +1335,34 @@ void Image :: plot_histogram_equalization(int levels, const char* title)
  *  \brief Applies the kirsch mask at 0°.
  * 	\f$(-3,-3,5)(-3,0,5)(-3,-3,5)\f$
  */
-Image Image ::filter_kirsch_0()
+Image Image ::filter_kirsch_0(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x, y+1, z, c))+5*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c));
+					sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x, y+1, z, c))+5*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1261,25 +1379,33 @@ Image Image ::filter_kirsch_0()
  *  \brief Applies the kirsch mask at 45°.
  * 	\f$(-3,5,5)(-3,0,5)(-3,-3,-3)\f$
  */
-Image Image ::filter_kirsch_45()
+Image Image ::filter_kirsch_45(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c))+5*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x, y-1, z, c));
+					sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c))+5*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x, y-1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1297,25 +1423,33 @@ Image Image ::filter_kirsch_45()
  *  \brief Applies the kirsch mask at 90°.
  * 	\f$(5,5,5)(-3,0-3)(-3,-3,-3)\f$
  */
-Image Image ::filter_kirsch_90()
+Image Image ::filter_kirsch_90(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x+1, y, z, c))+5*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x-1, y-1, z, c));
+					sum = -3*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x+1, y, z, c))+5*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x-1, y-1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1332,25 +1466,33 @@ Image Image ::filter_kirsch_90()
  *  \brief Applies the kirsch mask at 135°.
  * 	\f$(5,5,-3)(5,0,-3)(-3,-3,-3)\f$
  */
-Image Image ::filter_kirsch_135()
+Image Image ::filter_kirsch_135(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x-1, y+1, z, c))+5*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c));
+					sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x-1, y+1, z, c))+5*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1367,25 +1509,33 @@ Image Image ::filter_kirsch_135()
  *  \brief Applies the kirsch mask at 180°.
  * 	\f$(5,-3,-3)(5,0,-3)(5,-3,-3)\f$
  */
-Image Image ::filter_kirsch_180()
+Image Image ::filter_kirsch_180(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c))+5*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x-1, y-1, z, c));
+					sum = -3*(get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c))+5*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x-1, y-1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1402,25 +1552,33 @@ Image Image ::filter_kirsch_180()
  *  \brief Applies the kirsch mask at 225°.
  * 	\f$(-3,-3,-3)(5,0,-3)(5,5,-3)\f$
  */
-Image Image ::filter_kirsch_225()
+Image Image ::filter_kirsch_225(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c))+5*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c));
+					sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c))+5*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1437,25 +1595,33 @@ Image Image ::filter_kirsch_225()
  *  \brief Applies the kirsch mask at 270°.
  * 	\f$(-3,-3,-3)(-3,0,-3)(5,5,5)\f$
  */
-Image Image ::filter_kirsch_270()
+Image Image ::filter_kirsch_270(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c))+5*(get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x-1, y+1, z, c));
+					sum = -3*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c))+5*(get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x-1, y+1, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1472,25 +1638,33 @@ Image Image ::filter_kirsch_270()
  *  \brief Applies the kirsch mask at 315°.
  * 	\f$(-3,-3,-3)(-3,0,5)(-3,5,5)\f$
  */
-Image Image ::filter_kirsch_315()
+Image Image ::filter_kirsch_315(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = -3*(get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c))+5*(get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x+1, y, z, c));
+					sum = -3*(get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c))+5*(get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x+1, y, z, c));
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1507,26 +1681,34 @@ Image Image ::filter_kirsch_315()
  *  \brief Applies the freeman mask \f$(1,1,1)(1,-2,1)(1,-1,-1)\f$.
  */
 
-Image Image ::filter_freeman_0()
+Image Image ::filter_freeman_0(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1,y,z,c))-1*(get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1,y,z,c))-1*(get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1542,26 +1724,34 @@ Image Image ::filter_freeman_0()
 /*! \fn Image Image :: filter_freeman_1()
  *  \brief Applies the freeman mask \f$(1,1,1)(-1,-2,1)(1,-1,1)\f$.
  */
-Image Image ::filter_freeman_1()
+Image Image ::filter_freeman_1(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1,y,z,c))-1*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x, y+1, z, c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1,y,z,c))-1*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x, y+1, z, c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1577,26 +1767,34 @@ Image Image ::filter_freeman_1()
 /*! \fn Image Image :: filter_freeman_2()
  *  \brief Applies the freeman mask \f$)-1,1,1)(-1,-2,1)(1,1,1)\f$.
  */
-Image Image ::filter_freeman_2()
+Image Image ::filter_freeman_2(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x-1,y+1,z,c))-1*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y-1, z, c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x-1,y+1,z,c))-1*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y-1, z, c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1612,26 +1810,34 @@ Image Image ::filter_freeman_2()
 /*! \fn Image Image :: filter_freeman_3()
  *  \brief Applies the freeman mask \f$(-1,-1,1)(-1,-2,1)(1,1,1)\f$.
  */
-Image Image ::filter_freeman_3()
+Image Image ::filter_freeman_3(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x-1,y+1,z,c))-1*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x-1,y-1,z,c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x-1,y+1,z,c))-1*(get_pixel_value(x-1, y, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x-1,y-1,z,c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1647,26 +1853,34 @@ Image Image ::filter_freeman_3()
 /*! \fn Image Image :: filter_freeman_4()
  *  \brief Applies the freeman mask \f$(-1,-1,-1)(1,-2,1)(1,1,1)\f$.
  */
-Image Image ::filter_freeman_4()
+Image Image ::filter_freeman_4(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x+1, y, z, c))-1*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1,y-1,z,c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c)+get_pixel_value(x+1, y, z, c))-1*(get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1,y-1,z,c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1683,26 +1897,34 @@ Image Image ::filter_freeman_4()
 /*! \fn Image Image :: filter_freeman_5()
  *  \brief Applies the freeman mask \f$(1,-1,-1)(1,-2,-1)(1,1,1)\f$.
  */
-Image Image ::filter_freeman_5()
+Image Image ::filter_freeman_5(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c))-1*(get_pixel_value(x+1, y, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1,y-1,z,c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y+1, z, c))-1*(get_pixel_value(x+1, y, z, c)+get_pixel_value(x, y-1, z, c)+get_pixel_value(x+1,y-1,z,c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1719,26 +1941,34 @@ Image Image ::filter_freeman_5()
 /*! \fn Image Image :: filter_freeman_6()
  *  \brief Applies the freeman mask \f$(1,1,-1)(1,-2,-1)(1,1,-1)\f$.
  */
-Image Image ::filter_freeman_6()
+Image Image ::filter_freeman_6(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x, y-1, z, c))-1*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1,y+1,z,c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x, y+1, z, c)+get_pixel_value(x, y-1, z, c))-1*(get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1,y+1,z,c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1754,26 +1984,34 @@ Image Image ::filter_freeman_6()
 /*! \fn Image Image :: filter_freeman_7()
  *  \brief Applies the freeman mask \f$(1,1,1)(1,-2,-1)(1,-1,-1)\f$.
  */
-Image Image ::filter_freeman_7()
+Image Image ::filter_freeman_7(int num_threads)
 {
+	unsigned int y,c,z,x;
+	int sum;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
 	int m = 1;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width()-m; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width()-m; x++)
 			{
-				for(unsigned int y = m; y < this->get_height()-m; y++)
+				for(y = m; y < this->get_height()-m; y++)
 				{
-					int sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x, y-1, z, c))-1*(get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1,y+1,z,c))+-2*get_pixel_value(x, y, z, c);
+					sum = (get_pixel_value(x-1, y-1, z, c)+get_pixel_value(x-1, y, z, c)+get_pixel_value(x-1, y+1, z, c)+get_pixel_value(x+1, y-1, z, c)+get_pixel_value(x, y-1, z, c))-1*(get_pixel_value(x, y+1, z, c)+get_pixel_value(x+1, y, z, c)+get_pixel_value(x+1,y+1,z,c))+-2*get_pixel_value(x, y, z, c);
 					if (sum > 255 || sum < -255)
 					{
 						sum = 255;
 					}
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					pixel = (unsigned char)static_cast<unsigned char> (abs(sum));
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1792,25 +2030,31 @@ Image Image ::filter_freeman_7()
  */
 
 
-Image Image :: filter_maximum()
+Image Image :: filter_maximum(int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char max,pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 1; x < this->get_width()-1; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,max,x,y) shared(z,c,filtered,chunk)
+
+			for(x = 1; x < this->get_width()-1; x++)
 			{
-				for(unsigned int y = 1; y < this->get_height()-1; y++)
+				for(y = 1; y < this->get_height()-1; y++)
 				{
-					unsigned char max = 0;
+					max = 0;
 					
 					for (unsigned int i = x-1; i< x+2; i++)
 					{
 						for (unsigned int j = y-1; j< y+2; j++)
 						{
-							unsigned char pixel = (this->get_pixel_value(i, j, z, c));
+							pixel = (this->get_pixel_value(i, j, z, c));
 							 
 							if (pixel > max)
 							{
@@ -1818,7 +2062,7 @@ Image Image :: filter_maximum()
 							}
 						} 
 					}
-					
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, max);
 				}
 				
@@ -1835,19 +2079,25 @@ Image Image :: filter_maximum()
  * Assigns the lowest value in the neighborhood around the desired pixel.
  */
 
-Image Image :: filter_minimum()
+Image Image :: filter_minimum(int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char minimun;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 1; x < this->get_width()-1; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(minimun,x,y) shared(z,c,filtered,chunk)
+
+			for(x = 1; x < this->get_width()-1; x++)
 			{
-				for(unsigned int y = 1; y < this->get_height()-1; y++)
+				for(y = 1; y < this->get_height()-1; y++)
 				{
-					unsigned char minimun = 255;
+					minimun = 255;
 					
 					for (unsigned int i = x-1; i< x+2; i++)
 					{
@@ -1870,24 +2120,29 @@ Image Image :: filter_minimum()
 	 return filtered;
 }
 
-Image Image :: filter_order_stadistics(int dim, int order)
+Image Image :: filter_order_stadistics(int dim, int order, int num_threads)
 {
+	unsigned int y,c,z,x;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 	
-	//int kernel [dim*dim];
 	
 	int m = (dim-1)/2;
 	
 	unsigned char pixel_values [dim*dim];
 	unsigned char temp;
 	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = m; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,pixel_values,temp) shared(z,c,filtered,chunk)
+
+			for(x = m; x < this->get_width(); x++)
 			{
-				for(unsigned int y = m; y < this->get_height(); y++)
+				for(y = m; y < this->get_height(); y++)
 				{
 					for(unsigned int i = x-m; i < x+m+1; i++)
 					{
@@ -1910,7 +2165,8 @@ Image Image :: filter_order_stadistics(int dim, int order)
 							}
 						}
 					}					
-					unsigned char pixel = pixel_values[order];
+					pixel = pixel_values[order];
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -1930,26 +2186,33 @@ Image Image :: filter_order_stadistics(int dim, int order)
  *  \brief Put pepper (black pixels) and salt(white pixels) 
  *  \param intensity is used to compute the percentage of salt and pepper that is applied to the image.
  */
-void Image :: salt_pepper(double intensity)
+void Image :: salt_pepper(double intensity, int num_threads)
 {
 	srand(1);
+	unsigned int x,y,z,c;
+	int chunk= (this->get_width()/num_threads);
 	double percentage = 1-(intensity/100);
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	omp_set_num_threads(num_threads);
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y) shared(z,c,chunk)
+
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
 					double random= 2.0*(rand()-RAND_MAX/2.0)/RAND_MAX;
 					if(random > percentage)
 					{
+						#pragma omp ordered
 						(*(this->Img))(x, y, z, c)= 255;
 					}	
 
 					else if(random<-1*percentage)
 					{
+						#pragma omp ordered
 						(*(this->Img))(x, y, z, c)= 0;					
 					}
 				}
@@ -1967,22 +2230,30 @@ void Image :: salt_pepper(double intensity)
  * 	The gaussian noise increases or decreases intensity to a pixel, depending of the variance.
  *	\param variance this parameter is used to set the value of noise that is applied to the image.
  */
-void Image :: gaussian_noise(double variance)
+void Image :: gaussian_noise(double variance, int num_threads)
 {
 	srand(1);
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	unsigned int x,y,z,c;
+	unsigned char pixel;
+	double random;
+	omp_set_num_threads(num_threads);
+	int chunk= (this->get_width()/num_threads);
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 0; x < this->get_width(); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,pixel, random) shared(z,c,chunk)
+			
+			for(x = 0; x < this->get_width(); x++)
 			{
-				for(unsigned int y = 0; y < this->get_height(); y++)
+				for(y = 0; y < this->get_height(); y++)
 				{
-					double random= variance*(rand()-RAND_MAX/variance)/RAND_MAX;
-					unsigned char pixel= this->get_pixel_value(x,y,z,c) + random;
+					random= variance*(rand()-RAND_MAX/variance)/RAND_MAX;
+					pixel= this->get_pixel_value(x,y,z,c) + random;
 					
 					if((pixel<255) & (pixel>0))
 					{
+						#pragma omp ordered
 						(*(this->Img))(x, y, z, c)= pixel;
 					}	
 
@@ -2002,28 +2273,37 @@ void Image :: gaussian_noise(double variance)
  * \return This function returns the image interpolated.
  */
 
-Image Image :: interpolation()
+Image Image :: interpolation(int num_threads)
 {
 	int i,j=0;
+	unsigned int x,y,z,c;
+	unsigned char pixel;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image result (2*this->get_width(),2*this->get_height(),this->get_depth(),this->get_spectrum(),0);
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int y = 0; y < this->get_width(); y++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,pixel) shared(z,c,chunk)
+			
+			for(y = 0; y < this->get_width(); y++)
 			{
-				for(unsigned int x = 0; x < this->get_height(); x++)
+				for(x = 0; x < this->get_height(); x++)
 				{
-					unsigned char pixel=this->get_pixel_value(x,y,z,c);
+					pixel=this->get_pixel_value(x,y,z,c);
 					
-					result.set_pixel_value(x+i,y+j,z,c,pixel);
-					result.set_pixel_value(x+1+i,y+j,z,c,pixel);
-					result.set_pixel_value(x+i,y+1+j,z,c,pixel);
-					result.set_pixel_value(x+1+i,y+1+j,z,c,pixel);
-					i++;
+					#pragma omp ordered
+					{
+						result.set_pixel_value(x+i,y+j,z,c,pixel);
+						result.set_pixel_value(x+1+i,y+j,z,c,pixel);
+						result.set_pixel_value(x+i,y+1+j,z,c,pixel);
+						result.set_pixel_value(x+1+i,y+1+j,z,c,pixel);
+					}
+					++i;
 				}
 				i=0;
-				j++;
+				++j;
 			}
 			j=0;
 		}
@@ -2044,21 +2324,26 @@ Image Image :: interpolation()
  */
 
 
-CImg<float> Image:: autocovariance (int hor_dis, int ver_dis)
+CImg<float> Image:: autocovariance (int hor_dis, int ver_dis,int num_threads)
 {
 	CImg<float> autocovariance (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
-	
-	Image average = this->filter_average(1);
+	int chunk= (this->get_width()/num_threads);
+	unsigned int x,y,z,c;
+	int sum;
+	omp_set_num_threads(num_threads);
+	Image average = this->filter_average(1,num_threads);
 
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = 3+hor_dis; x < this->get_width()-(3+hor_dis); x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,sum) shared(z,c,chunk)
+			
+			for(x = 3+hor_dis; x < this->get_width()-(3+hor_dis); x++)
 			{
-				for(unsigned int y = 3+ver_dis; y < this->get_height()-(3+ver_dis); y++)
+				for(y = 3+ver_dis; y < this->get_height()-(3+ver_dis); y++)
 				{
-					int sum = 0;
+					sum = 0;
 					for(unsigned int i = x-3; i<x+4; i++)
 					{
 						for(unsigned int j= y-3; j<y+4; j++)
@@ -2066,7 +2351,7 @@ CImg<float> Image:: autocovariance (int hor_dis, int ver_dis)
 							sum += ( (this->get_pixel_value(i,j,z,c))  -  average.get_pixel_value(i,j,z,c)) * ( (this->get_pixel_value(i+hor_dis,j+ver_dis,z,c))  -  average.get_pixel_value(i+hor_dis,j+ver_dis,z,c)) ;
 						}
 					}
-				
+					#pragma omp ordered
 					autocovariance(x,y,z,c) = sum/49;
 				}
 			}
@@ -2081,19 +2366,25 @@ CImg<float> Image:: autocovariance (int hor_dis, int ver_dis)
  * \return This function returns the image interpolated.
  */
 
-Image Image :: variance(int dim)
+Image Image :: variance(int dim, int num_threads)
 {
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
-	
-	for(unsigned int c = 0; c < this->get_spectrum(); c++)
+	int chunk= (this->get_width()/num_threads);
+	unsigned int x,y,z,c;
+	unsigned char pixel;
+	int sum;
+	omp_set_num_threads(num_threads);
+	for(c = 0; c < this->get_spectrum(); c++)
 	{
-		for(unsigned int z = 0; z < this->get_depth(); z++)
+		for(z = 0; z < this->get_depth(); z++)
 		{
-			for(unsigned int x = dim; x < this->get_width()-dim; x++)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,sum, pixel) shared(z,c,chunk)
+			
+			for(x = dim; x < this->get_width()-dim; x++)
 			{
-				for(unsigned int y = dim; y < this->get_height()-dim; y++)
+				for(y = dim; y < this->get_height()-dim; y++)
 				{
-					int sum = 0;
+					sum = 0;
 					double variance=0;
 					int kernel_values[(dim*2+1)*(dim*2+1)];
 					int cont=0;
@@ -2115,7 +2406,8 @@ Image Image :: variance(int dim)
 					}
 					
 					
-					unsigned char pixel = (unsigned char)static_cast<unsigned char> (variance);
+					pixel = (unsigned char)static_cast<unsigned char> (variance);
+					#pragma omp ordered
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
@@ -2133,19 +2425,26 @@ Image Image :: variance(int dim)
  * \return This function returns the mochromathic image.
  */
  
-Image Image :: gray_scale()
+Image Image :: gray_scale(int num_threads)
 {
+	unsigned int y,z,x;
+	unsigned char pixel_intensity;
+	int chunk= (this->get_width()/num_threads);
+	omp_set_num_threads(num_threads);
 	Image gray_image (this->get_width() , this->get_height(), this->get_depth(), 1, 0); /// 
 
 
-	for(unsigned int z = 0; z < this->get_depth(); z++)
+	for(z = 0; z < this->get_depth(); z++)
 	{
-		for(unsigned int x = 0; x < this->get_width(); x++)
+		#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel_intensity,x,y) shared(z,gray_image,chunk)
+
+		for(x = 0; x < this->get_width(); x++)
 		{
-			for(unsigned int y = 0; y < this->get_height(); y++)
+			for(y = 0; y < this->get_height(); y++)
 			{
 			
-				unsigned char pixel_intensity = 0.56*this->get_pixel_value(x,y,z,1)+0.14*this->get_pixel_value(x,y,z,0)+0.11*this->get_pixel_value(x,y,z,2);
+				pixel_intensity = 0.56*this->get_pixel_value(x,y,z,1)+0.14*this->get_pixel_value(x,y,z,0)+0.11*this->get_pixel_value(x,y,z,2);
+				#pragma omp ordered
 				gray_image.set_pixel_value(x, y, z, 0, pixel_intensity);
 				
 			}
@@ -2161,24 +2460,30 @@ Image Image :: gray_scale()
  * \param unsigned int hor is the horizontal distance of the original pixel that we use to compute the coorrelogram.
  * \return This function returns the coorrelogram image.
  */
-Image Image :: coorrelogram(unsigned int ver,unsigned int hor)
+Image Image :: coorrelogram(unsigned int ver,unsigned int hor, int num_threads)
 {
 	
 	Image result (256,256, 1, 1, 0);	
-	
-	for(unsigned int i = 0; i < 256; i++)
+	int chunk= (this->get_width()/num_threads);
+	unsigned int i,j,x,y;
+	unsigned int pixel;
+	unsigned char first, secnd;
+	omp_set_num_threads(num_threads);
+	for(i = 0; i < 256; i++)
 	{
-		for(unsigned int j=0; j< 256; j++)
+		for(j=0; j< 256; j++)
 		{
-			unsigned int pixel = 0;
+			pixel = 0;
 			
-			for(unsigned int x=0; x< (this->get_width()-hor);++x)
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,first, secnd, pixel) shared(i,j,chunk)
+			
+			for(x=0; x< (this->get_width()-hor);++x)
 			{
 				
-				for(unsigned int y=0; y< (this->get_height()-ver);++y)
+				for(y=0; y< (this->get_height()-ver);++y)
 				{
-					unsigned char first = (this->get_pixel_value(x,y,0,0));
-					unsigned char secnd = (this->get_pixel_value(x+hor, y+ver, 0, 0));
+					first = (this->get_pixel_value(x,y,0,0));
+					secnd = (this->get_pixel_value(x+hor, y+ver, 0, 0));
 					
 					if(first == i && secnd == j)
 					{
@@ -2190,7 +2495,7 @@ Image Image :: coorrelogram(unsigned int ver,unsigned int hor)
 			{
 				pixel=255;
 			}
-			
+			#pragma omp ordered
 			result.set_pixel_value(i, j, 0, 0, pixel);
 			
 		}
@@ -2209,24 +2514,29 @@ Image Image :: coorrelogram(unsigned int ver,unsigned int hor)
  * \param unsigned int c is the specified spectrum of the image that will be obtained the coorrelogram.
  * \return This function returns the coorrelogram image.
  */
-Image Image :: coorrelogram_ZC(unsigned int ver,unsigned int hor, unsigned int z, unsigned int c)
+Image Image :: coorrelogram_ZC(unsigned int ver,unsigned int hor, unsigned int z, unsigned int c, int num_threads)
 {
 	
 	Image result (256,256, 1, 1, 0);	
-	
-	for(unsigned int i = 0; i < 256; i++)
+	int chunk= (this->get_width()/num_threads);
+	unsigned int i,j,x,y;
+	unsigned int pixel;
+	unsigned char first, secnd;
+	omp_set_num_threads(num_threads);
+	for(i = 0; i < 256; i++)
 	{
-		for(unsigned int j=0; j< 256; j++)
+		for(j=0; j< 256; j++)
 		{
-			unsigned int pixel = 0;
+			pixel = 0;
+			#pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,first, secnd, pixel) shared(i,j,chunk)
 			
-			for(unsigned int x=0; x< (this->get_width()-hor);++x)
+			for(x=0; x< (this->get_width()-hor);++x)
 			{
 				
-				for(unsigned int y=0; y< (this->get_height()-ver);++y)
+				for(y=0; y< (this->get_height()-ver);++y)
 				{
-					unsigned char first = (this->get_pixel_value(x,y,z,c));
-					unsigned char secnd = (this->get_pixel_value(x+hor, y+ver, z, c));
+					first = (this->get_pixel_value(x,y,z,c));
+					secnd = (this->get_pixel_value(x+hor, y+ver, z, c));
 					if(first == i && secnd == j)
 					{
 						pixel ++;
@@ -2237,7 +2547,7 @@ Image Image :: coorrelogram_ZC(unsigned int ver,unsigned int hor, unsigned int z
 			{
 				pixel=255;
 			}
-
+			#pragma omp ordered
 			result.set_pixel_value(i, j, 0, 0, pixel);
 			
 		}

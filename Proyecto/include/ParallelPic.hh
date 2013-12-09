@@ -1,8 +1,9 @@
+//#include "mpi.h"
 #include "../include/CImg.h"
 #include <string>
 #include <cstddef>
 #include <iostream>
-#include <mpi.h>
+#include <omp.h>
 
 /**\brief image.hh implements a wrapper over the library CImg.
  * For more information go to cimg.sourceforge.net
@@ -66,7 +67,7 @@ public:
 
 	unsigned int get_pixel_value(int, int, int, int); ///< \fn get_pixel_value returns the unsigned char value of the pixel in the given coordinates.
 
-	void set_pixel_value(int x, int y, int z, int c, unsigned char value); /// \fn set_pixel_value allows to set value of pixel in an image.  
+	void set_pixel_value(int x, int y, int z, int c, unsigned char); /// \fn set_pixel_value allows to set value of pixel in an image.  
 	
 	unsigned int get_width();///< \fn get_width() allows to obtain the width of the image.
 	
@@ -77,24 +78,16 @@ public:
 	unsigned int get_spectrum();///< \fn get_spectrum allows to obtain the specrum of the image.
 
 // *************************************************************************
-// **************************** Filter *************************************
-// *************************************************************************
-	
-	Image filter(int kernel [], int , float); /// \fn Image filter(int kernel [], int , float) This function returns an Image object after applying the desired filter given by the kernel.
-
-// *************************************************************************
 // *********************** Arithmetic & Logic ******************************
 // *************************************************************************
 
-	Image substract_img(Image); /// \fn substract image allows to substract the pixel values of two images.
+	Image substract_img(Image,int); /// \fn substract image allows to substract the pixel values of two images.
 
-	Image sum_img(Image); ///\fn sum image allows to sum the pixel values of two images.
-	Image sum_par(Image,int);
-	Image operator+ (Image);
+	Image sum_img(Image,int); ///\fn sum image allows to sum the pixel values of two images.
 	
-	Image multiply_img(double); /// \fn image multiplier multiplies an image by a factor.
+	Image multiply_img(double,int); /// \fn image multiplier multiplies an image by a factor.
 
-	Image binarize_img(unsigned int); /// \fn bynary image adjust the pixel value to 0 or 255 depending on the cutoff values.
+	Image binarize_img(unsigned int,int); /// \fn bynary image adjust the pixel value to 0 or 255 depending on the cutoff values.
 		
 // *************************************************************************
 // ************************* SPACE DOMAIN FILTERS **************************
@@ -104,56 +97,56 @@ public:
 // ********************** Sharpening Spatial Filters ***********************
 // *************************************************************************
 
-	Image filter_Laplacian(); /// \fn Laplacian filter, used to identify sudden changes in the image. 
+	Image filter_Laplacian(int); /// \fn Laplacian filter, used to identify sudden changes in the image. 
 	
-	Image filter_Laplacian_no_diagonal(); /// \fn Laplacian filter no diagonal, calculates de laplacian of an image without including the diagonal directions.
+	Image filter_Laplacian_no_diagonal(int); /// \fn Laplacian filter no diagonal, calculates de laplacian of an image without including the diagonal directions.
 
-	Image filter_Gradient_vertical(); /// \fn Gradient filter in the vertical direction
+	Image filter_Gradient_vertical(int); /// \fn Gradient filter in the vertical direction
 	
-	Image filter_Gradient_horizontal(); /// \fn Gradient filter in the horizontal direction
+	Image filter_Gradient_horizontal(int); /// \fn Gradient filter in the horizontal direction
 	
-	Image filter_Prewitt_N_S(); /// \fn Prewitt Filter in the North-South direction
+	Image filter_Prewitt_N_S(int); /// \fn Prewitt Filter in the North-South direction
 	
-	Image filter_Prewitt_NE_SW(); /// \fn Prewitt Filter in the Northeast-Southwest direction
+	Image filter_Prewitt_NE_SW(int); /// \fn Prewitt Filter in the Northeast-Southwest direction
 	
-	Image filter_Prewitt_E_W(); /// \fn Prewitt Filter in the East-West direction
+	Image filter_Prewitt_E_W(int); /// \fn Prewitt Filter in the East-West direction
 	
-	Image filter_Prewitt_NW_SE(); /// \fn Prewitt Filter in the Northwest-Southeast direction
+	Image filter_Prewitt_NW_SE(int); /// \fn Prewitt Filter in the Northwest-Southeast direction
 
-	Image filter_edge_enhacement_displacement(unsigned int, unsigned int); /// \fn This filter displaces the image and by ...
+	Image filter_edge_enhacement_displacement(unsigned int, unsigned int,int); /// \fn This filter displaces the image and by ...
 	
-	Image filter_horizontal_borders();
+	Image filter_horizontal_borders(int);
 	
-	Image filter_vertical_borders();
+	Image filter_vertical_borders(int);
 	
 // *************************************************************************
 // *********************** Smoothing Spatial Filters ***********************
 // *************************************************************************
 
-	Image filter_median(int); /// \fn Median filter calculates the median of a certain group of pixels values.
+	Image filter_median(int,int); /// \fn Median filter calculates the median of a certain group of pixels values.
 	
-	Image filter_average(int); /// \fn Average filter calculates the average of a certain group of pixels values.
+	Image filter_average(int,int); /// \fn Average filter calculates the average of a certain group of pixels values.
 	
-	Image average_omp(int);
+	Image average_omp(int,int);
 	
-	Image filter_gaussian(int, int); /// \fn Gaussian filter applies a gaussian kernel to the image.
+	Image filter_gaussian(int, int,int); /// \fn Gaussian filter applies a gaussian kernel to the image.
 	
-	Image filter_modal(int); /// \fn Modal filter calculates the modal of a certain group of pixels, in case there is no especific modal it calculates the average.
+	Image filter_modal(int,int); /// \fn Modal filter calculates the modal of a certain group of pixels, in case there is no especific modal it calculates the average.
 	
-	Image median_omp(int);
+	Image median_omp(int,int);
 
 // *************************************************************************
 // *********************** Dot to Dot Transformations **********************
 // *************************************************************************
-	Image filter_dynamic_range_dilatation(unsigned char, unsigned char, double, double, double);
+	Image filter_dynamic_range_dilatation(unsigned char, unsigned char, double, double, double, int );
 
-	Image inverse(); /// \fn inverse of an image substract the original pixel values to 255.
+	Image inverse(int); /// \fn inverse of an image substract the original pixel values to 255.
 	
-	Image log_transformation(); ///Executes this transformation: \f$ v(x,y,z,c) = c log(u(x,y,z,c)+1)\f$
+	Image log_transformation(int); ///Executes this transformation: \f$ v(x,y,z,c) = c log(u(x,y,z,c)+1)\f$
 	
-	Image power_law_transformatiom(double exponent); /// \fn Power-Law transformation
+	Image power_law_transformatiom(double exponent,int); /// \fn Power-Law transformation
 
-	Image color_slicing (unsigned char [], unsigned char [], unsigned char []); /// \fn Highligths the colors between the given color arrays.
+	Image color_slicing (unsigned char [], unsigned char [], unsigned char [],int); /// \fn Highligths the colors between the given color arrays.
 	
 // *************************************************************************
 // *********************** HISTOGRAM AND EQUALIZATION **********************
@@ -165,7 +158,7 @@ public:
 	
 	int* histogram_equalization(int*, const char* title);
 
-	CImg<float> autocovariance(int, int);
+	CImg<float> autocovariance(int, int,int);
 
 	void plot_histogram_equalization(int, const char* title); /// \fn This function plot the histogram equalized
 
@@ -177,61 +170,61 @@ public:
 // *************************************************************************
 
 
-	Image filter_order_stadistics(int dim, int order); 
+	Image filter_order_stadistics(int dim, int order,int); 
 
-	Image variance(int); /// \fn This function calculates the variance of a kernel values and the applies to the image.
+	Image variance(int, int); /// \fn This function calculates the variance of a kernel values and the applies to the image.
 	
-	Image filter_kirsch_0(); /// \fn Applies the kirsch mask: \f$(-3,-3,5)(-3,0,5)(-3,-3,5)\f$
+	Image filter_kirsch_0(int); /// \fn Applies the kirsch mask: \f$(-3,-3,5)(-3,0,5)(-3,-3,5)\f$
 	
-	Image filter_kirsch_45();/// \fn Applies the kirsch mask: \f$(-3,5,5)(-3,0,5)(-3,-3,-3)\f$
+	Image filter_kirsch_45(int);/// \fn Applies the kirsch mask: \f$(-3,5,5)(-3,0,5)(-3,-3,-3)\f$
 	
-	Image filter_kirsch_90();/// \fn Applies the kirsch mask: \f$(5,5,5)(-3,0-3)(-3,-3,-3)\f$
+	Image filter_kirsch_90(int);/// \fn Applies the kirsch mask: \f$(5,5,5)(-3,0-3)(-3,-3,-3)\f$
 	
-	Image filter_kirsch_135();/// \fn Applies the kirsch mask: \f$(5,5,-3)(5,0,-3)(-3,-3,-3)\f$
+	Image filter_kirsch_135(int);/// \fn Applies the kirsch mask: \f$(5,5,-3)(5,0,-3)(-3,-3,-3)\f$
 	
-	Image filter_kirsch_180();/// \fn Applies the kirsch mask: \f$(5,-3,-3)(5,0,-3)(5,-3,-3)\f$
+	Image filter_kirsch_180(int);/// \fn Applies the kirsch mask: \f$(5,-3,-3)(5,0,-3)(5,-3,-3)\f$
 	
-	Image filter_kirsch_225();/// \fn Applies the kirsch mask: \f$(-3,-3,-3)(5,0,-3)(5,5,-3)\f$
+	Image filter_kirsch_225(int);/// \fn Applies the kirsch mask: \f$(-3,-3,-3)(5,0,-3)(5,5,-3)\f$
 	
-	Image filter_kirsch_270();/// \fn Applies the kirsch mask: \f$(-3,-3,-3)(-3,0,-3)(5,5,5)\f$
+	Image filter_kirsch_270(int);/// \fn Applies the kirsch mask: \f$(-3,-3,-3)(-3,0,-3)(5,5,5)\f$
 	
-	Image filter_kirsch_315();/// \fn Applies the kirsch mask: \f$(-3,-3,-3)(-3,0,5)(-3,5,5)\f$
+	Image filter_kirsch_315(int);/// \fn Applies the kirsch mask: \f$(-3,-3,-3)(-3,0,5)(-3,5,5)\f$
 	
-	Image filter_freeman_0();/// \fn Applies the freeman mask: \f$(1,1,1)(1,-2,1)(1,-1,-1)\f$.
+	Image filter_freeman_0(int);/// \fn Applies the freeman mask: \f$(1,1,1)(1,-2,1)(1,-1,-1)\f$.
 	
-	Image filter_freeman_1();/// \fn Applies the freeman mask: \f$(1,1,1)(-1,-2,1)(1,-1,1)\f$.
+	Image filter_freeman_1(int);/// \fn Applies the freeman mask: \f$(1,1,1)(-1,-2,1)(1,-1,1)\f$.
 	
-	Image filter_freeman_2();/// \fn Applies the freeman mask: \f$)-1,1,1)(-1,-2,1)(1,1,1)\f$.
+	Image filter_freeman_2(int);/// \fn Applies the freeman mask: \f$)-1,1,1)(-1,-2,1)(1,1,1)\f$.
 	
-	Image filter_freeman_3();/// \fn Applies the freeman mask: \f$(-1,-1,1)(-1,-2,1)(1,1,1)\f$.
+	Image filter_freeman_3(int);/// \fn Applies the freeman mask: \f$(-1,-1,1)(-1,-2,1)(1,1,1)\f$.
 	
-	Image filter_freeman_4();/// \fn Applies the freeman mask: \f$(-1,-1,-1)(1,-2,1)(1,1,1)\f$.
+	Image filter_freeman_4(int);/// \fn Applies the freeman mask: \f$(-1,-1,-1)(1,-2,1)(1,1,1)\f$.
 	
-	Image filter_freeman_5();/// \fn Applies the freeman mask: \f$(1,-1,-1)(1,-2,-1)(1,1,1)\f$.
+	Image filter_freeman_5(int);/// \fn Applies the freeman mask: \f$(1,-1,-1)(1,-2,-1)(1,1,1)\f$.
 	
-	Image filter_freeman_6();/// \fn Applies the freeman mask: \f$(1,1,-1)(1,-2,-1)(1,1,-1)\f$.
+	Image filter_freeman_6(int);/// \fn Applies the freeman mask: \f$(1,1,-1)(1,-2,-1)(1,1,-1)\f$.
 	
-	Image filter_freeman_7();/// \fn Applies the freeman mask: \f$(1,1,1)(1,-2,-1)(1,-1,-1)\f$.
+	Image filter_freeman_7(int);/// \fn Applies the freeman mask: \f$(1,1,1)(1,-2,-1)(1,-1,-1)\f$.
 
-	Image filter_maximum();/// Assigns the highest value in the neighborhood.
+	Image filter_maximum(int);/// Assigns the highest value in the neighborhood.
 	
-	Image filter_minimum();/// Assigns the lowest value in the neighborhood.
+	Image filter_minimum(int);/// Assigns the lowest value in the neighborhood.
 
-	Image gray_scale();/// Converts an RGB image to gray scale
+	Image gray_scale(int);/// Converts an RGB image to gray scale
 
 
 // *************************************************************************
 // ****************************** NOISES ***********************************
 // *************************************************************************
 
-	void gaussian_noise(double);/// \fn Applies the gaussian noise to an image.
-	void salt_pepper(double); /// \fn Applies salt and pepper to an image.
+	void gaussian_noise(double, int);/// \fn Applies the gaussian noise to an image.
+	void salt_pepper(double, int); /// \fn Applies salt and pepper to an image.
 	
-	Image interpolation(); /// \fn This function apply the closer neighborhood interpolation.
+	Image interpolation(int); /// \fn This function apply the closer neighborhood interpolation.
 
-	Image coorrelogram(unsigned int,unsigned int); ///\fn This function computes the coorrelogram of an image in gray scale.
+	Image coorrelogram(unsigned int,unsigned int,int); ///\fn This function computes the coorrelogram of an image in gray scale.
 	
-	Image coorrelogram_ZC(unsigned int,unsigned int,unsigned int, unsigned int); /// \fn This function computes the coorrelogram of a specified depth and spectrum in the image. 
+	Image coorrelogram_ZC(unsigned int,unsigned int,unsigned int, unsigned int, int); /// \fn This function computes the coorrelogram of a specified depth and spectrum in the image. 
 
 	Image coorrelogram_par(unsigned int,unsigned int,unsigned int, unsigned int); /// \fn This function computes the coorrelogram of a specified depth and spectrum in the image. 
 
