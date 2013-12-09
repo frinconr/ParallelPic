@@ -28,7 +28,7 @@ doxygen: Doxyfile
 doc: 
 	make -C ./doxygen/ all
 
-latex: latex/refman.tex
+latex: latex/refman.tex 
 	@echo "******************* PRODUCING DOXYGEN LATEX OUTPUT *********************";\
 	make -C latex/ all
 	cp latex/refman.pdf ./
