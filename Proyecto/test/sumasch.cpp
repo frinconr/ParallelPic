@@ -22,9 +22,11 @@ Image Image :: sum_par (Image image2, int number_threads)
 				#pragma omp copying(result) parallel private(sum,x,y,m) shared(z,c) 
 				{
 					int n = this->get_width()/number_threads;
+
 					#pragma omp for schedule(dynamic, 1) 
 					for(m=0;m<omp_get_num_threads(); ++m){	
 						if(m=number_threads){n=n+this->get_width()%number_threads;}
+
 					for(x = n*m; x < (m+1)*n; ++x)
 					{		
 						//#pragma omp parallel for schedule(dynamic, n) private(sum,y) shared(x,z,c,result)

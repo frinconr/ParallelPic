@@ -20,21 +20,21 @@ Usage.pdf : Usage.tex
 	pdflatex Usage.tex
 	
 
-doxygen: Imagelib.doxygen
+doxygen: Doxyfile
 	@echo "******************* CREATING DOXYGEN OUTPUT ****************************";\
-	doxygen Imagelib.doxygen
+	doxygen Doxyfile
 	make latex
 
 doc: 
 	make -C ./doxygen/ all
 
-latex:
+latex: latex/refman.tex
 	@echo "******************* PRODUCING DOXYGEN LATEX OUTPUT *********************";\
-	make -C doxygen/latex/ all
-	cp doxygen/latex/refman.pdf ./
+	make -C latex/ all
+	cp latex/refman.pdf ./
 
 clean:
 	@echo "******************* CLEANING *******************************************"
 	rm -f *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl
-	make -C doxygen/latex/ clean
+	make -C latex/ clean
 

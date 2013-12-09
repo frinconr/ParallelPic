@@ -61,10 +61,10 @@ Image Image::rgb_hsv()
 
 					//Calculate H
 					
-					if(Max==Min){H=Max;}
+					if(Max==Min){H=-1;}
 					else{
-					if(Max==RGB[0] & RGB[1]>=RGB[2]){H=60*(RGB[1]-RGB[2])/(Max-Min);}
-					if(Max==RGB[0] & RGB[1]<RGB[2]){H=360+60*(RGB[1]-RGB[2])/(Max-Min);}
+					if(Max==RGB[0] && RGB[1]>=RGB[2]){H=60*(RGB[1]-RGB[2])/(Max-Min);}
+					if(Max==RGB[0] && RGB[1]<RGB[2]){H=360+60*(RGB[1]-RGB[2])/(Max-Min);}
 					if(Max==RGB[1])	{H=120+60*(RGB[2]-RGB[0])/(Max-Min);}
 					if(Max==RGB[2]){H=240+60*(RGB[0]-RGB[1])/(Max-Min);}
 					}	
@@ -80,6 +80,7 @@ Image Image::rgb_hsv()
 					//LUT.push_back(pix_pair);
 				}
 				
+				cout<<H<<"  "<<S<<"   "<<V<<endl;
 				
 				result.set_pixel_value(x,y,z,0,static_cast<double>(H*255/360));
 				result.set_pixel_value(x,y,z,1,static_cast<double>(S*255));
