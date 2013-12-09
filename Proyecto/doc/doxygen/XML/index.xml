@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.4">
+  <compound refid="class_image" kind="class"><name>Image</name>
+    <member refid="class_image_1a3f81904f71ce4656fe7e40e7c45509bc" kind="variable"><name>Img</name></member>
+    <member refid="class_image_1aaa2cc744ff3969ac6cb63ca05a40e5f6" kind="variable"><name>width</name></member>
+    <member refid="class_image_1a9f4e463326771ddb955ee17032a78d77" kind="variable"><name>height</name></member>
+    <member refid="class_image_1a09fda52223261b5edceefb10496e109c" kind="variable"><name>depth</name></member>
+    <member refid="class_image_1ab26f638a04ea88cdd3e99244af3af86a" kind="variable"><name>spectrum</name></member>
+    <member refid="class_image_1a28cafc8208669e68eef36cf620954f13" kind="variable"><name>complex</name></member>
+    <member refid="class_image_1a58edd1c45b4faeb5f789b0d036d02313" kind="function"><name>Image</name></member>
+    <member refid="class_image_1a54de984d18843789d938f7328bdea800" kind="function"><name>Image</name></member>
+    <member refid="class_image_1a2055dfd9700ce01e4f5b06f75b5f0fab" kind="function"><name>Image</name></member>
+    <member refid="class_image_1a794ae7f8ff9b4b7b7306343ac2f56356" kind="function"><name>~Image</name></member>
+    <member refid="class_image_1a62ff76610f4f6ed2817d7f60abda765f" kind="function"><name>display</name></member>
+    <member refid="class_image_1a4800a984610ffce53488c13d223a5b38" kind="function"><name>set_pixel_value</name></member>
+    <member refid="class_image_1ae503021a1c7b4188a457d55d7571e63d" kind="function"><name>substract_img</name></member>
+    <member refid="class_image_1a652abac4bfdd2fcff0cdb5627ac8ad49" kind="function"><name>sum_img</name></member>
+    <member refid="class_image_1ae546904988636a989dfca3950030bd85" kind="function"><name>multiply_img</name></member>
+    <member refid="class_image_1ac23d8c133700c751fac7ce6615641fde" kind="function"><name>binarize_img</name></member>
+    <member refid="class_image_1abda67bfc036d9de98bf806c93fbae370" kind="function"><name>filter_Laplacian</name></member>
+    <member refid="class_image_1a308423cd4b7291228c4dcd1a9a4f8856" kind="function"><name>filter_Laplacian_no_diagonal</name></member>
+    <member refid="class_image_1a66ea21718b13184a2d49d52a49cda750" kind="function"><name>filter_Gradient_vertical</name></member>
+    <member refid="class_image_1aeff1dd9c6747100583ecd976a298e67b" kind="function"><name>filter_Gradient_horizontal</name></member>
+    <member refid="class_image_1a931b36f6843f103be624d1f58150ab63" kind="function"><name>filter_Prewitt_N_S</name></member>
+    <member refid="class_image_1adfefe21b9272e6ded5ba7939d7dbe99c" kind="function"><name>filter_Prewitt_NE_SW</name></member>
+    <member refid="class_image_1ac9a433b59be54fea12aa1397defd6c81" kind="function"><name>filter_Prewitt_E_W</name></member>
+    <member refid="class_image_1ab33257cb397927a0445527d41a3b6dfa" kind="function"><name>filter_Prewitt_NW_SE</name></member>
+    <member refid="class_image_1aa5e19816018edced13326f1d58d30f4c" kind="function"><name>filter_edge_enhacement_displacement</name></member>
+    <member refid="class_image_1ad6baefede32227602d896966e44aed4e" kind="function"><name>filter_horizontal_borders</name></member>
+    <member refid="class_image_1a1a755f73ec71ad095f47e9222ee2c9d1" kind="function"><name>filter_vertical_borders</name></member>
+    <member refid="class_image_1aad6fa435024cf4f1635b8769325f389f" kind="function"><name>filter_median</name></member>
+    <member refid="class_image_1a7d67ea957e3525bcc60ca436fe0d8862" kind="function"><name>filter_average</name></member>
+    <member refid="class_image_1a606ec46d5e2e47ff49e7793f42eace08" kind="function"><name>average_omp</name></member>
+    <member refid="class_image_1ae8b435684bdd6f715bfcd31517ddca0a" kind="function"><name>filter_gaussian</name></member>
+    <member refid="class_image_1ae67455a397b27c4a3bda96f3cc3e9d9f" kind="function"><name>filter_modal</name></member>
+    <member refid="class_image_1af50c3c5a85c237f8b20af7dc4766c45d" kind="function"><name>median_omp</name></member>
+    <member refid="class_image_1ae8dc7bd96987cf43f2b608f5f42bd8e3" kind="function"><name>filter_dynamic_range_dilatation</name></member>
+    <member refid="class_image_1a8a62778b8013b7f82ee74138678d5a24" kind="function"><name>inverse</name></member>
+    <member refid="class_image_1a23e96746fd7a360950a9588ca3fa466c" kind="function"><name>log_transformation</name></member>
+    <member refid="class_image_1a4934472d3d78a5b26bc658cb6511c7e3" kind="function"><name>power_law_transformatiom</name></member>
+    <member refid="class_image_1abad859b7de6c0237bdfeb0c41e754f6b" kind="function"><name>color_slicing</name></member>
+    <member refid="class_image_1a36596e19076b920ec0b2c2aa9eee639c" kind="function"><name>get_histogram</name></member>
+    <member refid="class_image_1a7ecc9bcad8ac9f0fe4fc42a1810f2b35" kind="function"><name>plot_histogram</name></member>
+    <member refid="class_image_1a10fff70095a24a0a10376ffa740a3262" kind="function"><name>histogram_equalization</name></member>
+    <member refid="class_image_1a42c17e010d45f8ec72dc89d7cdd76249" kind="function"><name>autocovariance</name></member>
+    <member refid="class_image_1ac792db3b148a2b42e4ce1ee2ba7ac757" kind="function"><name>plot_histogram_equalization</name></member>
+    <member refid="class_image_1a44679d228a0d6864fb1cfe4fb2dc83af" kind="function"><name>filter_order_stadistics</name></member>
+    <member refid="class_image_1aad9aac9600334fb18ae54e4807a12dc5" kind="function"><name>variance</name></member>
+    <member refid="class_image_1a9551b317e71d65ca1573a9518644154d" kind="function"><name>filter_kirsch_0</name></member>
+    <member refid="class_image_1afc2543445381bf7b7dc07167f5bef42f" kind="function"><name>filter_kirsch_45</name></member>
+    <member refid="class_image_1afe3524a312d6860dba3ae9caeb41aaac" kind="function"><name>filter_kirsch_90</name></member>
+    <member refid="class_image_1a89c324635717b51fce1fdb53eb20ea53" kind="function"><name>filter_kirsch_135</name></member>
+    <member refid="class_image_1a2d98fe13c3ad3949e7e5a42e0381dfae" kind="function"><name>filter_kirsch_180</name></member>
+    <member refid="class_image_1a3d99f369ce877076d9de45608566e5ab" kind="function"><name>filter_kirsch_225</name></member>
+    <member refid="class_image_1a3deff23888dd56ee45c6e2556bb2e407" kind="function"><name>filter_kirsch_270</name></member>
+    <member refid="class_image_1afaacfcecb4f65541f06dd2aebc6a8d0c" kind="function"><name>filter_kirsch_315</name></member>
+    <member refid="class_image_1ab25fe6e85844905599119faf087968aa" kind="function"><name>filter_freeman_0</name></member>
+    <member refid="class_image_1a2f0919c597afa2427d139012d99eabd2" kind="function"><name>filter_freeman_1</name></member>
+    <member refid="class_image_1a0f095fc1129cd6d3856f98e0e0434f24" kind="function"><name>filter_freeman_2</name></member>
+    <member refid="class_image_1a4efc2b9483472b31aa05ec3104569111" kind="function"><name>filter_freeman_3</name></member>
+    <member refid="class_image_1a9bcd8a39cadee68de81ea8a35c832a94" kind="function"><name>filter_freeman_4</name></member>
+    <member refid="class_image_1a22c69e4b9c06a20381be1f27c75c2745" kind="function"><name>filter_freeman_5</name></member>
+    <member refid="class_image_1a09cddc961c37f59f8e4fe298d7bef2eb" kind="function"><name>filter_freeman_6</name></member>
+    <member refid="class_image_1abc60e72c623751597eaa64a5c295e65f" kind="function"><name>filter_freeman_7</name></member>
+    <member refid="class_image_1a42ddfccab80370efd993590850669837" kind="function"><name>filter_maximum</name></member>
+    <member refid="class_image_1af37690485375d17d0c55a3d89e5c0292" kind="function"><name>filter_minimum</name></member>
+    <member refid="class_image_1ab9ffca5856cd3e5032166d312719333d" kind="function"><name>gray_scale</name></member>
+    <member refid="class_image_1a16390bf8509b67dedec6ca9ece27eb39" kind="function"><name>gaussian_noise</name></member>
+    <member refid="class_image_1a1afcd22275fa41ca473fc419719d3389" kind="function"><name>salt_pepper</name></member>
+    <member refid="class_image_1ae6f9753e39897f50a1483f32fb84133b" kind="function"><name>interpolation</name></member>
+    <member refid="class_image_1ace5b005b225d2ec360695cd8a3dfdf98" kind="function"><name>coorrelogram</name></member>
+    <member refid="class_image_1a1c2b2ed567925faeda7d1fbbe6888554" kind="function"><name>coorrelogram_ZC</name></member>
+    <member refid="class_image_1a8acd9a1176746b670bb7b42ac3d88fb1" kind="function"><name>coorrelogram_par</name></member>
+    <member refid="class_image_1ac47eda496b9d7a8c91dcf9bb89b15fc8" kind="function"><name>rgb_hsv</name></member>
+  </compound>
+  <compound refid="namespacecimg__library" kind="namespace"><name>cimg_library</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="_parallel_pic_8hh" kind="file"><name>ParallelPic.hh</name>
+  </compound>
+  <compound refid="image_8cpp" kind="file"><name>image.cpp</name>
+  </compound>
+  <compound refid="_parallel_pic_8cpp" kind="file"><name>ParallelPic.cpp</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>/home/fish/Documents/ParallelPic/Proyecto/include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>/home/fish/Documents/ParallelPic/Proyecto/src</name>
+  </compound>
+</doxygenindex>

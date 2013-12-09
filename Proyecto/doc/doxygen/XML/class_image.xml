@@ -1,0 +1,1828 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.4">
+  <compounddef id="class_image" kind="class" prot="public">
+    <compoundname>Image</compoundname>
+    <includes refid="_parallel_pic_8hh" local="no">ParallelPic.hh</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_image_1a3f81904f71ce4656fe7e40e7c45509bc" prot="private" static="no" mutable="no">
+        <type>CImg&lt; unsigned char &gt; *</type>
+        <definition>CImg&lt;unsigned char&gt;* Image::Img</definition>
+        <argsstring></argsstring>
+        <name>Img</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>CImg&lt;unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>char&gt; *Img is a pointer to the image of type CImg, and that is treated as a unsigned char. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="30" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_image_1aaa2cc744ff3969ac6cb63ca05a40e5f6" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Image::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int width refers to the width of the image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="31" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_image_1a9f4e463326771ddb955ee17032a78d77" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Image::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int height refers to the height of the image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="32" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_image_1a09fda52223261b5edceefb10496e109c" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Image::depth</definition>
+        <argsstring></argsstring>
+        <name>depth</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int depth refers to the depth of the image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="33" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_image_1ab26f638a04ea88cdd3e99244af3af86a" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Image::spectrum</definition>
+        <argsstring></argsstring>
+        <name>spectrum</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int spectrum refers to the spectrum of the image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="34" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_image_1a28cafc8208669e68eef36cf620954f13" prot="private" static="no" mutable="no">
+        <type>CImgList&lt; unsigned char &gt;</type>
+        <definition>CImgList&lt;unsigned char&gt; Image::complex</definition>
+        <argsstring></argsstring>
+        <name>complex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="35" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_image_1a58edd1c45b4faeb5f789b0d036d02313" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Image::Image</definition>
+        <argsstring>()</argsstring>
+        <name>Image</name>
+        <briefdescription>
+<para>Constructor This constructor initializes the four dimension params at 0; The Img calls the constructor of CImg to create an empty image. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="42" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="17" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a54de984d18843789d938f7328bdea800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Image::Image</definition>
+        <argsstring>(const char *const filename)</argsstring>
+        <name>Image</name>
+        <param>
+          <type>const char *const</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="class_image_1a58edd1c45b4faeb5f789b0d036d02313" kindref="member">Image()</ref> is the constructor of the image used when the image doesn&apos;t been be created. </para>        </briefdescription>
+        <detaileddescription>
+<para>Constructor.</para><para>This constructor is used when the image already exist&apos;s and is stored in the<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>path. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>&lt;Img&gt;</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is a var of type Cimg that is treated like an unsigned char.</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>&lt;width&gt;</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>refers to the number of columns of pixels in the image.</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>&lt;height&gt;</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>refers to the number of rows of pixels in the image.</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>&lt;depth&gt;</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the amount of layers of depth the image has, usually is one, except for 3D images.</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>&lt;spectrum&gt;</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the number of channels in the image, RGB has a spectrum of 3, a monocromatic image has a spectrum of 1. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="45" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="32" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a2055dfd9700ce01e4f5b06f75b5f0fab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Image::Image</definition>
+        <argsstring>(const unsigned int width, const unsigned int height, const unsigned int depth, const unsigned int spectrum, int value)</argsstring>
+        <name>Image</name>
+        <param>
+          <type>const unsigned int</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>const unsigned int</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>const unsigned int</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>const unsigned int</type>
+          <declname>spectrum</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="class_image" kindref="compound">Image</ref> (const char *const filename) this constructor is used when the image already exist&apos;s and is stored in. </para>        </briefdescription>
+        <detaileddescription>
+<para>This constructor is used when we need to create an image, and gives the dimensions of the image, and the value of a color that fills all the pixels.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="48" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="49" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a794ae7f8ff9b4b7b7306343ac2f56356" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Image::~Image</definition>
+        <argsstring>(void)</argsstring>
+        <name>~Image</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_image" kindref="compound">Image</ref> (const unsigned int width, const unsigned int height, const unsigned int depth, const unsigned int spectrum, int value) This constructor is used when we try to create an image with the specified dimensions and the parameter<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the value of the color of all the pixels of the image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="53" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a62ff76610f4f6ed2817d7f60abda765f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Image::display</definition>
+        <argsstring>(const char *message)</argsstring>
+        <name>display</name>
+        <param>
+          <type>const char *</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="62" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="77" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a4800a984610ffce53488c13d223a5b38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Image::set_pixel_value</definition>
+        <argsstring>(int x, int y, int z, int c, unsigned char)</argsstring>
+        <name>set_pixel_value</name>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>char</declname>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="70" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="139" bodyend="142"/>
+        <referencedby refid="class_image_1ac23d8c133700c751fac7ce6615641fde" compoundref="image_8cpp" startline="301" endline="326">binarize_img</referencedby>
+        <referencedby refid="class_image_1abad859b7de6c0237bdfeb0c41e754f6b" compoundref="image_8cpp" startline="1124" endline="1154">color_slicing</referencedby>
+        <referencedby refid="class_image_1ace5b005b225d2ec360695cd8a3dfdf98" compoundref="image_8cpp" startline="2164" endline="2202">coorrelogram</referencedby>
+        <referencedby refid="class_image_1a1c2b2ed567925faeda7d1fbbe6888554" compoundref="image_8cpp" startline="2212" endline="2248">coorrelogram_ZC</referencedby>
+        <referencedby refid="class_image_1a7d67ea957e3525bcc60ca436fe0d8862" compoundref="image_8cpp" startline="803" endline="833">filter_average</referencedby>
+        <referencedby refid="class_image_1ae8dc7bd96987cf43f2b608f5f42bd8e3" compoundref="image_8cpp" startline="1052" endline="1081">filter_dynamic_range_dilatation</referencedby>
+        <referencedby refid="class_image_1aa5e19816018edced13326f1d58d30f4c" compoundref="image_8cpp" startline="662" endline="684">filter_edge_enhacement_displacement</referencedby>
+        <referencedby refid="class_image_1ab25fe6e85844905599119faf087968aa" compoundref="image_8cpp" startline="1510" endline="1540">filter_freeman_0</referencedby>
+        <referencedby refid="class_image_1a2f0919c597afa2427d139012d99eabd2" compoundref="image_8cpp" startline="1545" endline="1575">filter_freeman_1</referencedby>
+        <referencedby refid="class_image_1a0f095fc1129cd6d3856f98e0e0434f24" compoundref="image_8cpp" startline="1580" endline="1610">filter_freeman_2</referencedby>
+        <referencedby refid="class_image_1a4efc2b9483472b31aa05ec3104569111" compoundref="image_8cpp" startline="1615" endline="1645">filter_freeman_3</referencedby>
+        <referencedby refid="class_image_1a9bcd8a39cadee68de81ea8a35c832a94" compoundref="image_8cpp" startline="1650" endline="1680">filter_freeman_4</referencedby>
+        <referencedby refid="class_image_1a22c69e4b9c06a20381be1f27c75c2745" compoundref="image_8cpp" startline="1686" endline="1716">filter_freeman_5</referencedby>
+        <referencedby refid="class_image_1a09cddc961c37f59f8e4fe298d7bef2eb" compoundref="image_8cpp" startline="1722" endline="1752">filter_freeman_6</referencedby>
+        <referencedby refid="class_image_1abc60e72c623751597eaa64a5c295e65f" compoundref="image_8cpp" startline="1757" endline="1787">filter_freeman_7</referencedby>
+        <referencedby refid="class_image_1ae8b435684bdd6f715bfcd31517ddca0a" compoundref="image_8cpp" startline="841" endline="890">filter_gaussian</referencedby>
+        <referencedby refid="class_image_1aeff1dd9c6747100583ecd976a298e67b" compoundref="image_8cpp" startline="436" endline="464">filter_Gradient_horizontal</referencedby>
+        <referencedby refid="class_image_1a66ea21718b13184a2d49d52a49cda750" compoundref="image_8cpp" startline="473" endline="501">filter_Gradient_vertical</referencedby>
+        <referencedby refid="class_image_1ad6baefede32227602d896966e44aed4e" compoundref="image_8cpp" startline="711" endline="734">filter_horizontal_borders</referencedby>
+        <referencedby refid="class_image_1a9551b317e71d65ca1573a9518644154d" compoundref="image_8cpp" startline="1228" endline="1258">filter_kirsch_0</referencedby>
+        <referencedby refid="class_image_1a89c324635717b51fce1fdb53eb20ea53" compoundref="image_8cpp" startline="1335" endline="1364">filter_kirsch_135</referencedby>
+        <referencedby refid="class_image_1a2d98fe13c3ad3949e7e5a42e0381dfae" compoundref="image_8cpp" startline="1370" endline="1399">filter_kirsch_180</referencedby>
+        <referencedby refid="class_image_1a3d99f369ce877076d9de45608566e5ab" compoundref="image_8cpp" startline="1405" endline="1434">filter_kirsch_225</referencedby>
+        <referencedby refid="class_image_1a3deff23888dd56ee45c6e2556bb2e407" compoundref="image_8cpp" startline="1440" endline="1469">filter_kirsch_270</referencedby>
+        <referencedby refid="class_image_1afaacfcecb4f65541f06dd2aebc6a8d0c" compoundref="image_8cpp" startline="1475" endline="1504">filter_kirsch_315</referencedby>
+        <referencedby refid="class_image_1afc2543445381bf7b7dc07167f5bef42f" compoundref="image_8cpp" startline="1264" endline="1294">filter_kirsch_45</referencedby>
+        <referencedby refid="class_image_1afe3524a312d6860dba3ae9caeb41aaac" compoundref="image_8cpp" startline="1300" endline="1329">filter_kirsch_90</referencedby>
+        <referencedby refid="class_image_1abda67bfc036d9de98bf806c93fbae370" compoundref="image_8cpp" startline="347" endline="386">filter_Laplacian</referencedby>
+        <referencedby refid="class_image_1a308423cd4b7291228c4dcd1a9a4f8856" compoundref="image_8cpp" startline="393" endline="427">filter_Laplacian_no_diagonal</referencedby>
+        <referencedby refid="class_image_1a42ddfccab80370efd993590850669837" compoundref="image_8cpp" startline="1795" endline="1830">filter_maximum</referencedby>
+        <referencedby refid="class_image_1aad6fa435024cf4f1635b8769325f389f" compoundref="image_8cpp" startline="747" endline="795">filter_median</referencedby>
+        <referencedby refid="class_image_1af37690485375d17d0c55a3d89e5c0292" compoundref="image_8cpp" startline="1838" endline="1871">filter_minimum</referencedby>
+        <referencedby refid="class_image_1ae67455a397b27c4a3bda96f3cc3e9d9f" compoundref="image_8cpp" startline="898" endline="981">filter_modal</referencedby>
+        <referencedby refid="class_image_1a44679d228a0d6864fb1cfe4fb2dc83af" compoundref="image_8cpp" startline="1873" endline="1922">filter_order_stadistics</referencedby>
+        <referencedby refid="class_image_1ac9a433b59be54fea12aa1397defd6c81" compoundref="image_8cpp" startline="590" endline="624">filter_Prewitt_E_W</referencedby>
+        <referencedby refid="class_image_1a931b36f6843f103be624d1f58150ab63" compoundref="image_8cpp" startline="520" endline="552">filter_Prewitt_N_S</referencedby>
+        <referencedby refid="class_image_1adfefe21b9272e6ded5ba7939d7dbe99c" compoundref="image_8cpp" startline="554" endline="588">filter_Prewitt_NE_SW</referencedby>
+        <referencedby refid="class_image_1ab33257cb397927a0445527d41a3b6dfa" compoundref="image_8cpp" startline="626" endline="660">filter_Prewitt_NW_SE</referencedby>
+        <referencedby refid="class_image_1a1a755f73ec71ad095f47e9222ee2c9d1" compoundref="image_8cpp" startline="686" endline="709">filter_vertical_borders</referencedby>
+        <referencedby refid="class_image_1ab9ffca5856cd3e5032166d312719333d" compoundref="image_8cpp" startline="2136" endline="2156">gray_scale</referencedby>
+        <referencedby refid="class_image_1ae6f9753e39897f50a1483f32fb84133b" compoundref="image_8cpp" startline="2005" endline="2032">interpolation</referencedby>
+        <referencedby refid="class_image_1a8a62778b8013b7f82ee74138678d5a24" compoundref="image_8cpp" startline="994" endline="1013">inverse</referencedby>
+        <referencedby refid="class_image_1a23e96746fd7a360950a9588ca3fa466c" compoundref="image_8cpp" startline="1020" endline="1040">log_transformation</referencedby>
+        <referencedby refid="class_image_1ae546904988636a989dfca3950030bd85" compoundref="image_8cpp" startline="273" endline="293">multiply_img</referencedby>
+        <referencedby refid="class_image_1a4934472d3d78a5b26bc658cb6511c7e3" compoundref="image_8cpp" startline="1091" endline="1115">power_law_transformatiom</referencedby>
+        <referencedby refid="class_image_1ae503021a1c7b4188a457d55d7571e63d" compoundref="image_8cpp" startline="207" endline="230">substract_img</referencedby>
+        <referencedby refid="class_image_1a652abac4bfdd2fcff0cdb5627ac8ad49" compoundref="image_8cpp" startline="233" endline="264">sum_img</referencedby>
+        <referencedby refid="class_image_1aad9aac9600334fb18ae54e4807a12dc5" compoundref="image_8cpp" startline="2084" endline="2127">variance</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ae503021a1c7b4188a457d55d7571e63d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::substract_img</definition>
+        <argsstring>(Image, int)</argsstring>
+        <name>substract_img</name>
+        <param>
+          <type><ref refid="class_image" kindref="compound">Image</ref></type>
+          <defname>image2</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function substracts the pixel values of two images, that can be used to see the differences between them. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="class_image" kindref="compound">Image</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>image2: Is the image that will be substracted to the original image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="class_image" kindref="compound">Image</ref> result: Is the result of the substraction of both images. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="84" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="207" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a652abac4bfdd2fcff0cdb5627ac8ad49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::sum_img</definition>
+        <argsstring>(Image, int)</argsstring>
+        <name>sum_img</name>
+        <param>
+          <type><ref refid="class_image" kindref="compound">Image</ref></type>
+          <defname>image2</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="86" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="233" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ae546904988636a989dfca3950030bd85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::multiply_img</definition>
+        <argsstring>(double, int)</argsstring>
+        <name>multiply_img</name>
+        <param>
+          <type>double</type>
+          <defname>multiplier</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function multiplies the pixel values by a factor. If the pixel value is higher than 255, adjust the pixel value to 255. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiplier is the factor that mutiplies all the pixel values. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="class_image" kindref="compound">Image</ref> result: Is the result of multiply the image. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="88" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="273" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ac23d8c133700c751fac7ce6615641fde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::binarize_img</definition>
+        <argsstring>(unsigned int, int)</argsstring>
+        <name>binarize_img</name>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>cutoff_value</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="90" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="301" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1abda67bfc036d9de98bf806c93fbae370" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Laplacian</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Laplacian</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Returns an image after applying the Laplacian filter to the image. Considers the diagonal values This function applies a convolution with this kernel: <formula id="0">$ ((1, 1, 1), (1, -8, 1), (1, 1, 1)) $</formula>. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A Filtered image with the Laplacian filter applied. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="100" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="347" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a308423cd4b7291228c4dcd1a9a4f8856" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Laplacian_no_diagonal</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Laplacian_no_diagonal</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Works as a derivative function, reacts to high change on the pixels value, especially to noise, and borders. Applies the following filter: <formula id="1">$ ((0, -1, 0) , (-1, 4, -1) , (0, -1, 0)) $</formula> <simplesect kind="return"><para>A filtered <ref refid="class_image" kindref="compound">Image</ref> with the laplacian filter. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="102" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="393" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a66ea21718b13184a2d49d52a49cda750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Gradient_vertical</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Gradient_vertical</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This filter is used as as Sharpening Spatial Filter, used to identify borders and noise in the image. Can be used to identify vertical borders or discrepations. Applies the following filter: <formula id="3">$ ((1, 0, -1) , (2, 0, -2) , (1, 0, -1)) $</formula> <simplesect kind="return"><para>An image object that contains the original image after receiving a gradient filter in the vertical direction. Could be used to identify vertical borders. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="104" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="473" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1aeff1dd9c6747100583ecd976a298e67b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Gradient_horizontal</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Gradient_horizontal</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This filter is used as as Sharpening Spatial Filter, used to identify borders and noise in the image. Can be used to identify horizontal borders or discrepation Applies the following filter: <formula id="2">$ ((1, 2, 1) , (0, 0, 0) , (-1, -2, -1)) $</formula> <simplesect kind="return"><para>An image object that contains the original image after receiving a gradient filter in the horizontal direction. Could be used to identify horizontal borders. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="106" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="436" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a931b36f6843f103be624d1f58150ab63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Prewitt_N_S</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Prewitt_N_S</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="108" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="520" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1adfefe21b9272e6ded5ba7939d7dbe99c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Prewitt_NE_SW</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Prewitt_NE_SW</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="110" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="554" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ac9a433b59be54fea12aa1397defd6c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Prewitt_E_W</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Prewitt_E_W</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="112" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="590" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ab33257cb397927a0445527d41a3b6dfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_Prewitt_NW_SE</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_Prewitt_NW_SE</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="114" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="626" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1aa5e19816018edced13326f1d58d30f4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_edge_enhacement_displacement</definition>
+        <argsstring>(unsigned int, unsigned int, int)</argsstring>
+        <name>filter_edge_enhacement_displacement</name>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>horizontal_dis</defname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>vertical_dis</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="116" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="662" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ad6baefede32227602d896966e44aed4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_horizontal_borders</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_horizontal_borders</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="118" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="711" bodyend="734"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a1a755f73ec71ad095f47e9222ee2c9d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_vertical_borders</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_vertical_borders</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="120" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="686" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1aad6fa435024cf4f1635b8769325f389f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_median</definition>
+        <argsstring>(int, int)</argsstring>
+        <name>filter_median</name>
+        <param>
+          <type>int</type>
+          <defname>dim</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function calculates the median of the range of pixels into the kernel and sets this value in the central pixel of the kernel. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>Only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>receives the dimension of the kernel (dim), wich only can be an impair number. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="class_image" kindref="compound">Image</ref> filtered which is the image with the median filter applied. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="126" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="747" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a7d67ea957e3525bcc60ca436fe0d8862" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_average</definition>
+        <argsstring>(int, int)</argsstring>
+        <name>filter_average</name>
+        <param>
+          <type>int</type>
+          <defname>dim</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function calculates the average of the range of pixels into the kernel and sets this value in the central pixel of the kernel. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>Only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>receives the dimension of the kernel (dim), wich only can be an impair number. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="class_image" kindref="compound">Image</ref> filtered which is the image with the average filter applied. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="128" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="803" bodyend="833"/>
+        <referencedby refid="class_image_1a42c17e010d45f8ec72dc89d7cdd76249" compoundref="image_8cpp" startline="2047" endline="2076">autocovariance</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a606ec46d5e2e47ff49e7793f42eace08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::average_omp</definition>
+        <argsstring>(int, int)</argsstring>
+        <name>average_omp</name>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="130" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ae8b435684bdd6f715bfcd31517ddca0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_gaussian</definition>
+        <argsstring>(int, int, int)</argsstring>
+        <name>filter_gaussian</name>
+        <param>
+          <type>int</type>
+          <defname>o</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>dim_kernel</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function applies a gaussian kernel trough the hole image. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>Receives</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the dimension of the kernel (dim_kernel) and a paremeter o wich stablish the values on the gaussian kernel. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="class_image" kindref="compound">Image</ref> filtered which is the image with the gaussian filter applied. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="132" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="841" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ae67455a397b27c4a3bda96f3cc3e9d9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_modal</definition>
+        <argsstring>(int, int)</argsstring>
+        <name>filter_modal</name>
+        <param>
+          <type>int</type>
+          <defname>dim</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function calculates the modal of the range of pixels into the kernel and sets this value in the central pixel of the kernel. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>Only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>receives the dimension of the kernel (dim), wich only can be an impair number. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="class_image" kindref="compound">Image</ref> filtered which is the image with the modal filter applied. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="134" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="898" bodyend="981"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1af50c3c5a85c237f8b20af7dc4766c45d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::median_omp</definition>
+        <argsstring>(int, int)</argsstring>
+        <name>median_omp</name>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="136" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ae8dc7bd96987cf43f2b608f5f42bd8e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_dynamic_range_dilatation</definition>
+        <argsstring>(unsigned char, unsigned char, double, double, double, int)</argsstring>
+        <name>filter_dynamic_range_dilatation</name>
+        <param>
+          <type>unsigned</type>
+          <declname>char</declname>
+          <defname>a</defname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>char</declname>
+          <defname>b</defname>
+        </param>
+        <param>
+          <type>double</type>
+          <defname>alpha</defname>
+        </param>
+        <param>
+          <type>double</type>
+          <defname>beta</defname>
+        </param>
+        <param>
+          <type>double</type>
+          <defname>gamma</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>All the pixel values are divided in 3 ranges, and each range suffer a diferent transformation. This function is used to transform the range of lower pixel values in medium values and the higher too, to smooth the image. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>char a is the first cutoff pixel value. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>char b is the second cutoff pixel value. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>alpha is the first multiplier. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>beta is the second multiplier. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>double</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>gamma is the third multiplier. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An image object that contains the dilatated image. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="141" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1052" bodyend="1081"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a8a62778b8013b7f82ee74138678d5a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::inverse</definition>
+        <argsstring>(int)</argsstring>
+        <name>inverse</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes this transformation: <formula id="4">$ v(x,y,z,c) = 255 - u(x,y,z,c) $</formula> <simplesect kind="return"><para>An image object that contains the inverse of the original image, this means that every pixel value is substracted to 255. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="143" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="994" bodyend="1013"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a23e96746fd7a360950a9588ca3fa466c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::log_transformation</definition>
+        <argsstring>(int)</argsstring>
+        <name>log_transformation</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes this transformation: <formula id="5">$ v(x,y,z,c) = c log(u(x,y,z,c)+1)$</formula> where v(x,y,z,c) is the transformed pixel, and u(x,y,z,c) is the original pixel. <simplesect kind="return"><para>An image object that contains the inverse of the original image, this means that every pixel value is substracted to 255. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="145" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1020" bodyend="1040"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a4934472d3d78a5b26bc658cb6511c7e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::power_law_transformatiom</definition>
+        <argsstring>(double exponent, int)</argsstring>
+        <name>power_law_transformatiom</name>
+        <param>
+          <type>double</type>
+          <declname>exponent</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Executes this transformation: <formula id="5">$ v(x,y,z,c) = c log(u(x,y,z,c)+1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+<para>Applies a transformation given by the ecuation <formula id="6">$ v(x,y) = c {u(x,y)}^{\gamma} $</formula> where <formula id="7">$ u(x,y) $</formula> is the value of the non filtered image, and <formula id="8">$ v(xy) $</formula> is the intensity value in the filtered image. <formula id="9">$ \gamma, c $</formula> are constants. In this case <formula id="10">$ \gamma $</formula> is a parameter. <simplesect kind="return"><para>A filtered image with the power law transformation </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="147" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1091" bodyend="1115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1abad859b7de6c0237bdfeb0c41e754f6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::color_slicing</definition>
+        <argsstring>(unsigned char[], unsigned char[], unsigned char[], int)</argsstring>
+        <name>color_slicing</name>
+        <param>
+          <type>unsigned</type>
+          <declname>char</declname>
+          <defname>color1</defname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>char</declname>
+          <defname>color2</defname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>char</declname>
+          <defname>neutral</defname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Highlights the desired colors, between the two colors given as parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="attention"><para>{The colors must be unsigned char, and must be the size of the spectrum of the image (Number of channels), 3 in case o RBG images} </para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>char color1[]: The start color of the color slicing. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>char color2[]: The end color of the color slicing. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>char neutral: The intensity every other pixels that are not between the given colors will be set to. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="149" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1124" bodyend="1154"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a36596e19076b920ec0b2c2aa9eee639c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int *</type>
+        <definition>int * Image::get_histogram</definition>
+        <argsstring>(unsigned int c, unsigned int z)</argsstring>
+        <name>get_histogram</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This function returns an array containing the values of the histogram points, in the desired channel and depth. An Histogram is measure of the frecquency of a intensity value in an image, and is often used as a parameter to improve the constrast and quality of the image. After observing the histogram ( see <ref refid="class_image_1a7ecc9bcad8ac9f0fe4fc42a1810f2b35" kindref="member">plot_histogram()</ref> ) you could ecualizate the image. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="155" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1167" bodyend="1190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a7ecc9bcad8ac9f0fe4fc42a1810f2b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Image::plot_histogram</definition>
+        <argsstring>(int, const char *title)</argsstring>
+        <name>plot_histogram</name>
+        <param>
+          <type>int</type>
+          <defname>levels</defname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>title</declname>
+        </param>
+        <briefdescription>
+<para>This function plot the histogram, using the CImg histogram function. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>levels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the number of bars or columns that appear in the histogram. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>title</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is the title of the histogram. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="157" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1197" bodyend="1204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a10fff70095a24a0a10376ffa740a3262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int *</type>
+        <definition>int* Image::histogram_equalization</definition>
+        <argsstring>(int *, const char *title)</argsstring>
+        <name>histogram_equalization</name>
+        <param>
+          <type>int *</type>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>title</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="159" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a42c17e010d45f8ec72dc89d7cdd76249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>CImg&lt; float &gt;</type>
+        <definition>CImg&lt; float &gt; Image::autocovariance</definition>
+        <argsstring>(int, int, int)</argsstring>
+        <name>autocovariance</name>
+        <param>
+          <type>int</type>
+          <defname>hor_dis</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>ver_dis</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Calculates the autocovariance matrix for the image. The covariance, calculates the covariance matrix of an image. This function calculates something similar to the function below: <formula id="27">$ g(x,y) = \sum \limits_{n=0}^{N} \sum \limits_{m=1}^M \left( f(x,y) - \overline{f(x,y)}\right)\left(f(x + \Delta x, y + \Delta y) - \overline{f(x + \Delta x, y + \Delta y)} \right) $</formula> Where it calculates the variation between two series, one is the normal one, and the other is displaced by two parameters $ x$ &amp; $ y$. For an image it its calculated for a neighborhood around each pixel. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A CImg object, because it must contain float values. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="161" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="2047" bodyend="2076"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ac792db3b148a2b42e4ce1ee2ba7ac757" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Image::plot_histogram_equalization</definition>
+        <argsstring>(int, const char *title)</argsstring>
+        <name>plot_histogram_equalization</name>
+        <param>
+          <type>int</type>
+          <defname>levels</defname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>title</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="163" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1211" bodyend="1218"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a44679d228a0d6864fb1cfe4fb2dc83af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_order_stadistics</definition>
+        <argsstring>(int dim, int order, int)</argsstring>
+        <name>filter_order_stadistics</name>
+        <param>
+          <type>int</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>order</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="173" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1873" bodyend="1922"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1aad9aac9600334fb18ae54e4807a12dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::variance</definition>
+        <argsstring>(int, int)</argsstring>
+        <name>variance</name>
+        <param>
+          <type>int</type>
+          <defname>dim</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function compute the variance of an image. The variance is gived by the summation of the average multiplied by the substraction of the average with the pixel value, squared. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>This function returns the image interpolated. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="175" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="2084" bodyend="2127"/>
+        <referencedby refid="class_image_1a16390bf8509b67dedec6ca9ece27eb39" compoundref="image_8cpp" startline="1970" endline="1997">gaussian_noise</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a9551b317e71d65ca1573a9518644154d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_0</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_0</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 0°. <formula id="11">$(-3,-3,5)(-3,0,5)(-3,-3,5)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="177" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1228" bodyend="1258"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1afc2543445381bf7b7dc07167f5bef42f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_45</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_45</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 45°. <formula id="12">$(-3,5,5)(-3,0,5)(-3,-3,-3)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="179" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1264" bodyend="1294"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1afe3524a312d6860dba3ae9caeb41aaac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_90</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_90</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 90°. <formula id="13">$(5,5,5)(-3,0-3)(-3,-3,-3)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="181" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1300" bodyend="1329"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a89c324635717b51fce1fdb53eb20ea53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_135</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_135</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 135°. <formula id="14">$(5,5,-3)(5,0,-3)(-3,-3,-3)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="183" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1335" bodyend="1364"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a2d98fe13c3ad3949e7e5a42e0381dfae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_180</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_180</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 180°. <formula id="15">$(5,-3,-3)(5,0,-3)(5,-3,-3)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="185" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1370" bodyend="1399"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a3d99f369ce877076d9de45608566e5ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_225</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_225</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 225°. <formula id="16">$(-3,-3,-3)(5,0,-3)(5,5,-3)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="187" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1405" bodyend="1434"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a3deff23888dd56ee45c6e2556bb2e407" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_270</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_270</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 270°. <formula id="17">$(-3,-3,-3)(-3,0,-3)(5,5,5)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="189" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1440" bodyend="1469"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1afaacfcecb4f65541f06dd2aebc6a8d0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_kirsch_315</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_kirsch_315</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the kirsch mask at 315°. <formula id="18">$(-3,-3,-3)(-3,0,5)(-3,5,5)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="191" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1475" bodyend="1504"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ab25fe6e85844905599119faf087968aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_0</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_0</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="19">$(1,1,1)(1,-2,1)(1,-1,-1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="193" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1510" bodyend="1540"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a2f0919c597afa2427d139012d99eabd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_1</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_1</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="20">$(1,1,1)(-1,-2,1)(1,-1,1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="195" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1545" bodyend="1575"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a0f095fc1129cd6d3856f98e0e0434f24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_2</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_2</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="21">$)-1,1,1)(-1,-2,1)(1,1,1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="197" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1580" bodyend="1610"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a4efc2b9483472b31aa05ec3104569111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_3</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_3</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="22">$(-1,-1,1)(-1,-2,1)(1,1,1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="199" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1615" bodyend="1645"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a9bcd8a39cadee68de81ea8a35c832a94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_4</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_4</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="23">$(-1,-1,-1)(1,-2,1)(1,1,1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="201" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1650" bodyend="1680"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a22c69e4b9c06a20381be1f27c75c2745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_5</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_5</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="24">$(1,-1,-1)(1,-2,-1)(1,1,1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="203" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1686" bodyend="1716"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a09cddc961c37f59f8e4fe298d7bef2eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_6</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_6</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="25">$(1,1,-1)(1,-2,-1)(1,1,-1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="205" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1722" bodyend="1752"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1abc60e72c623751597eaa64a5c295e65f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_freeman_7</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_freeman_7</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Applies the freeman mask <formula id="26">$(1,1,1)(1,-2,-1)(1,-1,-1)$</formula>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="207" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1757" bodyend="1787"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a42ddfccab80370efd993590850669837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_maximum</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_maximum</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Assigns the highest value in the neighborhood. Assigns the highest value in the neighborhood around the desired pixel. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="209" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1795" bodyend="1830"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1af37690485375d17d0c55a3d89e5c0292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::filter_minimum</definition>
+        <argsstring>(int)</argsstring>
+        <name>filter_minimum</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Assigns the highest value in the neighborhood. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="211" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1838" bodyend="1871"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ab9ffca5856cd3e5032166d312719333d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::gray_scale</definition>
+        <argsstring>(int)</argsstring>
+        <name>gray_scale</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Assigns the lowest value in the neighborhood. </para>        </briefdescription>
+        <detaileddescription>
+<para>This function converts an RGB image to one in gray scale. The library uses this conversion: f(x,y)= 0.11R+0.56G + 0.14B Where f is the intensity of the pixel on the gray scale and R,G and B the pixel values on the different channels.</para><para><simplesect kind="return"><para>This function returns the mochromathic image. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="213" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="2136" bodyend="2156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a16390bf8509b67dedec6ca9ece27eb39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Image::gaussian_noise</definition>
+        <argsstring>(double, int)</argsstring>
+        <name>gaussian_noise</name>
+        <param>
+          <type>double</type>
+          <defname>variance</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Converts an RGB image to gray scale. </para>        </briefdescription>
+        <detaileddescription>
+<para>This function applies the gaussian noise to an image. The gaussian noise increases or decreases intensity to a pixel, depending of the variance.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>variance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>this parameter is used to set the value of noise that is applied to the image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="220" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1970" bodyend="1997"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a1afcd22275fa41ca473fc419719d3389" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Image::salt_pepper</definition>
+        <argsstring>(double, int)</argsstring>
+        <name>salt_pepper</name>
+        <param>
+          <type>double</type>
+          <defname>intensity</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>Put pepper (black pixels) and salt(white pixels) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>intensity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is used to compute the percentage of salt and pepper that is applied to the image. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="221" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="1933" bodyend="1963"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ae6f9753e39897f50a1483f32fb84133b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::interpolation</definition>
+        <argsstring>(int)</argsstring>
+        <name>interpolation</name>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function doubles the size of the image and use the closer neighborhood interpolation. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>This function returns the image interpolated. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="223" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="2005" bodyend="2032"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ace5b005b225d2ec360695cd8a3dfdf98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::coorrelogram</definition>
+        <argsstring>(unsigned int, unsigned int, int)</argsstring>
+        <name>coorrelogram</name>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>ver</defname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>hor</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+<para>This function compute the coorrelogram of an image. </para>        </briefdescription>
+        <detaileddescription>
+<para>This function compute the coorrelogram of a specified depth and spectrum of an image.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int ver is the vertical distance of the original pixel that we use to compute the coorrelogram. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int hor is the horizontal distance of the original pixel that we use to compute the coorrelogram. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>This function returns the coorrelogram image.</para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int ver is the vertical distance of the original pixel that we use to compute the coorrelogram. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int hor is the horizontal distance of the original pixel that we use to compute the coorrelogram. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int z is the specified depth of the image that will be obtained the coorrelogram. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>int c is the specified spectrum of the image that will be obtained the coorrelogram. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>This function returns the coorrelogram image. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="225" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="2164" bodyend="2202"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a1c2b2ed567925faeda7d1fbbe6888554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::coorrelogram_ZC</definition>
+        <argsstring>(unsigned int, unsigned int, unsigned int, unsigned int, int)</argsstring>
+        <name>coorrelogram_ZC</name>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>ver</defname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>hor</defname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>z</defname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+          <defname>c</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>num_threads</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="227" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/src/image.cpp" bodystart="2212" bodyend="2248"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1a8acd9a1176746b670bb7b42ac3d88fb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::coorrelogram_par</definition>
+        <argsstring>(unsigned int, unsigned int, unsigned int, unsigned int)</argsstring>
+        <name>coorrelogram_par</name>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>int</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="229" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_image_1ac47eda496b9d7a8c91dcf9bb89b15fc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_image" kindref="compound">Image</ref></type>
+        <definition>Image Image::rgb_hsv</definition>
+        <argsstring>()</argsstring>
+        <name>rgb_hsv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="231" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The <ref refid="class_image" kindref="compound">Image</ref> class is the abstraction of the image, contains a CImg object that defines the handling of the image. </para>    </briefdescription>
+    <detaileddescription>
+<para>This class have the attributes of the four dimensions of the image: height, width, depth and spectrum </para>    </detaileddescription>
+    <location file="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" line="28" column="1" bodyfile="/home/fish/Documents/ParallelPic/Proyecto/include/ParallelPic.hh" bodystart="21" bodyend="234"/>
+    <listofallmembers>
+      <member refid="class_image_1a42c17e010d45f8ec72dc89d7cdd76249" prot="public" virt="non-virtual"><scope>Image</scope><name>autocovariance</name></member>
+      <member refid="class_image_1a606ec46d5e2e47ff49e7793f42eace08" prot="public" virt="non-virtual"><scope>Image</scope><name>average_omp</name></member>
+      <member refid="class_image_1ac23d8c133700c751fac7ce6615641fde" prot="public" virt="non-virtual"><scope>Image</scope><name>binarize_img</name></member>
+      <member refid="class_image_1abad859b7de6c0237bdfeb0c41e754f6b" prot="public" virt="non-virtual"><scope>Image</scope><name>color_slicing</name></member>
+      <member refid="class_image_1a28cafc8208669e68eef36cf620954f13" prot="private" virt="non-virtual"><scope>Image</scope><name>complex</name></member>
+      <member refid="class_image_1ace5b005b225d2ec360695cd8a3dfdf98" prot="public" virt="non-virtual"><scope>Image</scope><name>coorrelogram</name></member>
+      <member refid="class_image_1a8acd9a1176746b670bb7b42ac3d88fb1" prot="public" virt="non-virtual"><scope>Image</scope><name>coorrelogram_par</name></member>
+      <member refid="class_image_1a1c2b2ed567925faeda7d1fbbe6888554" prot="public" virt="non-virtual"><scope>Image</scope><name>coorrelogram_ZC</name></member>
+      <member refid="class_image_1a09fda52223261b5edceefb10496e109c" prot="private" virt="non-virtual"><scope>Image</scope><name>depth</name></member>
+      <member refid="class_image_1a62ff76610f4f6ed2817d7f60abda765f" prot="public" virt="non-virtual"><scope>Image</scope><name>display</name></member>
+      <member refid="class_image_1a7d67ea957e3525bcc60ca436fe0d8862" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_average</name></member>
+      <member refid="class_image_1ae8dc7bd96987cf43f2b608f5f42bd8e3" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_dynamic_range_dilatation</name></member>
+      <member refid="class_image_1aa5e19816018edced13326f1d58d30f4c" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_edge_enhacement_displacement</name></member>
+      <member refid="class_image_1ab25fe6e85844905599119faf087968aa" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_0</name></member>
+      <member refid="class_image_1a2f0919c597afa2427d139012d99eabd2" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_1</name></member>
+      <member refid="class_image_1a0f095fc1129cd6d3856f98e0e0434f24" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_2</name></member>
+      <member refid="class_image_1a4efc2b9483472b31aa05ec3104569111" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_3</name></member>
+      <member refid="class_image_1a9bcd8a39cadee68de81ea8a35c832a94" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_4</name></member>
+      <member refid="class_image_1a22c69e4b9c06a20381be1f27c75c2745" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_5</name></member>
+      <member refid="class_image_1a09cddc961c37f59f8e4fe298d7bef2eb" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_6</name></member>
+      <member refid="class_image_1abc60e72c623751597eaa64a5c295e65f" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_freeman_7</name></member>
+      <member refid="class_image_1ae8b435684bdd6f715bfcd31517ddca0a" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_gaussian</name></member>
+      <member refid="class_image_1aeff1dd9c6747100583ecd976a298e67b" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Gradient_horizontal</name></member>
+      <member refid="class_image_1a66ea21718b13184a2d49d52a49cda750" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Gradient_vertical</name></member>
+      <member refid="class_image_1ad6baefede32227602d896966e44aed4e" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_horizontal_borders</name></member>
+      <member refid="class_image_1a9551b317e71d65ca1573a9518644154d" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_0</name></member>
+      <member refid="class_image_1a89c324635717b51fce1fdb53eb20ea53" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_135</name></member>
+      <member refid="class_image_1a2d98fe13c3ad3949e7e5a42e0381dfae" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_180</name></member>
+      <member refid="class_image_1a3d99f369ce877076d9de45608566e5ab" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_225</name></member>
+      <member refid="class_image_1a3deff23888dd56ee45c6e2556bb2e407" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_270</name></member>
+      <member refid="class_image_1afaacfcecb4f65541f06dd2aebc6a8d0c" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_315</name></member>
+      <member refid="class_image_1afc2543445381bf7b7dc07167f5bef42f" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_45</name></member>
+      <member refid="class_image_1afe3524a312d6860dba3ae9caeb41aaac" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_kirsch_90</name></member>
+      <member refid="class_image_1abda67bfc036d9de98bf806c93fbae370" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Laplacian</name></member>
+      <member refid="class_image_1a308423cd4b7291228c4dcd1a9a4f8856" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Laplacian_no_diagonal</name></member>
+      <member refid="class_image_1a42ddfccab80370efd993590850669837" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_maximum</name></member>
+      <member refid="class_image_1aad6fa435024cf4f1635b8769325f389f" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_median</name></member>
+      <member refid="class_image_1af37690485375d17d0c55a3d89e5c0292" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_minimum</name></member>
+      <member refid="class_image_1ae67455a397b27c4a3bda96f3cc3e9d9f" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_modal</name></member>
+      <member refid="class_image_1a44679d228a0d6864fb1cfe4fb2dc83af" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_order_stadistics</name></member>
+      <member refid="class_image_1ac9a433b59be54fea12aa1397defd6c81" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Prewitt_E_W</name></member>
+      <member refid="class_image_1a931b36f6843f103be624d1f58150ab63" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Prewitt_N_S</name></member>
+      <member refid="class_image_1adfefe21b9272e6ded5ba7939d7dbe99c" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Prewitt_NE_SW</name></member>
+      <member refid="class_image_1ab33257cb397927a0445527d41a3b6dfa" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_Prewitt_NW_SE</name></member>
+      <member refid="class_image_1a1a755f73ec71ad095f47e9222ee2c9d1" prot="public" virt="non-virtual"><scope>Image</scope><name>filter_vertical_borders</name></member>
+      <member refid="class_image_1a16390bf8509b67dedec6ca9ece27eb39" prot="public" virt="non-virtual"><scope>Image</scope><name>gaussian_noise</name></member>
+      <member refid="class_image_1a36596e19076b920ec0b2c2aa9eee639c" prot="public" virt="non-virtual"><scope>Image</scope><name>get_histogram</name></member>
+      <member refid="class_image_1ab9ffca5856cd3e5032166d312719333d" prot="public" virt="non-virtual"><scope>Image</scope><name>gray_scale</name></member>
+      <member refid="class_image_1a9f4e463326771ddb955ee17032a78d77" prot="private" virt="non-virtual"><scope>Image</scope><name>height</name></member>
+      <member refid="class_image_1a10fff70095a24a0a10376ffa740a3262" prot="public" virt="non-virtual"><scope>Image</scope><name>histogram_equalization</name></member>
+      <member refid="class_image_1a58edd1c45b4faeb5f789b0d036d02313" prot="public" virt="non-virtual"><scope>Image</scope><name>Image</name></member>
+      <member refid="class_image_1a54de984d18843789d938f7328bdea800" prot="public" virt="non-virtual"><scope>Image</scope><name>Image</name></member>
+      <member refid="class_image_1a2055dfd9700ce01e4f5b06f75b5f0fab" prot="public" virt="non-virtual"><scope>Image</scope><name>Image</name></member>
+      <member refid="class_image_1a3f81904f71ce4656fe7e40e7c45509bc" prot="private" virt="non-virtual"><scope>Image</scope><name>Img</name></member>
+      <member refid="class_image_1ae6f9753e39897f50a1483f32fb84133b" prot="public" virt="non-virtual"><scope>Image</scope><name>interpolation</name></member>
+      <member refid="class_image_1a8a62778b8013b7f82ee74138678d5a24" prot="public" virt="non-virtual"><scope>Image</scope><name>inverse</name></member>
+      <member refid="class_image_1a23e96746fd7a360950a9588ca3fa466c" prot="public" virt="non-virtual"><scope>Image</scope><name>log_transformation</name></member>
+      <member refid="class_image_1af50c3c5a85c237f8b20af7dc4766c45d" prot="public" virt="non-virtual"><scope>Image</scope><name>median_omp</name></member>
+      <member refid="class_image_1ae546904988636a989dfca3950030bd85" prot="public" virt="non-virtual"><scope>Image</scope><name>multiply_img</name></member>
+      <member refid="class_image_1a7ecc9bcad8ac9f0fe4fc42a1810f2b35" prot="public" virt="non-virtual"><scope>Image</scope><name>plot_histogram</name></member>
+      <member refid="class_image_1ac792db3b148a2b42e4ce1ee2ba7ac757" prot="public" virt="non-virtual"><scope>Image</scope><name>plot_histogram_equalization</name></member>
+      <member refid="class_image_1a4934472d3d78a5b26bc658cb6511c7e3" prot="public" virt="non-virtual"><scope>Image</scope><name>power_law_transformatiom</name></member>
+      <member refid="class_image_1ac47eda496b9d7a8c91dcf9bb89b15fc8" prot="public" virt="non-virtual"><scope>Image</scope><name>rgb_hsv</name></member>
+      <member refid="class_image_1a1afcd22275fa41ca473fc419719d3389" prot="public" virt="non-virtual"><scope>Image</scope><name>salt_pepper</name></member>
+      <member refid="class_image_1a4800a984610ffce53488c13d223a5b38" prot="public" virt="non-virtual"><scope>Image</scope><name>set_pixel_value</name></member>
+      <member refid="class_image_1ab26f638a04ea88cdd3e99244af3af86a" prot="private" virt="non-virtual"><scope>Image</scope><name>spectrum</name></member>
+      <member refid="class_image_1ae503021a1c7b4188a457d55d7571e63d" prot="public" virt="non-virtual"><scope>Image</scope><name>substract_img</name></member>
+      <member refid="class_image_1a652abac4bfdd2fcff0cdb5627ac8ad49" prot="public" virt="non-virtual"><scope>Image</scope><name>sum_img</name></member>
+      <member refid="class_image_1aad9aac9600334fb18ae54e4807a12dc5" prot="public" virt="non-virtual"><scope>Image</scope><name>variance</name></member>
+      <member refid="class_image_1aaa2cc744ff3969ac6cb63ca05a40e5f6" prot="private" virt="non-virtual"><scope>Image</scope><name>width</name></member>
+      <member refid="class_image_1a794ae7f8ff9b4b7b7306343ac2f56356" prot="public" virt="non-virtual"><scope>Image</scope><name>~Image</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

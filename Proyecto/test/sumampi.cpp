@@ -1,48 +1,5 @@
 #include <mpi.h>
-#include "../include/ParallelPic.hh"
-
-/*Image Image :: sum_par(Image image2)
-{
-	Image result (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
-
-	
-	if(this->get_width() == image2.get_width() && this->get_height() == image2.get_height() && this->get_depth() == image2.get_depth() && this->get_spectrum() == image2.get_spectrum())
-	{
-		for(unsigned int c = 0; c < this->get_spectrum(); c++)
-		{
-
-			for(unsigned int z = 0; z < this->get_depth(); z++)
-			{
-
-				for(unsigned int x = 0; x < this->get_width(); x++)
-				{
-
-					for(unsigned int y = 0; y < this->get_height(); y++)
-					{
-						unsigned char pixel;
-						int sum = this->get_pixel_value(x,y,z,c)+image2.get_pixel_value(x,y,z,c);
-
-								if (sum <= 255)
-								{
-									pixel = static_cast<unsigned int>(sum);
-								}
-
-								if(sum>255)
-								{
-								pixel = 255;
-								}
-
-						result.set_pixel_value(x,y,z,c,pixel);
-					}
-				}
-			}
-		}
-
-	}
-	return result;
-}*/
-
-
+#include "../../../mylib/imagelib/Proyecto/include/image.hh"
 
 int main(int argc, char** argv)
 {
@@ -54,35 +11,27 @@ int main(int argc, char** argv)
 	int matrix2[img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
 	int mat_result [img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
 	
+	int x,y,z,c, procs, id, local_size, size, i,*matrix_local, *matrix2_local, *result_local;
 	//creamos dos matrices de enteros apartir de la imagen
 	
-	for(int z=0; z< img1.get_depth(); ++z)
+	for(z=0; z< img1.get_depth(); ++z)
 	{	
-		for(int x=0; x<img1.get_height();++x)
+		for(x=0; x<img1.get_width();++x)
 		{					
-			for(int y=0; y< img1.get_height();++y)
+			for(y=0; y< img1.get_height();++y)
 			{	
-				for(int c=0; c< img1.get_spectrum();++c)
+				for(c=0; c< img1.get_spectrum();++c)
 				{
 					matrix[img1.get_height()*x+y+img1.get_height()*img1.get_width()*z+img1.get_height()*img1.get_width()*img1.get_depth()*c]=img1.get_pixel_value(x,y,z,c);
 					matrix2[img1.get_height()*x+y+img1.get_height()*img1.get_width()*z+img1.get_height()*img1.get_width()*img1.get_depth()*c]=img2.get_pixel_value(x,y,z,c);
-					
 
 				}	
 			}
 		}
 	}
-	
-	
-		
-	int procs;
-	int id;
 
-	int local_size,size;
 	Image result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 
-	int *matrix2_local, *matrix_local, *result_local;
-	int i=0;
-
+	i=0;
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &id);
 	MPI_Comm_size(MPI_COMM_WORLD, &procs);
@@ -92,50 +41,60 @@ int main(int argc, char** argv)
 	if(id==0)
 	{
 		//crea las matrices locales que debe tener cada thread
-		matrix2_local[local_size];
-		matrix_local[local_size];
-		result_local[local_size];
+		matrix2_local=new int[local_size];
+		matrix_local=new int[local_size];
+		result_local=new int[local_size];
 	}	
+	
 
 	MPI_Barrier(MPI_COMM_WORLD);
 	MPI_Bcast(&local_size,1, MPI_INT, 0, MPI_COMM_WORLD);
+	
+	if(procs >1 && id==procs-1)
+	{
+		local_size+= size%procs;
+		matrix2_local=new int[local_size];
+		matrix_local=new int[local_size];
+		result_local=new int[local_size];
+	}
+	
 	MPI_Bcast(&matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&matrix2,size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&matrix2_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	
-	MPI_Scatter(matrix,local_size , MPI_INT, &matrix_local, local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Scatter(matrix2,local_size , MPI_UNSIGNED, &matrix2_local, local_size, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
-
-	cout<<"aqui"<<endl;
+	MPI_Scatter(matrix, local_size , MPI_INT, matrix_local, local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Scatter(matrix2,local_size , MPI_INT, matrix2_local, local_size, MPI_INT, 0, MPI_COMM_WORLD);
 
 	for(i=0; i<local_size; ++i)
+	{
 		result_local[i] = matrix_local[i]+matrix2_local[i];
+		if(result_local[i]>255)
+		{
+			result_local[i] = 255;
+		}
 	
+	}
 
-
-	MPI_Gather(&result_local, local_size, MPI_UNSIGNED, &mat_result, local_size, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
+	MPI_Gather(result_local, local_size, MPI_INT, mat_result, local_size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Barrier(MPI_COMM_WORLD);
-	
-	MPI_Finalize();
-	
+
 	// Esto lo único que hace es volver a construir la matriz
-	for(int z=0; z< img1.get_depth(); ++z)
-	{	
-		for(int x=0; x<img1.get_height();++x)
-		{					
-			for(int y=0; y< img1.get_height();++y)
-			{	
-				for(int c=0; c< img1.get_spectrum();++c)
-				{
+	for(c=0; c< img1.get_spectrum();++c)
+	{
+		for(z=0; z< img1.get_depth(); ++z)
+		{	
+			for(x=0; x<img1.get_width();++x)
+			{					
+				for(y=0; y< img1.get_height();++y)
+				{	
+				
 					result.set_pixel_value(x,y,z,c,static_cast<unsigned char>(mat_result[img1.get_height()*x+y+img1.get_height()*img1.get_width()*z+img1.get_height()*img1.get_width()*img1.get_depth()*c]));
 				}	
 			}
 		}
 	}
-
-	
 	
 	result.display("disp");
 }

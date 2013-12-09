@@ -1,0 +1,3223 @@
+\hypertarget{class_image}{\section{Image Class Reference}
+\label{class_image}\index{Image@{Image}}
+}
+
+
+The \hyperlink{class_image}{Image} class is the abstraction of the image, contains a C\-Img object that defines the handling of the image.  
+
+
+
+
+{\ttfamily \#include $<$Parallel\-Pic.\-hh$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image} ()
+\begin{DoxyCompactList}\small\item\em Constructor This constructor initializes the four dimension params at 0; The Img calls the constructor of C\-Img to create an empty image. \end{DoxyCompactList}\item 
+\hyperlink{class_image_a54de984d18843789d938f7328bdea800}{Image} (const char $\ast$const filename)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image()} is the constructor of the image used when the image doesn't been be created. \end{DoxyCompactList}\item 
+\hyperlink{class_image_a2055dfd9700ce01e4f5b06f75b5f0fab}{Image} (const unsigned int width, const unsigned int height, const unsigned int depth, const unsigned int spectrum, int value)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_image}{Image} (const char $\ast$const filename) this constructor is used when the image already exist's and is stored in. \end{DoxyCompactList}\item 
+\hyperlink{class_image_a794ae7f8ff9b4b7b7306343ac2f56356}{$\sim$\-Image} (void)
+\item 
+void \hyperlink{class_image_a62ff76610f4f6ed2817d7f60abda765f}{display} (const char $\ast$message)
+\item 
+void \hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\-\_\-pixel\-\_\-value} (int x, int y, int z, int c, unsigned char)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ae503021a1c7b4188a457d55d7571e63d}{substract\-\_\-img} (\hyperlink{class_image}{Image}, int)
+\begin{DoxyCompactList}\small\item\em This function substracts the pixel values of two images, that can be used to see the differences between them. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a652abac4bfdd2fcff0cdb5627ac8ad49}{sum\-\_\-img} (\hyperlink{class_image}{Image}, int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ae546904988636a989dfca3950030bd85}{multiply\-\_\-img} (double, int)
+\begin{DoxyCompactList}\small\item\em This function multiplies the pixel values by a factor. If the pixel value is higher than 255, adjust the pixel value to 255. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ac23d8c133700c751fac7ce6615641fde}{binarize\-\_\-img} (unsigned int, int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_abda67bfc036d9de98bf806c93fbae370}{filter\-\_\-\-Laplacian} (int)
+\begin{DoxyCompactList}\small\item\em Returns an image after applying the Laplacian filter to the image. Considers the diagonal values This function applies a convolution with this kernel\-: $ ((1, 1, 1), (1, -8, 1), (1, 1, 1)) $. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a308423cd4b7291228c4dcd1a9a4f8856}{filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a66ea21718b13184a2d49d52a49cda750}{filter\-\_\-\-Gradient\-\_\-vertical} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_aeff1dd9c6747100583ecd976a298e67b}{filter\-\_\-\-Gradient\-\_\-horizontal} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a931b36f6843f103be624d1f58150ab63}{filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_adfefe21b9272e6ded5ba7939d7dbe99c}{filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ac9a433b59be54fea12aa1397defd6c81}{filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ab33257cb397927a0445527d41a3b6dfa}{filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_aa5e19816018edced13326f1d58d30f4c}{filter\-\_\-edge\-\_\-enhacement\-\_\-displacement} (unsigned int, unsigned int, int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ad6baefede32227602d896966e44aed4e}{filter\-\_\-horizontal\-\_\-borders} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a1a755f73ec71ad095f47e9222ee2c9d1}{filter\-\_\-vertical\-\_\-borders} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_aad6fa435024cf4f1635b8769325f389f}{filter\-\_\-median} (int, int)
+\begin{DoxyCompactList}\small\item\em This function calculates the median of the range of pixels into the kernel and sets this value in the central pixel of the kernel. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{filter\-\_\-average} (int, int)
+\begin{DoxyCompactList}\small\item\em This function calculates the average of the range of pixels into the kernel and sets this value in the central pixel of the kernel. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a606ec46d5e2e47ff49e7793f42eace08}{average\-\_\-omp} (int, int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ae8b435684bdd6f715bfcd31517ddca0a}{filter\-\_\-gaussian} (int, int, int)
+\begin{DoxyCompactList}\small\item\em This function applies a gaussian kernel trough the hole image. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ae67455a397b27c4a3bda96f3cc3e9d9f}{filter\-\_\-modal} (int, int)
+\begin{DoxyCompactList}\small\item\em This function calculates the modal of the range of pixels into the kernel and sets this value in the central pixel of the kernel. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_af50c3c5a85c237f8b20af7dc4766c45d}{median\-\_\-omp} (int, int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ae8dc7bd96987cf43f2b608f5f42bd8e3}{filter\-\_\-dynamic\-\_\-range\-\_\-dilatation} (unsigned char, unsigned char, double, double, double, int)
+\begin{DoxyCompactList}\small\item\em All the pixel values are divided in 3 ranges, and each range suffer a diferent transformation. This function is used to transform the range of lower pixel values in medium values and the higher too, to smooth the image. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a8a62778b8013b7f82ee74138678d5a24}{inverse} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a23e96746fd7a360950a9588ca3fa466c}{log\-\_\-transformation} (int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a4934472d3d78a5b26bc658cb6511c7e3}{power\-\_\-law\-\_\-transformatiom} (double exponent, int)
+\begin{DoxyCompactList}\small\item\em Executes this transformation\-: $ v(x,y,z,c) = c log(u(x,y,z,c)+1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_abad859b7de6c0237bdfeb0c41e754f6b}{color\-\_\-slicing} (unsigned char\mbox{[}$\,$\mbox{]}, unsigned char\mbox{[}$\,$\mbox{]}, unsigned char\mbox{[}$\,$\mbox{]}, int)
+\begin{DoxyCompactList}\small\item\em Highlights the desired colors, between the two colors given as parameters. \end{DoxyCompactList}\item 
+int $\ast$ \hyperlink{class_image_a36596e19076b920ec0b2c2aa9eee639c}{get\-\_\-histogram} (unsigned int c, unsigned int z)
+\item 
+void \hyperlink{class_image_a7ecc9bcad8ac9f0fe4fc42a1810f2b35}{plot\-\_\-histogram} (int, const char $\ast$title)
+\begin{DoxyCompactList}\small\item\em This function plot the histogram, using the C\-Img histogram function. \end{DoxyCompactList}\item 
+int $\ast$ \hyperlink{class_image_a10fff70095a24a0a10376ffa740a3262}{histogram\-\_\-equalization} (int $\ast$, const char $\ast$title)
+\item 
+C\-Img$<$ float $>$ \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance} (int, int, int)
+\begin{DoxyCompactList}\small\item\em Calculates the autocovariance matrix for the image. The covariance, calculates the covariance matrix of an image. This function calculates something similar to the function below\-: $ g(x,y) = \sum \limits_{n=0}^{N} \sum \limits_{m=1}^M \left( f(x,y) - \overline{f(x,y)}\right)\left(f(x + \Delta x, y + \Delta y) - \overline{f(x + \Delta x, y + \Delta y)} \right) $ Where it calculates the variation between two series, one is the normal one, and the other is displaced by two parameters \$ x\$ \& \$ y\$. For an image it its calculated for a neighborhood around each pixel. \end{DoxyCompactList}\item 
+void \hyperlink{class_image_ac792db3b148a2b42e4ce1ee2ba7ac757}{plot\-\_\-histogram\-\_\-equalization} (int, const char $\ast$title)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a44679d228a0d6864fb1cfe4fb2dc83af}{filter\-\_\-order\-\_\-stadistics} (int dim, int order, int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{variance} (int, int)
+\begin{DoxyCompactList}\small\item\em This function compute the variance of an image. The variance is gived by the summation of the average multiplied by the substraction of the average with the pixel value, squared. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a9551b317e71d65ca1573a9518644154d}{filter\-\_\-kirsch\-\_\-0} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 0°. $(-3,-3,5)(-3,0,5)(-3,-3,5)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_afc2543445381bf7b7dc07167f5bef42f}{filter\-\_\-kirsch\-\_\-45} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 45°. $(-3,5,5)(-3,0,5)(-3,-3,-3)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_afe3524a312d6860dba3ae9caeb41aaac}{filter\-\_\-kirsch\-\_\-90} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 90°. $(5,5,5)(-3,0-3)(-3,-3,-3)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a89c324635717b51fce1fdb53eb20ea53}{filter\-\_\-kirsch\-\_\-135} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 135°. $(5,5,-3)(5,0,-3)(-3,-3,-3)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a2d98fe13c3ad3949e7e5a42e0381dfae}{filter\-\_\-kirsch\-\_\-180} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 180°. $(5,-3,-3)(5,0,-3)(5,-3,-3)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a3d99f369ce877076d9de45608566e5ab}{filter\-\_\-kirsch\-\_\-225} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 225°. $(-3,-3,-3)(5,0,-3)(5,5,-3)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a3deff23888dd56ee45c6e2556bb2e407}{filter\-\_\-kirsch\-\_\-270} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 270°. $(-3,-3,-3)(-3,0,-3)(5,5,5)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_afaacfcecb4f65541f06dd2aebc6a8d0c}{filter\-\_\-kirsch\-\_\-315} (int)
+\begin{DoxyCompactList}\small\item\em Applies the kirsch mask at 315°. $(-3,-3,-3)(-3,0,5)(-3,5,5)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ab25fe6e85844905599119faf087968aa}{filter\-\_\-freeman\-\_\-0} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $(1,1,1)(1,-2,1)(1,-1,-1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a2f0919c597afa2427d139012d99eabd2}{filter\-\_\-freeman\-\_\-1} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $(1,1,1)(-1,-2,1)(1,-1,1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a0f095fc1129cd6d3856f98e0e0434f24}{filter\-\_\-freeman\-\_\-2} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $)-1,1,1)(-1,-2,1)(1,1,1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a4efc2b9483472b31aa05ec3104569111}{filter\-\_\-freeman\-\_\-3} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $(-1,-1,1)(-1,-2,1)(1,1,1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a9bcd8a39cadee68de81ea8a35c832a94}{filter\-\_\-freeman\-\_\-4} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $(-1,-1,-1)(1,-2,1)(1,1,1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a22c69e4b9c06a20381be1f27c75c2745}{filter\-\_\-freeman\-\_\-5} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $(1,-1,-1)(1,-2,-1)(1,1,1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a09cddc961c37f59f8e4fe298d7bef2eb}{filter\-\_\-freeman\-\_\-6} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $(1,1,-1)(1,-2,-1)(1,1,-1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_abc60e72c623751597eaa64a5c295e65f}{filter\-\_\-freeman\-\_\-7} (int)
+\begin{DoxyCompactList}\small\item\em Applies the freeman mask $(1,1,1)(1,-2,-1)(1,-1,-1)$. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a42ddfccab80370efd993590850669837}{filter\-\_\-maximum} (int)
+\begin{DoxyCompactList}\small\item\em Assigns the highest value in the neighborhood. Assigns the highest value in the neighborhood around the desired pixel. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_af37690485375d17d0c55a3d89e5c0292}{filter\-\_\-minimum} (int)
+\begin{DoxyCompactList}\small\item\em Assigns the highest value in the neighborhood. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ab9ffca5856cd3e5032166d312719333d}{gray\-\_\-scale} (int)
+\begin{DoxyCompactList}\small\item\em Assigns the lowest value in the neighborhood. \end{DoxyCompactList}\item 
+void \hyperlink{class_image_a16390bf8509b67dedec6ca9ece27eb39}{gaussian\-\_\-noise} (double, int)
+\begin{DoxyCompactList}\small\item\em Converts an R\-G\-B image to gray scale. \end{DoxyCompactList}\item 
+void \hyperlink{class_image_a1afcd22275fa41ca473fc419719d3389}{salt\-\_\-pepper} (double, int)
+\begin{DoxyCompactList}\small\item\em Put pepper (black pixels) and salt(white pixels) \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ae6f9753e39897f50a1483f32fb84133b}{interpolation} (int)
+\begin{DoxyCompactList}\small\item\em This function doubles the size of the image and use the closer neighborhood interpolation. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ace5b005b225d2ec360695cd8a3dfdf98}{coorrelogram} (unsigned int, unsigned int, int)
+\begin{DoxyCompactList}\small\item\em This function compute the coorrelogram of an image. \end{DoxyCompactList}\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a1c2b2ed567925faeda7d1fbbe6888554}{coorrelogram\-\_\-\-Z\-C} (unsigned int, unsigned int, unsigned int, unsigned int, int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_a8acd9a1176746b670bb7b42ac3d88fb1}{coorrelogram\-\_\-par} (unsigned int, unsigned int, unsigned int, unsigned int)
+\item 
+\hyperlink{class_image}{Image} \hyperlink{class_image_ac47eda496b9d7a8c91dcf9bb89b15fc8}{rgb\-\_\-hsv} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_image}{Image} class is the abstraction of the image, contains a C\-Img object that defines the handling of the image. 
+
+This class have the attributes of the four dimensions of the image\-: height, width, depth and spectrum 
+
+Definition at line \hyperlink{_parallel_pic_8hh_source_l00021}{21} of file \hyperlink{_parallel_pic_8hh_source}{Parallel\-Pic.\-hh}.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_image_a58edd1c45b4faeb5f789b0d036d02313}{\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection[{Image}]{\setlength{\rightskip}{0pt plus 5cm}Image\-::\-Image (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_image_a58edd1c45b4faeb5f789b0d036d02313}
+
+
+Constructor This constructor initializes the four dimension params at 0; The Img calls the constructor of C\-Img to create an empty image. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l00017}{17} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00018 \{
+00019     this->Img = \textcolor{keyword}{new} CImg<unsigned char>();
+00020     this->width = 0;
+00021     this->height = 0;
+00022     this->depth = 0;
+00023     this->spectrum = 0;
+00024 
+00025 \}
+\end{DoxyCode}
+\hypertarget{class_image_a54de984d18843789d938f7328bdea800}{\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection[{Image}]{\setlength{\rightskip}{0pt plus 5cm}Image\-::\-Image (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$const}]{filename}
+\end{DoxyParamCaption}
+)}}\label{class_image_a54de984d18843789d938f7328bdea800}
+
+
+\hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image()} is the constructor of the image used when the image doesn't been be created. 
+
+Constructor.
+
+This constructor is used when the image already exist's and is stored in the
+\begin{DoxyParams}{Parameters}
+{\em filename} & path. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyParams}{Parameters}
+{\em $<$\-Img$>$} & is a var of type Cimg that is treated like an unsigned char.\\
+\hline
+{\em $<$width$>$} & refers to the number of columns of pixels in the image.\\
+\hline
+{\em $<$height$>$} & refers to the number of rows of pixels in the image.\\
+\hline
+{\em $<$depth$>$} & is the amount of layers of depth the image has, usually is one, except for 3\-D images.\\
+\hline
+{\em $<$spectrum$>$} & is the number of channels in the image, R\-G\-B has a spectrum of 3, a monocromatic image has a spectrum of 1. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00032}{32} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00033 \{
+00034     this->Img = \textcolor{keyword}{new} CImg<unsigned char>(filename);
+00036     this->width = this->Img->width();
+00038     this->height = this->Img->height();
+00040     this->depth = this->Img->depth();
+00042     this->spectrum = this->Img->spectrum();
+00044 \}
+\end{DoxyCode}
+\hypertarget{class_image_a2055dfd9700ce01e4f5b06f75b5f0fab}{\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection[{Image}]{\setlength{\rightskip}{0pt plus 5cm}Image\-::\-Image (
+\begin{DoxyParamCaption}
+\item[{const unsigned int}]{width, }
+\item[{const unsigned int}]{height, }
+\item[{const unsigned int}]{depth, }
+\item[{const unsigned int}]{spectrum, }
+\item[{int}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_image_a2055dfd9700ce01e4f5b06f75b5f0fab}
+
+
+\hyperlink{class_image}{Image} (const char $\ast$const filename) this constructor is used when the image already exist's and is stored in. 
+
+This constructor is used when we need to create an image, and gives the dimensions of the image, and the value of a color that fills all the pixels.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename.} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00049}{49} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00050 \{
+00051     this->Img = \textcolor{keyword}{new} CImg<unsigned char>(width, height, depth, spectrum, value);
+00052     this->width = width;
+00053     this->height = height;
+00054     this->depth = depth;
+00055     this->spectrum = spectrum;
+00056 \}
+\end{DoxyCode}
+\hypertarget{class_image_a794ae7f8ff9b4b7b7306343ac2f56356}{\index{Image@{Image}!$\sim$\-Image@{$\sim$\-Image}}
+\index{$\sim$\-Image@{$\sim$\-Image}!Image@{Image}}
+\subsubsection[{$\sim$\-Image}]{\setlength{\rightskip}{0pt plus 5cm}Image\-::$\sim$\-Image (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{class_image_a794ae7f8ff9b4b7b7306343ac2f56356}
+\hyperlink{class_image}{Image} (const unsigned int width, const unsigned int height, const unsigned int depth, const unsigned int spectrum, int value) This constructor is used when we try to create an image with the specified dimensions and the parameter
+\begin{DoxyParams}{Parameters}
+{\em value} & is the value of the color of all the pixels of the image. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00060}{60} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00061 \{
+00062     
+00063 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{\index{Image@{Image}!autocovariance@{autocovariance}}
+\index{autocovariance@{autocovariance}!Image@{Image}}
+\subsubsection[{autocovariance}]{\setlength{\rightskip}{0pt plus 5cm}C\-Img$<$ float $>$ Image\-::autocovariance (
+\begin{DoxyParamCaption}
+\item[{int}]{hor\-\_\-dis, }
+\item[{int}]{ver\-\_\-dis, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a42c17e010d45f8ec72dc89d7cdd76249}
+
+
+Calculates the autocovariance matrix for the image. The covariance, calculates the covariance matrix of an image. This function calculates something similar to the function below\-: $ g(x,y) = \sum \limits_{n=0}^{N} \sum \limits_{m=1}^M \left( f(x,y) - \overline{f(x,y)}\right)\left(f(x + \Delta x, y + \Delta y) - \overline{f(x + \Delta x, y + \Delta y)} \right) $ Where it calculates the variation between two series, one is the normal one, and the other is displaced by two parameters \$ x\$ \& \$ y\$. For an image it its calculated for a neighborhood around each pixel. 
+
+\begin{DoxyReturn}{Returns}
+A C\-Img object, because it must contain float values. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l02047}{2047} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+02048 \{
+02049     CImg<float> \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance} (this->get\_width() , this->get\_height(), this->get\_depth(), 
+      this->get\_spectrum(), 0); 
+02050     
+02051     \hyperlink{class_image}{Image} average = this->\hyperlink{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{filter\_average}(1);
+02052 
+02053     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+02054     \{
+02055         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02056         \{
+02057             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 3+hor\_dis; x < this->get\_width()-(3+hor\_dis); x++)
+02058             \{
+02059                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 3+ver\_dis; y < this->get\_height()-(3+ver\_dis); y++)
+02060                 \{
+02061                     \textcolor{keywordtype}{int} sum = 0;
+02062                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-3; i<x+4; i++)
+02063                     \{
+02064                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j= y-3; j<y+4; j++)
+02065                         \{
+02066                             sum += ( (this->get\_pixel\_value(i,j,z,c))  -  average.get\_pixel\_value(i,j,z,c))
+       * ( (this->get\_pixel\_value(i+hor\_dis,j+ver\_dis,z,c))  -  average.get\_pixel\_value(i+hor\_dis,j+ver\_dis,z,c)) 
+      ;
+02067                         \}
+02068                     \}
+02069                 
+02070                     \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance}(x,y,z,c) = sum/49;
+02071                 \}
+02072             \}
+02073         \}
+02074      \}
+02075     \textcolor{keywordflow}{return} \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance};
+02076 \}
+\end{DoxyCode}
+\hypertarget{class_image_a606ec46d5e2e47ff49e7793f42eace08}{\index{Image@{Image}!average\-\_\-omp@{average\-\_\-omp}}
+\index{average\-\_\-omp@{average\-\_\-omp}!Image@{Image}}
+\subsubsection[{average\-\_\-omp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::average\-\_\-omp (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}}\label{class_image_a606ec46d5e2e47ff49e7793f42eace08}
+\hypertarget{class_image_ac23d8c133700c751fac7ce6615641fde}{\index{Image@{Image}!binarize\-\_\-img@{binarize\-\_\-img}}
+\index{binarize\-\_\-img@{binarize\-\_\-img}!Image@{Image}}
+\subsubsection[{binarize\-\_\-img}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::binarize\-\_\-img (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{cutoff\-\_\-value, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ac23d8c133700c751fac7ce6615641fde}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00301}{301} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00302 \{
+00303     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+00304     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00305     \{
+00306         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00307         \{
+00308             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00309             \{
+00310                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00311                 \{
+00312                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(this->get\_pixel\_value(x,y,z,c));
+00313                     \textcolor{keywordflow}{if}(pixel >= cutoff\_value)
+00314                         pixel=255;
+00315                     \textcolor{keywordflow}{else}
+00316                         pixel=0;
+00317                     result.set\_pixel\_value(x,y,z,c,pixel);
+00318 
+00319                 \}
+00320             \}
+00321         \}
+00322     \}
+00323 
+00324     
+00325     \textcolor{keywordflow}{return} result;
+00326 \}
+\end{DoxyCode}
+\hypertarget{class_image_abad859b7de6c0237bdfeb0c41e754f6b}{\index{Image@{Image}!color\-\_\-slicing@{color\-\_\-slicing}}
+\index{color\-\_\-slicing@{color\-\_\-slicing}!Image@{Image}}
+\subsubsection[{color\-\_\-slicing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::color\-\_\-slicing (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{color1\mbox{[}$\,$\mbox{]}, }
+\item[{unsigned char}]{color2\mbox{[}$\,$\mbox{]}, }
+\item[{unsigned char}]{neutral\mbox{[}$\,$\mbox{]}, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_abad859b7de6c0237bdfeb0c41e754f6b}
+
+
+Highlights the desired colors, between the two colors given as parameters. 
+
+\begin{DoxyAttention}{Attention}
+\{The colors must be unsigned char, and must be the size of the spectrum of the image (Number of channels), 3 in case o R\-B\-G images\} 
+\end{DoxyAttention}
+
+\begin{DoxyParams}{Parameters}
+{\em unsigned} & char color1\mbox{[}\mbox{]}\-: The start color of the color slicing. \\
+\hline
+{\em unsigned} & char color2\mbox{[}\mbox{]}\-: The end color of the color slicing. \\
+\hline
+{\em unsigned} & char neutral\-: The intensity every other pixels that are not between the given colors will be set to. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01124}{1124} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01125 \{
+01126     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01127     
+01128     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01129     \{
+01130         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01131         \{
+01132             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01133             \{
+01134                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01135                 \{
+01136                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = this->get\_pixel\_value(x,y,z,c);
+01137                     \textcolor{keywordflow}{if}(pixel > color1[c] && pixel < color2[c] )
+01138                     \{
+01139                         filtered.set\_pixel\_value(x, y, z, c, pixel);
+01140                     \}
+01141                     \textcolor{keywordflow}{else}
+01142                     \{
+01143                         filtered.set\_pixel\_value(x,y,z,c, neutral[c]);
+01144                     \}
+01145                 \}
+01146                 
+01147              \}
+01148              
+01149          \}
+01150     \}  
+01151     
+01152     \textcolor{keywordflow}{return} filtered;
+01153     
+01154 \}
+\end{DoxyCode}
+\hypertarget{class_image_ace5b005b225d2ec360695cd8a3dfdf98}{\index{Image@{Image}!coorrelogram@{coorrelogram}}
+\index{coorrelogram@{coorrelogram}!Image@{Image}}
+\subsubsection[{coorrelogram}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::coorrelogram (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{ver, }
+\item[{unsigned int}]{hor, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ace5b005b225d2ec360695cd8a3dfdf98}
+
+
+This function compute the coorrelogram of an image. 
+
+This function compute the coorrelogram of a specified depth and spectrum of an image.
+
+
+\begin{DoxyParams}{Parameters}
+{\em unsigned} & int ver is the vertical distance of the original pixel that we use to compute the coorrelogram. \\
+\hline
+{\em unsigned} & int hor is the horizontal distance of the original pixel that we use to compute the coorrelogram. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function returns the coorrelogram image.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em unsigned} & int ver is the vertical distance of the original pixel that we use to compute the coorrelogram. \\
+\hline
+{\em unsigned} & int hor is the horizontal distance of the original pixel that we use to compute the coorrelogram. \\
+\hline
+{\em unsigned} & int z is the specified depth of the image that will be obtained the coorrelogram. \\
+\hline
+{\em unsigned} & int c is the specified spectrum of the image that will be obtained the coorrelogram. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function returns the coorrelogram image. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l02164}{2164} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+02165 \{
+02166     
+02167     \hyperlink{class_image}{Image} result (256,256, 1, 1, 0);   
+02168     
+02169     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < 256; i++)
+02170     \{
+02171         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j< 256; j++)
+02172         \{
+02173             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} pixel = 0;
+02174             
+02175             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x< (this->get\_width()-hor);++x)
+02176             \{
+02177                 
+02178                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0; y< (this->get\_height()-ver);++y)
+02179                 \{
+02180                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first = (this->get\_pixel\_value(x,y,0,0));
+02181                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} secnd = (this->get\_pixel\_value(x+hor, y+ver, 0, 0));
+02182                     
+02183                     \textcolor{keywordflow}{if}(first == i && secnd == j)
+02184                     \{
+02185                         pixel ++;
+02186                     \}
+02187                 \}
+02188             \}
+02189             \textcolor{keywordflow}{if}(pixel>255)
+02190             \{
+02191                 pixel=255;
+02192             \}
+02193             
+02194             result.set\_pixel\_value(i, j, 0, 0, pixel);
+02195             
+02196         \}
+02197         
+02198         cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<i<<\textcolor{stringliteral}{"\(\backslash\)n"}<<endl;  
+02199     \}
+02200     \textcolor{keywordflow}{return} result;
+02201 
+02202 \}
+\end{DoxyCode}
+\hypertarget{class_image_a8acd9a1176746b670bb7b42ac3d88fb1}{\index{Image@{Image}!coorrelogram\-\_\-par@{coorrelogram\-\_\-par}}
+\index{coorrelogram\-\_\-par@{coorrelogram\-\_\-par}!Image@{Image}}
+\subsubsection[{coorrelogram\-\_\-par}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::coorrelogram\-\_\-par (
+\begin{DoxyParamCaption}
+\item[{unsigned}]{int, }
+\item[{unsigned}]{int, }
+\item[{unsigned}]{int, }
+\item[{unsigned}]{int}
+\end{DoxyParamCaption}
+)}}\label{class_image_a8acd9a1176746b670bb7b42ac3d88fb1}
+\hypertarget{class_image_a1c2b2ed567925faeda7d1fbbe6888554}{\index{Image@{Image}!coorrelogram\-\_\-\-Z\-C@{coorrelogram\-\_\-\-Z\-C}}
+\index{coorrelogram\-\_\-\-Z\-C@{coorrelogram\-\_\-\-Z\-C}!Image@{Image}}
+\subsubsection[{coorrelogram\-\_\-\-Z\-C}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::coorrelogram\-\_\-\-Z\-C (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{ver, }
+\item[{unsigned int}]{hor, }
+\item[{unsigned int}]{z, }
+\item[{unsigned int}]{c, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a1c2b2ed567925faeda7d1fbbe6888554}
+
+
+Definition at line \hyperlink{image_8cpp_source_l02212}{2212} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+02213 \{
+02214     
+02215     \hyperlink{class_image}{Image} result (256,256, 1, 1, 0);   
+02216     
+02217     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < 256; i++)
+02218     \{
+02219         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j< 256; j++)
+02220         \{
+02221             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} pixel = 0;
+02222             
+02223             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x< (this->get\_width()-hor);++x)
+02224             \{
+02225                 
+02226                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0; y< (this->get\_height()-ver);++y)
+02227                 \{
+02228                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first = (this->get\_pixel\_value(x,y,z,c));
+02229                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} secnd = (this->get\_pixel\_value(x+hor, y+ver, z, c));
+02230                     \textcolor{keywordflow}{if}(first == i && secnd == j)
+02231                     \{
+02232                         pixel ++;
+02233                     \}
+02234                 \}
+02235             \}
+02236             \textcolor{keywordflow}{if}(pixel>255)
+02237             \{
+02238                 pixel=255;
+02239             \}
+02240 
+02241             result.set\_pixel\_value(i, j, 0, 0, pixel);
+02242             
+02243         \}
+02244         
+02245     \}
+02246     \textcolor{keywordflow}{return} result;
+02247 
+02248 \}
+\end{DoxyCode}
+\hypertarget{class_image_a62ff76610f4f6ed2817d7f60abda765f}{\index{Image@{Image}!display@{display}}
+\index{display@{display}!Image@{Image}}
+\subsubsection[{display}]{\setlength{\rightskip}{0pt plus 5cm}void Image\-::display (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}}\label{class_image_a62ff76610f4f6ed2817d7f60abda765f}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00077}{77} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00078 \{
+00079     CImgDisplay main (*(this->Img), message);
+00080     \textcolor{keywordflow}{while}(!main.is\_closed())
+00081     \{
+00082         main.wait();
+00083     \}
+00084 \}
+\end{DoxyCode}
+\hypertarget{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{\index{Image@{Image}!filter\-\_\-average@{filter\-\_\-average}}
+\index{filter\-\_\-average@{filter\-\_\-average}!Image@{Image}}
+\subsubsection[{filter\-\_\-average}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-average (
+\begin{DoxyParamCaption}
+\item[{int}]{dim, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a7d67ea957e3525bcc60ca436fe0d8862}
+
+
+This function calculates the average of the range of pixels into the kernel and sets this value in the central pixel of the kernel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Only} & receives the dimension of the kernel (dim), wich only can be an impair number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_image}{Image} filtered which is the image with the average filter applied. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00803}{803} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+
+Referenced by \hyperlink{image_8cpp_source_l02047}{autocovariance()}.
+
+
+\begin{DoxyCode}
+00804 \{
+00805     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00806 
+00807     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00808     \{
+00809         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00810         \{
+00811             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = dim; x < this->get\_width()-dim; x++)
+00812             \{
+00813                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = dim; y < this->get\_height()-dim; y++)
+00814                 \{
+00815                     \textcolor{keywordtype}{int} sum = 0;
+00816                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-dim; i<= x+dim; i++)
+00817                     \{
+00818                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-dim; j<= y+dim; j++)
+00819                         \{
+00820                             sum += this->get\_pixel\_value(i, j, z, c);
+00821                         \}
+00822                     \}
+00823             
+00824                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (sum/((dim*2+1)*(dim*2+
+      1)));
+00825                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00826                 \}
+00827                 
+00828              \}
+00829              
+00830          \}
+00831     \}  
+00832      \textcolor{keywordflow}{return} filtered;   
+00833 \} 
+\end{DoxyCode}
+\hypertarget{class_image_ae8dc7bd96987cf43f2b608f5f42bd8e3}{\index{Image@{Image}!filter\-\_\-dynamic\-\_\-range\-\_\-dilatation@{filter\-\_\-dynamic\-\_\-range\-\_\-dilatation}}
+\index{filter\-\_\-dynamic\-\_\-range\-\_\-dilatation@{filter\-\_\-dynamic\-\_\-range\-\_\-dilatation}!Image@{Image}}
+\subsubsection[{filter\-\_\-dynamic\-\_\-range\-\_\-dilatation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-dynamic\-\_\-range\-\_\-dilatation (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{a, }
+\item[{unsigned char}]{b, }
+\item[{double}]{alpha, }
+\item[{double}]{beta, }
+\item[{double}]{gamma, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ae8dc7bd96987cf43f2b608f5f42bd8e3}
+
+
+All the pixel values are divided in 3 ranges, and each range suffer a diferent transformation. This function is used to transform the range of lower pixel values in medium values and the higher too, to smooth the image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unsigned} & char a is the first cutoff pixel value. \\
+\hline
+{\em unsigned} & char b is the second cutoff pixel value. \\
+\hline
+{\em double} & alpha is the first multiplier. \\
+\hline
+{\em double} & beta is the second multiplier. \\
+\hline
+{\em double} & gamma is the third multiplier. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An image object that contains the dilatated image. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01052}{1052} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01053 \{
+01054     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01055     
+01056     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01057     \{
+01058         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01059         \{
+01060             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01061             \{
+01062                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01063                 \{
+01064                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel=0;
+01065                     
+01066                     \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)<a)
+01067                         pixel =abs(alpha*this->get\_pixel\_value(x,y,z,c));
+01068                         
+01069                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)>=a && this->get\_pixel\_value(x,y,z,c)<b)
+01070                         pixel=abs(beta*(this->get\_pixel\_value(x,y,z,c)-a)+alpha*a);
+01071                     
+01072                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)<=b)
+01073                         
+01074                         pixel=abs(gamma*(this->get\_pixel\_value(x,y,z,c)-b)+((beta*(b-a))+alpha*a));
+01075                     filtered.set\_pixel\_value(x,y,z,c,static\_cast<unsigned int>(pixel));
+01076                 \}
+01077             \}
+01078         \}
+01079     \}
+01080     \textcolor{keywordflow}{return} filtered;
+01081 \}
+\end{DoxyCode}
+\hypertarget{class_image_aa5e19816018edced13326f1d58d30f4c}{\index{Image@{Image}!filter\-\_\-edge\-\_\-enhacement\-\_\-displacement@{filter\-\_\-edge\-\_\-enhacement\-\_\-displacement}}
+\index{filter\-\_\-edge\-\_\-enhacement\-\_\-displacement@{filter\-\_\-edge\-\_\-enhacement\-\_\-displacement}!Image@{Image}}
+\subsubsection[{filter\-\_\-edge\-\_\-enhacement\-\_\-displacement}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-edge\-\_\-enhacement\-\_\-displacement (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{horizontal\-\_\-dis, }
+\item[{unsigned int}]{vertical\-\_\-dis, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_aa5e19816018edced13326f1d58d30f4c}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00662}{662} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00663 \{
+00664     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00665     \textcolor{keywordflow}{if}((horizontal\_dis < this->get\_width()) && (vertical\_dis < this->get\_height()))
+00666     \{
+00667         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00668         \{
+00669             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00670             \{
+00671                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = horizontal\_dis; x < this->get\_width(); x++)
+00672                 \{
+00673                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = vertical\_dis; y < this->get\_height(); y++)
+00674                     \{
+00675                         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} value = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)
+       - this->get\_pixel\_value(x-horizontal\_dis, y-vertical\_dis, z, c)));
+00676                         
+00677                         result.set\_pixel\_value(x,y,z,c, value);
+00678                     \}
+00679                 \}
+00680             \}
+00681         \}
+00682     \}
+00683     \textcolor{keywordflow}{return} result;
+00684 \}
+\end{DoxyCode}
+\hypertarget{class_image_ab25fe6e85844905599119faf087968aa}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-0@{filter\-\_\-freeman\-\_\-0}}
+\index{filter\-\_\-freeman\-\_\-0@{filter\-\_\-freeman\-\_\-0}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-0 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ab25fe6e85844905599119faf087968aa}
+
+
+Applies the freeman mask $(1,1,1)(1,-2,1)(1,-1,-1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01510}{1510} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01511 \{
+01512     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01513     
+01514     \textcolor{keywordtype}{int} m = 1;
+01515     
+01516     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01517     \{
+01518         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01519         \{
+01520             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01521             \{
+01522                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01523                 \{
+01524                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1,y,z,c))-
+      1*(get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01525                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01526                     \{
+01527                         sum = 255;
+01528                     \}
+01529                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01530                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01531                 \}
+01532                 
+01533              \}
+01534              
+01535          \}
+01536     \}  
+01537     
+01538     \textcolor{keywordflow}{return} filtered;
+01539     
+01540 \}
+\end{DoxyCode}
+\hypertarget{class_image_a2f0919c597afa2427d139012d99eabd2}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-1@{filter\-\_\-freeman\-\_\-1}}
+\index{filter\-\_\-freeman\-\_\-1@{filter\-\_\-freeman\-\_\-1}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-1 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a2f0919c597afa2427d139012d99eabd2}
+
+
+Applies the freeman mask $(1,1,1)(-1,-2,1)(1,-1,1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01545}{1545} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01546 \{
+01547     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01548     
+01549     \textcolor{keywordtype}{int} m = 1;
+01550     
+01551     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01552     \{
+01553         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01554         \{
+01555             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01556             \{
+01557                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01558                 \{
+01559                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1,y,z,c)
+      )-1*(get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x, y+1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01560                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01561                     \{
+01562                         sum = 255;
+01563                     \}
+01564                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01565                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01566                 \}
+01567                 
+01568              \}
+01569              
+01570          \}
+01571     \}  
+01572     
+01573     \textcolor{keywordflow}{return} filtered;
+01574     
+01575 \}
+\end{DoxyCode}
+\hypertarget{class_image_a0f095fc1129cd6d3856f98e0e0434f24}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-2@{filter\-\_\-freeman\-\_\-2}}
+\index{filter\-\_\-freeman\-\_\-2@{filter\-\_\-freeman\-\_\-2}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-2 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a0f095fc1129cd6d3856f98e0e0434f24}
+
+
+Applies the freeman mask $)-1,1,1)(-1,-2,1)(1,1,1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01580}{1580} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01581 \{
+01582     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01583     
+01584     \textcolor{keywordtype}{int} m = 1;
+01585     
+01586     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01587     \{
+01588         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01589         \{
+01590             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01591             \{
+01592                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01593                 \{
+01594                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+
+      get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1,y+1,z,c))-
+      1*(get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y-1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01595                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01596                     \{
+01597                         sum = 255;
+01598                     \}
+01599                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01600                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01601                 \}
+01602                 
+01603              \}
+01604              
+01605          \}
+01606     \}  
+01607     
+01608     \textcolor{keywordflow}{return} filtered;
+01609     
+01610 \}
+\end{DoxyCode}
+\hypertarget{class_image_a4efc2b9483472b31aa05ec3104569111}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-3@{filter\-\_\-freeman\-\_\-3}}
+\index{filter\-\_\-freeman\-\_\-3@{filter\-\_\-freeman\-\_\-3}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-3}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-3 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a4efc2b9483472b31aa05ec3104569111}
+
+
+Applies the freeman mask $(-1,-1,1)(-1,-2,1)(1,1,1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01615}{1615} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01616 \{
+01617     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01618     
+01619     \textcolor{keywordtype}{int} m = 1;
+01620     
+01621     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01622     \{
+01623         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01624         \{
+01625             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01626             \{
+01627                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01628                 \{
+01629                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+
+      get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1,y+1,z,c))-1*(get\_pixel\_value(x-1, y, z, 
+      c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x-1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01630                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01631                     \{
+01632                         sum = 255;
+01633                     \}
+01634                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01635                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01636                 \}
+01637                 
+01638              \}
+01639              
+01640          \}
+01641     \}  
+01642     
+01643     \textcolor{keywordflow}{return} filtered;
+01644     
+01645 \}
+\end{DoxyCode}
+\hypertarget{class_image_a9bcd8a39cadee68de81ea8a35c832a94}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-4@{filter\-\_\-freeman\-\_\-4}}
+\index{filter\-\_\-freeman\-\_\-4@{filter\-\_\-freeman\-\_\-4}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-4}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-4 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a9bcd8a39cadee68de81ea8a35c832a94}
+
+
+Applies the freeman mask $(-1,-1,-1)(1,-2,1)(1,1,1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01650}{1650} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01651 \{
+01652     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01653     
+01654     \textcolor{keywordtype}{int} m = 1;
+01655     
+01656     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01657     \{
+01658         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01659         \{
+01660             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01661             \{
+01662                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01663                 \{
+01664                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+
+      get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c))-1*(get\_pixel\_value(x-1, y-1, 
+      z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01665                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01666                     \{
+01667                         sum = 255;
+01668                     \}
+01669                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01670                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01671                 \}
+01672                 
+01673              \}
+01674              
+01675          \}
+01676     \}  
+01677     
+01678     \textcolor{keywordflow}{return} filtered;
+01679     
+01680 \}
+\end{DoxyCode}
+\hypertarget{class_image_a22c69e4b9c06a20381be1f27c75c2745}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-5@{filter\-\_\-freeman\-\_\-5}}
+\index{filter\-\_\-freeman\-\_\-5@{filter\-\_\-freeman\-\_\-5}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-5}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-5 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a22c69e4b9c06a20381be1f27c75c2745}
+
+
+Applies the freeman mask $(1,-1,-1)(1,-2,-1)(1,1,1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01686}{1686} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01687 \{
+01688     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01689     
+01690     \textcolor{keywordtype}{int} m = 1;
+01691     
+01692     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01693     \{
+01694         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01695         \{
+01696             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01697             \{
+01698                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01699                 \{
+01700                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c))-1*(get\_pixel\_value(x+1, y, 
+      z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01701                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01702                     \{
+01703                         sum = 255;
+01704                     \}
+01705                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01706                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01707                 \}
+01708                 
+01709              \}
+01710              
+01711          \}
+01712     \}  
+01713     
+01714     \textcolor{keywordflow}{return} filtered;
+01715     
+01716 \}
+\end{DoxyCode}
+\hypertarget{class_image_a09cddc961c37f59f8e4fe298d7bef2eb}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-6@{filter\-\_\-freeman\-\_\-6}}
+\index{filter\-\_\-freeman\-\_\-6@{filter\-\_\-freeman\-\_\-6}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-6}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-6 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a09cddc961c37f59f8e4fe298d7bef2eb}
+
+
+Applies the freeman mask $(1,1,-1)(1,-2,-1)(1,1,-1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01722}{1722} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01723 \{
+01724     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01725     
+01726     \textcolor{keywordtype}{int} m = 1;
+01727     
+01728     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01729     \{
+01730         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01731         \{
+01732             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01733             \{
+01734                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01735                 \{
+01736                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x, y-1, z, c))-1*(get\_pixel\_value(x+1, y-1, 
+      z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1,y+1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01737                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01738                     \{
+01739                         sum = 255;
+01740                     \}
+01741                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01742                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01743                 \}
+01744                 
+01745              \}
+01746              
+01747          \}
+01748     \}  
+01749     
+01750     \textcolor{keywordflow}{return} filtered;
+01751     
+01752 \}
+\end{DoxyCode}
+\hypertarget{class_image_abc60e72c623751597eaa64a5c295e65f}{\index{Image@{Image}!filter\-\_\-freeman\-\_\-7@{filter\-\_\-freeman\-\_\-7}}
+\index{filter\-\_\-freeman\-\_\-7@{filter\-\_\-freeman\-\_\-7}!Image@{Image}}
+\subsubsection[{filter\-\_\-freeman\-\_\-7}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-freeman\-\_\-7 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_abc60e72c623751597eaa64a5c295e65f}
+
+
+Applies the freeman mask $(1,1,1)(1,-2,-1)(1,-1,-1)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01757}{1757} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01758 \{
+01759     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01760     
+01761     \textcolor{keywordtype}{int} m = 1;
+01762     
+01763     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01764     \{
+01765         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01766         \{
+01767             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01768             \{
+01769                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01770                 \{
+01771                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c))-1*(get\_pixel\_value(x, y+1, 
+      z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1,y+1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01772                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01773                     \{
+01774                         sum = 255;
+01775                     \}
+01776                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01777                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01778                 \}
+01779                 
+01780              \}
+01781              
+01782          \}
+01783     \}  
+01784     
+01785     \textcolor{keywordflow}{return} filtered;
+01786     
+01787 \}
+\end{DoxyCode}
+\hypertarget{class_image_ae8b435684bdd6f715bfcd31517ddca0a}{\index{Image@{Image}!filter\-\_\-gaussian@{filter\-\_\-gaussian}}
+\index{filter\-\_\-gaussian@{filter\-\_\-gaussian}!Image@{Image}}
+\subsubsection[{filter\-\_\-gaussian}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-gaussian (
+\begin{DoxyParamCaption}
+\item[{int}]{o, }
+\item[{int}]{dim\-\_\-kernel, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ae8b435684bdd6f715bfcd31517ddca0a}
+
+
+This function applies a gaussian kernel trough the hole image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Receives} & the dimension of the kernel (dim\-\_\-kernel) and a paremeter o wich stablish the values on the gaussian kernel. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_image}{Image} filtered which is the image with the gaussian filter applied. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00841}{841} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00842 \{
+00843     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      );
+00844 
+00845     \textcolor{keywordtype}{double} kernel[dim\_kernel*dim\_kernel];
+00846     
+00847     \textcolor{keywordtype}{int} m = (dim\_kernel-1)/2;
+00848     
+00849     \textcolor{keywordtype}{double} gaussian =1/pow(3.1415*2*o*o,0.5);
+00850 
+00851     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =-m; i <=m; i++)
+00852     \{
+00853         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j =-m; j<=+m; j++)
+00854         \{
+00855             \textcolor{keywordtype}{double} exp= -(i*i+j*j)*0.5/(o*o);
+00856             kernel[(i+m)*dim\_kernel + (j+m)]=gaussian*pow(2.7,exp); 
+00857             
+00858         \}
+00859     \}
+00860     
+00861     
+00862     
+00863     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00864     \{
+00865         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00866         \{
+00867             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+00868             \{
+00869                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+00870                 \{
+00871                     \textcolor{keywordtype}{int} cont=0;
+00872                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel=0;
+00873                     
+00874                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00875                     \{
+00876                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00877                         \{
+00878                             pixel+= this->get\_pixel\_value(i, j, z, c)*(kernel[cont]); 
+00879                             cont++;
+00880                         \}
+00881                     \}
+00882                     filtered.set\_pixel\_value(x, y, z, c, (pixel/2));
+00883                 \}
+00884                 
+00885              \}
+00886              
+00887          \}
+00888     \}  
+00889      \textcolor{keywordflow}{return} filtered;       
+00890 \}   
+\end{DoxyCode}
+\hypertarget{class_image_aeff1dd9c6747100583ecd976a298e67b}{\index{Image@{Image}!filter\-\_\-\-Gradient\-\_\-horizontal@{filter\-\_\-\-Gradient\-\_\-horizontal}}
+\index{filter\-\_\-\-Gradient\-\_\-horizontal@{filter\-\_\-\-Gradient\-\_\-horizontal}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Gradient\-\_\-horizontal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Gradient\-\_\-horizontal (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_aeff1dd9c6747100583ecd976a298e67b}
+This filter is used as as Sharpening Spatial Filter, used to identify borders and noise in the image. Can be used to identify horizontal borders or discrepation Applies the following filter\-: $ ((1, 2, 1) , (0, 0, 0) , (-1, -2, -1)) $ \begin{DoxyReturn}{Returns}
+An image object that contains the original image after receiving a gradient filter in the horizontal direction. Could be used to identify horizontal borders. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00436}{436} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00437 \{   
+00438     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00439     
+00440     \textcolor{keywordtype}{int} m = 1;
+00441     
+00442     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00443     \{
+00444         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00445         \{
+00446             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00447             \{
+00448                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00449                 \{
+00450                     \textcolor{keywordtype}{int} sum = this->get\_pixel\_value(x-1, y-1, z, c) + 2*(this->get\_pixel\_value(x, y-1, z, c
+      )) + this->get\_pixel\_value(x+1, y-1, z, c) - (this->get\_pixel\_value(x-1, y+1, z, c) + 2*(this->
+      get\_pixel\_value(x, y+1, z, c)) + this->get\_pixel\_value(x+1, y+1, z, c));
+00451                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00452                     \{
+00453                         sum = 255;
+00454                     \}
+00455                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00456                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00457                 \}
+00458                 
+00459              \}
+00460              
+00461          \}
+00462     \}  
+00463      \textcolor{keywordflow}{return} filtered;
+00464 \}
+\end{DoxyCode}
+\hypertarget{class_image_a66ea21718b13184a2d49d52a49cda750}{\index{Image@{Image}!filter\-\_\-\-Gradient\-\_\-vertical@{filter\-\_\-\-Gradient\-\_\-vertical}}
+\index{filter\-\_\-\-Gradient\-\_\-vertical@{filter\-\_\-\-Gradient\-\_\-vertical}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Gradient\-\_\-vertical}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Gradient\-\_\-vertical (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a66ea21718b13184a2d49d52a49cda750}
+This filter is used as as Sharpening Spatial Filter, used to identify borders and noise in the image. Can be used to identify vertical borders or discrepations. Applies the following filter\-: $ ((1, 0, -1) , (2, 0, -2) , (1, 0, -1)) $ \begin{DoxyReturn}{Returns}
+An image object that contains the original image after receiving a gradient filter in the vertical direction. Could be used to identify vertical borders. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00473}{473} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00474 \{
+00475     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00476     
+00477     \textcolor{keywordtype}{int} m = 1;
+00478     
+00479     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00480     \{
+00481         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00482         \{
+00483             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00484             \{
+00485                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00486                 \{
+00487                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + 2*get\_pixel\_value(x-1, y, z, c) + 
+      get\_pixel\_value(x-1, y+1, z, c) - (get\_pixel\_value(x+1, y-1, z, c) + 2*get\_pixel\_value(x+1, y, z, c) + 
+      get\_pixel\_value(x+1, y+1, z, c));
+00488                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00489                     \{
+00490                         sum = 255;
+00491                     \}
+00492                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00493                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00494                 \}
+00495                 
+00496              \}
+00497              
+00498          \}
+00499     \}  
+00500      \textcolor{keywordflow}{return} filtered;
+00501 \}
+\end{DoxyCode}
+\hypertarget{class_image_ad6baefede32227602d896966e44aed4e}{\index{Image@{Image}!filter\-\_\-horizontal\-\_\-borders@{filter\-\_\-horizontal\-\_\-borders}}
+\index{filter\-\_\-horizontal\-\_\-borders@{filter\-\_\-horizontal\-\_\-borders}!Image@{Image}}
+\subsubsection[{filter\-\_\-horizontal\-\_\-borders}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-horizontal\-\_\-borders (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ad6baefede32227602d896966e44aed4e}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00711}{711} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00712 \{
+00713     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00714     
+00715     \textcolor{keywordtype}{int} m = 1;
+00716     
+00717     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00718     \{
+00719         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00720         \{
+00721             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width()-m; x++)
+00722             \{
+00723                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00724                 \{
+00725                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(this->
+      get\_pixel\_value(x, y-1, z, c) - get\_pixel\_value(x, y+1, z, c)));
+00726                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00727                 \}
+00728                 
+00729              \}
+00730              
+00731          \}
+00732     \}  
+00733      \textcolor{keywordflow}{return} filtered;
+00734 \}
+\end{DoxyCode}
+\hypertarget{class_image_a9551b317e71d65ca1573a9518644154d}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-0@{filter\-\_\-kirsch\-\_\-0}}
+\index{filter\-\_\-kirsch\-\_\-0@{filter\-\_\-kirsch\-\_\-0}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-0}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-0 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a9551b317e71d65ca1573a9518644154d}
+
+
+Applies the kirsch mask at 0°. $(-3,-3,5)(-3,0,5)(-3,-3,5)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01228}{1228} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01229 \{
+01230     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01231     
+01232     \textcolor{keywordtype}{int} m = 1;
+01233     
+01234     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01235     \{
+01236         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01237         \{
+01238             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01239             \{
+01240                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01241                 \{
+01242                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x+1, y-
+      1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c));
+01243                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01244                     \{
+01245                         sum = 255;
+01246                     \}
+01247                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01248                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01249                 \}
+01250                 
+01251              \}
+01252              
+01253          \}
+01254     \}  
+01255     
+01256     \textcolor{keywordflow}{return} filtered;
+01257     
+01258 \}
+\end{DoxyCode}
+\hypertarget{class_image_a89c324635717b51fce1fdb53eb20ea53}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-135@{filter\-\_\-kirsch\-\_\-135}}
+\index{filter\-\_\-kirsch\-\_\-135@{filter\-\_\-kirsch\-\_\-135}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-135}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-135 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a89c324635717b51fce1fdb53eb20ea53}
+
+
+Applies the kirsch mask at 135°. $(5,5,-3)(5,0,-3)(-3,-3,-3)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01335}{1335} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01336 \{
+01337     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01338     \textcolor{keywordtype}{int} m = 1;
+01339     
+01340     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01341     \{
+01342         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01343         \{
+01344             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01345             \{
+01346                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01347                 \{
+01348                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+
+      get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1, y+1, z, c))+5*(get\_pixel\_value(x-1, 
+      y, z, c)+get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c));
+01349                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01350                     \{
+01351                         sum = 255;
+01352                     \}
+01353                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01354                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01355                 \}
+01356                 
+01357              \}
+01358              
+01359          \}
+01360     \}  
+01361     
+01362     \textcolor{keywordflow}{return} filtered;
+01363     
+01364 \}
+\end{DoxyCode}
+\hypertarget{class_image_a2d98fe13c3ad3949e7e5a42e0381dfae}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-180@{filter\-\_\-kirsch\-\_\-180}}
+\index{filter\-\_\-kirsch\-\_\-180@{filter\-\_\-kirsch\-\_\-180}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-180}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-180 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a2d98fe13c3ad3949e7e5a42e0381dfae}
+
+
+Applies the kirsch mask at 180°. $(5,-3,-3)(5,0,-3)(5,-3,-3)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01370}{1370} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01371 \{
+01372     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01373     \textcolor{keywordtype}{int} m = 1;
+01374     
+01375     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01376     \{
+01377         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01378         \{
+01379             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01380             \{
+01381                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01382                 \{
+01383                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+
+      get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x-1, y,
+       z, c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x-1, y-1, z, c));
+01384                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01385                     \{
+01386                         sum = 255;
+01387                     \}
+01388                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01389                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01390                 \}
+01391                 
+01392              \}
+01393              
+01394          \}
+01395     \}  
+01396     
+01397     \textcolor{keywordflow}{return} filtered;
+01398     
+01399 \}
+\end{DoxyCode}
+\hypertarget{class_image_a3d99f369ce877076d9de45608566e5ab}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-225@{filter\-\_\-kirsch\-\_\-225}}
+\index{filter\-\_\-kirsch\-\_\-225@{filter\-\_\-kirsch\-\_\-225}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-225}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-225 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a3d99f369ce877076d9de45608566e5ab}
+
+
+Applies the kirsch mask at 225°. $(-3,-3,-3)(5,0,-3)(5,5,-3)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01405}{1405} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01406 \{
+01407     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01408     \textcolor{keywordtype}{int} m = 1;
+01409     
+01410     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01411     \{
+01412         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01413         \{
+01414             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01415             \{
+01416                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01417                 \{
+01418                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c)+
+      get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c))+5*(get\_pixel\_value(x-1, 
+      y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c));
+01419                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01420                     \{
+01421                         sum = 255;
+01422                     \}
+01423                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01424                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01425                 \}
+01426                 
+01427              \}
+01428              
+01429          \}
+01430     \}  
+01431     
+01432     \textcolor{keywordflow}{return} filtered;
+01433     
+01434 \}
+\end{DoxyCode}
+\hypertarget{class_image_a3deff23888dd56ee45c6e2556bb2e407}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-270@{filter\-\_\-kirsch\-\_\-270}}
+\index{filter\-\_\-kirsch\-\_\-270@{filter\-\_\-kirsch\-\_\-270}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-270}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-270 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a3deff23888dd56ee45c6e2556bb2e407}
+
+
+Applies the kirsch mask at 270°. $(-3,-3,-3)(-3,0,-3)(5,5,5)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01440}{1440} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01441 \{
+01442     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01443     \textcolor{keywordtype}{int} m = 1;
+01444     
+01445     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01446     \{
+01447         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01448         \{
+01449             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01450             \{
+01451                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01452                 \{
+01453                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c))+5*(get\_pixel\_value(x, y+1,
+       z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x-1, y+1, z, c));
+01454                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01455                     \{
+01456                         sum = 255;
+01457                     \}
+01458                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01459                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01460                 \}
+01461                 
+01462              \}
+01463              
+01464          \}
+01465     \}  
+01466     
+01467     \textcolor{keywordflow}{return} filtered;
+01468     
+01469 \}
+\end{DoxyCode}
+\hypertarget{class_image_afaacfcecb4f65541f06dd2aebc6a8d0c}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-315@{filter\-\_\-kirsch\-\_\-315}}
+\index{filter\-\_\-kirsch\-\_\-315@{filter\-\_\-kirsch\-\_\-315}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-315}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-315 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_afaacfcecb4f65541f06dd2aebc6a8d0c}
+
+
+Applies the kirsch mask at 315°. $(-3,-3,-3)(-3,0,5)(-3,5,5)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01475}{1475} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01476 \{
+01477     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01478     \textcolor{keywordtype}{int} m = 1;
+01479     
+01480     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01481     \{
+01482         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01483         \{
+01484             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01485             \{
+01486                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01487                 \{
+01488                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c))+5*(get\_pixel\_value(x, y+
+      1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c));
+01489                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01490                     \{
+01491                         sum = 255;
+01492                     \}
+01493                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01494                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01495                 \}
+01496                 
+01497              \}
+01498              
+01499          \}
+01500     \}  
+01501     
+01502     \textcolor{keywordflow}{return} filtered;
+01503     
+01504 \}
+\end{DoxyCode}
+\hypertarget{class_image_afc2543445381bf7b7dc07167f5bef42f}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-45@{filter\-\_\-kirsch\-\_\-45}}
+\index{filter\-\_\-kirsch\-\_\-45@{filter\-\_\-kirsch\-\_\-45}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-45}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-45 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_afc2543445381bf7b7dc07167f5bef42f}
+
+
+Applies the kirsch mask at 45°. $(-3,5,5)(-3,0,5)(-3,-3,-3)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01264}{1264} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01265 \{
+01266     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01267     \textcolor{keywordtype}{int} m = 1;
+01268     
+01269     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01270     \{
+01271         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01272         \{
+01273             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01274             \{
+01275                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01276                 \{
+01277                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x+1, 
+      y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x, y-1, z, c));
+01278                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01279                     \{
+01280                         sum = 255;
+01281                     \}
+01282                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01283                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01284                 \}
+01285                 
+01286              \}
+01287              
+01288          \}
+01289     \}  
+01290     
+01291     \textcolor{keywordflow}{return} filtered;
+01292     
+01293     
+01294 \}
+\end{DoxyCode}
+\hypertarget{class_image_afe3524a312d6860dba3ae9caeb41aaac}{\index{Image@{Image}!filter\-\_\-kirsch\-\_\-90@{filter\-\_\-kirsch\-\_\-90}}
+\index{filter\-\_\-kirsch\-\_\-90@{filter\-\_\-kirsch\-\_\-90}!Image@{Image}}
+\subsubsection[{filter\-\_\-kirsch\-\_\-90}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-kirsch\-\_\-90 (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_afe3524a312d6860dba3ae9caeb41aaac}
+
+
+Applies the kirsch mask at 90°. $(5,5,5)(-3,0-3)(-3,-3,-3)$. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01300}{1300} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01301 \{
+01302     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01303     \textcolor{keywordtype}{int} m = 1;
+01304     
+01305     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01306     \{
+01307         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01308         \{
+01309             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01310             \{
+01311                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01312                 \{
+01313                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+
+      get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c))+5*(get\_pixel\_value(x+1, y-
+      1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x-1, y-1, z, c));
+01314                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01315                     \{
+01316                         sum = 255;
+01317                     \}
+01318                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01319                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01320                 \}
+01321                 
+01322              \}
+01323              
+01324          \}
+01325     \}  
+01326     
+01327     \textcolor{keywordflow}{return} filtered;
+01328     
+01329 \}
+\end{DoxyCode}
+\hypertarget{class_image_abda67bfc036d9de98bf806c93fbae370}{\index{Image@{Image}!filter\-\_\-\-Laplacian@{filter\-\_\-\-Laplacian}}
+\index{filter\-\_\-\-Laplacian@{filter\-\_\-\-Laplacian}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Laplacian}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Laplacian (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_abda67bfc036d9de98bf806c93fbae370}
+
+
+Returns an image after applying the Laplacian filter to the image. Considers the diagonal values This function applies a convolution with this kernel\-: $ ((1, 1, 1), (1, -8, 1), (1, 1, 1)) $. 
+
+\begin{DoxyReturn}{Returns}
+A Filtered image with the Laplacian filter applied. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00347}{347} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00348 \{
+00349     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00350     
+00351     \textcolor{keywordtype}{int} m = 1;
+00352     
+00353     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00354     \{
+00355         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00356         \{
+00357             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00358             \{
+00359                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00360                 \{
+00361                     \textcolor{keywordtype}{int} sum = 0;
+00362                     
+00363                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0 ; i < 3; i++)
+00364                     \{
+00365                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = 0 ; j < 3; j++)
+00366                         \{
+00367                         sum += -this->get\_pixel\_value(x+i-1, y+i-1, z, c);
+00368                         \}
+00369                     \}
+00370                     
+00371                     sum += 9*(this->get\_pixel\_value(x,y,z,c));
+00372                     
+00373                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00374                     \{
+00375                         sum = 255;
+00376                     \}
+00377                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00378                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00379                 \}
+00380                 
+00381              \}
+00382              
+00383          \}
+00384     \}  
+00385     \textcolor{keywordflow}{return} filtered; 
+00386 \}
+\end{DoxyCode}
+\hypertarget{class_image_a308423cd4b7291228c4dcd1a9a4f8856}{\index{Image@{Image}!filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal@{filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal}}
+\index{filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal@{filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a308423cd4b7291228c4dcd1a9a4f8856}
+Works as a derivative function, reacts to high change on the pixels value, especially to noise, and borders. Applies the following filter\-: $ ((0, -1, 0) , (-1, 4, -1) , (0, -1, 0)) $ \begin{DoxyReturn}{Returns}
+A filtered \hyperlink{class_image}{Image} with the laplacian filter. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00393}{393} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00394 \{
+00395     \textcolor{comment}{//int kernel[9] = \{0, -1, 0, -1, 4, -1, 0, -1, 0\};}
+00396     
+00397     \textcolor{comment}{//return (this->filter(kernel, 3, 1));}
+00398     
+00399     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00400     
+00401     \textcolor{keywordtype}{int} m = 1;
+00402     
+00403     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00404     \{
+00405         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00406         \{
+00407             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00408             \{
+00409                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00410                 \{
+00411                     \textcolor{keywordtype}{int} sum = 4*(this->get\_pixel\_value(x,y,z,c)) - (this->get\_pixel\_value(x-1,y,z,c) + 
+      this->get\_pixel\_value(x+1,y,z,c) + this->get\_pixel\_value(x,y-1,z,c) +this->get\_pixel\_value(x,y+1,z,c));
+00412                     
+00413                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00414                     \{
+00415                         sum = 255;
+00416                     \}
+00417                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00418                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00419                 \}
+00420                 
+00421              \}
+00422              
+00423          \}
+00424     \}  
+00425     \textcolor{keywordflow}{return} filtered; 
+00426     
+00427 \}
+\end{DoxyCode}
+\hypertarget{class_image_a42ddfccab80370efd993590850669837}{\index{Image@{Image}!filter\-\_\-maximum@{filter\-\_\-maximum}}
+\index{filter\-\_\-maximum@{filter\-\_\-maximum}!Image@{Image}}
+\subsubsection[{filter\-\_\-maximum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-maximum (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a42ddfccab80370efd993590850669837}
+
+
+Assigns the highest value in the neighborhood. Assigns the highest value in the neighborhood around the desired pixel. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01795}{1795} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01796 \{
+01797     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01798     
+01799     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01800     \{
+01801         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01802         \{
+01803             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 1; x < this->get\_width()-1; x++)
+01804             \{
+01805                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 1; y < this->get\_height()-1; y++)
+01806                 \{
+01807                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} max = 0;
+01808                     
+01809                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-1; i< x+2; i++)
+01810                     \{
+01811                         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-1; j< y+2; j++)
+01812                         \{
+01813                             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (this->get\_pixel\_value(i, j, z, c));
+01814                              
+01815                             \textcolor{keywordflow}{if} (pixel > max)
+01816                             \{
+01817                                 max = this->get\_pixel\_value(i, j, z, c);
+01818                             \}
+01819                         \} 
+01820                     \}
+01821                     
+01822                     filtered.set\_pixel\_value(x, y, z, c, max);
+01823                 \}
+01824                 
+01825              \}
+01826              
+01827          \}
+01828     \}  
+01829     \textcolor{keywordflow}{return} filtered;
+01830 \}
+\end{DoxyCode}
+\hypertarget{class_image_aad6fa435024cf4f1635b8769325f389f}{\index{Image@{Image}!filter\-\_\-median@{filter\-\_\-median}}
+\index{filter\-\_\-median@{filter\-\_\-median}!Image@{Image}}
+\subsubsection[{filter\-\_\-median}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-median (
+\begin{DoxyParamCaption}
+\item[{int}]{dim, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_aad6fa435024cf4f1635b8769325f389f}
+
+
+This function calculates the median of the range of pixels into the kernel and sets this value in the central pixel of the kernel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Only} & receives the dimension of the kernel (dim), wich only can be an impair number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_image}{Image} filtered which is the image with the median filter applied. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00747}{747} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00748 \{
+00749     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00750     
+00751     \textcolor{comment}{//int kernel [dim*dim];}
+00752 
+00753     \textcolor{keywordtype}{int} m = (dim-1)/2;
+00754     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values [dim*dim];
+00755     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} temp;
+00756     
+00757     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00758     \{
+00759         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00760         \{
+00761             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+00762             \{
+00763                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+00764                 \{
+00765                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00766                     \{
+00767                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00768                         \{
+00769                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+00770                             
+00771                         \}   
+00772                     \}
+00773                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0; k<dim*dim ; k++)
+00774                     \{
+00775                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=k+1 ; p<dim*dim ; p++)
+00776                         \{
+00777                             \textcolor{keywordflow}{if}(pixel\_values[p] < pixel\_values[k])
+00778                             \{
+00779                             \textcolor{comment}{// Intercambiar los valores}
+00780                             temp = pixel\_values[k];
+00781                             pixel\_values[k] = pixel\_values[p];
+00782                             pixel\_values[p] = temp;
+00783                             \}
+00784                         \}
+00785                     \}                   
+00786                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = pixel\_values[((dim*dim-1)/2)-1];
+00787                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00788                 \}
+00789                 
+00790              \}
+00791              
+00792          \}
+00793     \}  
+00794      \textcolor{keywordflow}{return} filtered;
+00795  \}
+\end{DoxyCode}
+\hypertarget{class_image_af37690485375d17d0c55a3d89e5c0292}{\index{Image@{Image}!filter\-\_\-minimum@{filter\-\_\-minimum}}
+\index{filter\-\_\-minimum@{filter\-\_\-minimum}!Image@{Image}}
+\subsubsection[{filter\-\_\-minimum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-minimum (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_af37690485375d17d0c55a3d89e5c0292}
+
+
+Assigns the highest value in the neighborhood. 
+
+
+
+Definition at line \hyperlink{image_8cpp_source_l01838}{1838} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01839 \{
+01840     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01841     
+01842     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01843     \{
+01844         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01845         \{
+01846             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 1; x < this->get\_width()-1; x++)
+01847             \{
+01848                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 1; y < this->get\_height()-1; y++)
+01849                 \{
+01850                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} minimun = 255;
+01851                     
+01852                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-1; i< x+2; i++)
+01853                     \{
+01854                         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-1; j< y+2; j++)
+01855                         \{
+01856                             \textcolor{keywordflow}{if} ((this->get\_pixel\_value(i, j, z, c)) < minimun)
+01857                             \{
+01858                                 minimun = this->get\_pixel\_value(i, j, z, c);
+01859                             \}
+01860                         \} 
+01861                     \}
+01862                     
+01863                     filtered.set\_pixel\_value(x, y, z, c, minimun);
+01864                 \}
+01865                 
+01866              \}
+01867              
+01868          \}
+01869     \}  
+01870      \textcolor{keywordflow}{return} filtered;
+01871 \}
+\end{DoxyCode}
+\hypertarget{class_image_ae67455a397b27c4a3bda96f3cc3e9d9f}{\index{Image@{Image}!filter\-\_\-modal@{filter\-\_\-modal}}
+\index{filter\-\_\-modal@{filter\-\_\-modal}!Image@{Image}}
+\subsubsection[{filter\-\_\-modal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-modal (
+\begin{DoxyParamCaption}
+\item[{int}]{dim, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ae67455a397b27c4a3bda96f3cc3e9d9f}
+
+
+This function calculates the modal of the range of pixels into the kernel and sets this value in the central pixel of the kernel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Only} & receives the dimension of the kernel (dim), wich only can be an impair number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_image}{Image} filtered which is the image with the modal filter applied. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00898}{898} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00899 \{
+00900     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      );
+00901     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values[dim*dim];
+00902     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} moda;
+00903     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} average=0;
+00904     \textcolor{keywordtype}{int} m=(dim-1)/2;
+00905     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} copy\_pixels[dim*dim];
+00906 
+00907     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00908     \{
+00909         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00910         \{
+00911             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+00912             \{
+00913                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+00914                 \{
+00915                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00916                     \{
+00917                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00918                         \{
+00919                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+00920         
+00921                             \textcolor{keywordtype}{int} frequency[dim*dim];
+00922                             moda=0; 
+00923                             
+00924                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<dim*dim;k++)
+00925                             \{
+00926                                 copy\_pixels[k]= pixel\_values[k];
+00927                                 frequency[k]=0;
+00928                             \}
+00929                             
+00930                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=0;p<dim*dim;p++)
+00931                             \{
+00932                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} q=p+1;q<dim*dim;q++)
+00933                                 \{
+00934                                     \textcolor{keywordflow}{if}(copy\_pixels[p]==pixel\_values[q])\{
+00935                                         frequency[p]++;
+00936                                 
+00937                                     \}
+00938             
+00939                                 \}
+00940     
+00941                             \}
+00942 
+00943 
+00944 
+00945                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} s=0; s<dim*dim ; s++)
+00946                             \{
+00947                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} e=s+1 ; e<dim*dim ; e++)
+00948                                 \{
+00949                                     \textcolor{keywordflow}{if}(frequency[e] < frequency[s])
+00950                                     \{
+00951                                         moda = copy\_pixels[s];
+00952                                         average=copy\_pixels[s];
+00953                                     \}
+00954                                 \}
+00955                             \}
+00956                             
+00957 
+00958                             \textcolor{keywordflow}{if}(moda==0)
+00959                             \{
+00960                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<dim*dim;k++)
+00961                                 \{
+00962                                     moda += pixel\_values[k];
+00963                                 \}
+00964                             average=(moda/dim);
+00965                             \}
+00966 
+00967 
+00968                         \}   
+00969                     \}
+00970                     
+00971                     filtered.set\_pixel\_value(x, y, z, c, average);
+00972                 \}
+00973                 
+00974              \}
+00975              
+00976          \}
+00977     \}
+00978 
+00979 \textcolor{keywordflow}{return} filtered;
+00980 
+00981 \}
+\end{DoxyCode}
+\hypertarget{class_image_a44679d228a0d6864fb1cfe4fb2dc83af}{\index{Image@{Image}!filter\-\_\-order\-\_\-stadistics@{filter\-\_\-order\-\_\-stadistics}}
+\index{filter\-\_\-order\-\_\-stadistics@{filter\-\_\-order\-\_\-stadistics}!Image@{Image}}
+\subsubsection[{filter\-\_\-order\-\_\-stadistics}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-order\-\_\-stadistics (
+\begin{DoxyParamCaption}
+\item[{int}]{dim, }
+\item[{int}]{order, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a44679d228a0d6864fb1cfe4fb2dc83af}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01873}{1873} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01874 \{
+01875     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01876     
+01877     \textcolor{comment}{//int kernel [dim*dim];}
+01878     
+01879     \textcolor{keywordtype}{int} m = (dim-1)/2;
+01880     
+01881     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values [dim*dim];
+01882     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} temp;
+01883     
+01884     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01885     \{
+01886         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01887         \{
+01888             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+01889             \{
+01890                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+01891                 \{
+01892                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m+1; i++)
+01893                     \{
+01894                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m+1; j++)
+01895                         \{
+01896                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+01897                             
+01898                         \}   
+01899                     \}
+01900                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0; k<dim*dim ; k++)
+01901                     \{
+01902                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=k+1 ; p<dim*dim ; p++)
+01903                         \{
+01904                             \textcolor{keywordflow}{if}(pixel\_values[p] < pixel\_values[k])
+01905                             \{
+01906                             \textcolor{comment}{// Intercambiar los valores}
+01907                             temp = pixel\_values[k];
+01908                             pixel\_values[k] = pixel\_values[p];
+01909                             pixel\_values[p] = temp;
+01910                             \}
+01911                         \}
+01912                     \}                   
+01913                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = pixel\_values[order];
+01914                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01915                 \}
+01916                 
+01917              \}
+01918              
+01919          \}
+01920     \}  
+01921      \textcolor{keywordflow}{return} filtered;
+01922 \}
+\end{DoxyCode}
+\hypertarget{class_image_ac9a433b59be54fea12aa1397defd6c81}{\index{Image@{Image}!filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W@{filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W}}
+\index{filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W@{filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ac9a433b59be54fea12aa1397defd6c81}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00590}{590} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00591 \{
+00592     \textcolor{comment}{//int kernel[9] = \{1, 0, -1, 1, 0, -1, 1, 0, -1\};}
+00593     
+00594     \textcolor{comment}{//return (this->filter(kernel, 3, 1));  }
+00595     
+00596     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00597     
+00598     \textcolor{keywordtype}{int} m = 1;
+00599     
+00600     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00601     \{
+00602         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00603         \{
+00604             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00605             \{
+00606                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00607                 \{
+00608                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x-1, y, z, c) + 
+      get\_pixel\_value(x-1, y+1, z, c) - (get\_pixel\_value(x+1, y-1, z, c) + get\_pixel\_value(x+1, y, z, c) + get\_pixel\_value(x+
+      1, y+1, z, c));
+00609                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00610                     \{
+00611                         sum = 255;
+00612                     \}
+00613                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00614                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00615                 \}
+00616                 
+00617              \}
+00618              
+00619          \}
+00620     \}  
+00621     
+00622     \textcolor{keywordflow}{return} filtered;
+00623     
+00624 \}
+\end{DoxyCode}
+\hypertarget{class_image_a931b36f6843f103be624d1f58150ab63}{\index{Image@{Image}!filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S@{filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S}}
+\index{filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S@{filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a931b36f6843f103be624d1f58150ab63}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00520}{520} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00521 \{
+00522     \textcolor{comment}{//int kernel[9] = \{1, 1, 1, 0, 0, 0, -1, -1, -1\};}
+00523     
+00524     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00525     
+00526     \textcolor{keywordtype}{int} m = 1;
+00527     
+00528     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00529     \{
+00530         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00531         \{
+00532             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00533             \{
+00534                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00535                 \{
+00536                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x, y-1, z, c) + 
+      get\_pixel\_value(x+1, y-1, z, c) - (get\_pixel\_value(x-1, y+1, z, c) + get\_pixel\_value(x, y+1, z, c) + get\_pixel\_value(x+
+      1, y+1, z, c));
+00537                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00538                     \{
+00539                         sum = 255;
+00540                     \}
+00541                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00542                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00543                 \}
+00544                 
+00545              \}
+00546              
+00547          \}
+00548     \}  
+00549     
+00550     \textcolor{keywordflow}{return} filtered;
+00551     
+00552 \}
+\end{DoxyCode}
+\hypertarget{class_image_adfefe21b9272e6ded5ba7939d7dbe99c}{\index{Image@{Image}!filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W@{filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W}}
+\index{filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W@{filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_adfefe21b9272e6ded5ba7939d7dbe99c}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00554}{554} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00555 \{
+00556     \textcolor{comment}{//int kernel[9] = \{0, 1, 1, -1, 0, 1, -1, -1, 0\};}
+00557     
+00558     \textcolor{comment}{//return (this->filter(kernel, 3, 1));}
+00559     
+00560     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00561     
+00562     \textcolor{keywordtype}{int} m = 1;
+00563     
+00564     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00565     \{
+00566         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00567         \{
+00568             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00569             \{
+00570                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00571                 \{
+00572                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x, y-1, z, c) + get\_pixel\_value(x+1, y-1, z, c) + 
+      get\_pixel\_value(x+1, y, z, c) - (get\_pixel\_value(x-1, y, z, c) + get\_pixel\_value(x-1, y+1, z, c) + get\_pixel\_value(x, y
+      +1, z, c));
+00573                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00574                     \{
+00575                         sum = 255;
+00576                     \}
+00577                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00578                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00579                 \}
+00580                 
+00581              \}
+00582              
+00583          \}
+00584     \}  
+00585     
+00586     \textcolor{keywordflow}{return} filtered;
+00587     
+00588 \}
+\end{DoxyCode}
+\hypertarget{class_image_ab33257cb397927a0445527d41a3b6dfa}{\index{Image@{Image}!filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E@{filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E}}
+\index{filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E@{filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E}!Image@{Image}}
+\subsubsection[{filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ab33257cb397927a0445527d41a3b6dfa}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00626}{626} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00627 \{
+00628     \textcolor{comment}{//int kernel[9] = \{-1, -1, 0, -1, 0, 1, 0, 1, 1\};}
+00629     
+00630     \textcolor{comment}{// (this->filter(kernel, 3, 1));    }
+00631     
+00632     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00633     
+00634     \textcolor{keywordtype}{int} m = 1;
+00635     
+00636     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00637     \{
+00638         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00639         \{
+00640             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00641             \{
+00642                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00643                 \{
+00644                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x-1, y, z, c) + 
+      get\_pixel\_value(x, y-1, z, c) - (get\_pixel\_value(x+1, y, z, c) + get\_pixel\_value(x+1, y+1, z, c) + get\_pixel\_value(x, y
+      +1, z, c));
+00645                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00646                     \{
+00647                         sum = 255;
+00648                     \}
+00649                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00650                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00651                 \}
+00652                 
+00653              \}
+00654              
+00655          \}
+00656     \}  
+00657     
+00658     \textcolor{keywordflow}{return} filtered;
+00659         
+00660 \}
+\end{DoxyCode}
+\hypertarget{class_image_a1a755f73ec71ad095f47e9222ee2c9d1}{\index{Image@{Image}!filter\-\_\-vertical\-\_\-borders@{filter\-\_\-vertical\-\_\-borders}}
+\index{filter\-\_\-vertical\-\_\-borders@{filter\-\_\-vertical\-\_\-borders}!Image@{Image}}
+\subsubsection[{filter\-\_\-vertical\-\_\-borders}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::filter\-\_\-vertical\-\_\-borders (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a1a755f73ec71ad095f47e9222ee2c9d1}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00686}{686} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00687 \{
+00688     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00689     
+00690     \textcolor{keywordtype}{int} m = 1;
+00691     
+00692     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00693     \{
+00694         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00695         \{
+00696             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00697             \{
+00698                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height()-m; y++)
+00699                 \{
+00700                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(this->
+      get\_pixel\_value(x-1, y, z, c) - get\_pixel\_value(x+1, y, z, c)));
+00701                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00702                 \}
+00703                 
+00704              \}
+00705              
+00706          \}
+00707     \}  
+00708      \textcolor{keywordflow}{return} filtered;
+00709 \}
+\end{DoxyCode}
+\hypertarget{class_image_a16390bf8509b67dedec6ca9ece27eb39}{\index{Image@{Image}!gaussian\-\_\-noise@{gaussian\-\_\-noise}}
+\index{gaussian\-\_\-noise@{gaussian\-\_\-noise}!Image@{Image}}
+\subsubsection[{gaussian\-\_\-noise}]{\setlength{\rightskip}{0pt plus 5cm}void Image\-::gaussian\-\_\-noise (
+\begin{DoxyParamCaption}
+\item[{double}]{variance, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a16390bf8509b67dedec6ca9ece27eb39}
+
+
+Converts an R\-G\-B image to gray scale. 
+
+This function applies the gaussian noise to an image. The gaussian noise increases or decreases intensity to a pixel, depending of the variance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em variance} & this parameter is used to set the value of noise that is applied to the image. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01970}{1970} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01971 \{
+01972     srand(1);
+01973     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01974     \{
+01975         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01976         \{
+01977             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01978             \{
+01979                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01980                 \{
+01981                     \textcolor{keywordtype}{double} random= \hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{variance}*(rand()-RAND\_MAX/\hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{variance})/RAND\_MAX;
+01982                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= this->get\_pixel\_value(x,y,z,c) + random;
+01983                     
+01984                     \textcolor{keywordflow}{if}((pixel<255) & (pixel>0))
+01985                     \{
+01986                         (*(this->Img))(x, y, z, c)= pixel;
+01987                     \}   
+01988 
+01989                 \}
+01990                 
+01991                 
+01992              \}
+01993              
+01994          \}
+01995     \}  
+01996      
+01997 \}
+\end{DoxyCode}
+\hypertarget{class_image_a36596e19076b920ec0b2c2aa9eee639c}{\index{Image@{Image}!get\-\_\-histogram@{get\-\_\-histogram}}
+\index{get\-\_\-histogram@{get\-\_\-histogram}!Image@{Image}}
+\subsubsection[{get\-\_\-histogram}]{\setlength{\rightskip}{0pt plus 5cm}int $\ast$ Image\-::get\-\_\-histogram (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{c, }
+\item[{unsigned int}]{z}
+\end{DoxyParamCaption}
+)}}\label{class_image_a36596e19076b920ec0b2c2aa9eee639c}
+This function returns an array containing the values of the histogram points, in the desired channel and depth. An Histogram is measure of the frecquency of a intensity value in an image, and is often used as a parameter to improve the constrast and quality of the image. After observing the histogram ( see \hyperlink{class_image_a7ecc9bcad8ac9f0fe4fc42a1810f2b35}{plot\-\_\-histogram()} ) you could ecualizate the image. 
+
+Definition at line \hyperlink{image_8cpp_source_l01167}{1167} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01168 \{
+01169     \textcolor{keywordtype}{int} histogram [256];
+01170     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<256; i++)
+01171     \{
+01172     histogram[i] = 0;   
+01173     \}
+01174     
+01175     \textcolor{keywordflow}{if} (c < this->get\_spectrum() && z < this->get\_depth())
+01176     \{
+01177         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01178         \{
+01179             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01180             \{
+01181                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_value = this->get\_pixel\_value(x,y,z,c);
+01182                 (histogram[pixel\_value])++;
+01183             \}
+01184         \}
+01185     \}
+01186     
+01187     \textcolor{keywordtype}{int}* histogram\_pointer = histogram;
+01188     
+01189     \textcolor{keywordflow}{return} histogram\_pointer;
+01190 \}
+\end{DoxyCode}
+\hypertarget{class_image_ab9ffca5856cd3e5032166d312719333d}{\index{Image@{Image}!gray\-\_\-scale@{gray\-\_\-scale}}
+\index{gray\-\_\-scale@{gray\-\_\-scale}!Image@{Image}}
+\subsubsection[{gray\-\_\-scale}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::gray\-\_\-scale (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ab9ffca5856cd3e5032166d312719333d}
+
+
+Assigns the lowest value in the neighborhood. 
+
+This function converts an R\-G\-B image to one in gray scale. The library uses this conversion\-: f(x,y)= 0.\-11\-R+0.56\-G + 0.\-14\-B Where f is the intensity of the pixel on the gray scale and R,G and B the pixel values on the different channels.
+
+\begin{DoxyReturn}{Returns}
+This function returns the mochromathic image. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l02136}{2136} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+02137 \{
+02138     \hyperlink{class_image}{Image} gray\_image (this->get\_width() , this->get\_height(), this->get\_depth(), 1, 0); 
+02139 
+02140 
+02141     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02142     \{
+02143         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+02144         \{
+02145             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+02146             \{
+02147             
+02148                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_intensity = 0.56*this->get\_pixel\_value(x,y,z,1)+0.14*this->
+      get\_pixel\_value(x,y,z,0)+0.11*this->get\_pixel\_value(x,y,z,2);
+02149                 gray\_image.set\_pixel\_value(x, y, z, 0, pixel\_intensity);
+02150                 
+02151             \}
+02152              
+02153          \}
+02154     \}  
+02155      \textcolor{keywordflow}{return} gray\_image; 
+02156 \} 
+\end{DoxyCode}
+\hypertarget{class_image_a10fff70095a24a0a10376ffa740a3262}{\index{Image@{Image}!histogram\-\_\-equalization@{histogram\-\_\-equalization}}
+\index{histogram\-\_\-equalization@{histogram\-\_\-equalization}!Image@{Image}}
+\subsubsection[{histogram\-\_\-equalization}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ Image\-::histogram\-\_\-equalization (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{, }
+\item[{const char $\ast$}]{title}
+\end{DoxyParamCaption}
+)}}\label{class_image_a10fff70095a24a0a10376ffa740a3262}
+\hypertarget{class_image_ae6f9753e39897f50a1483f32fb84133b}{\index{Image@{Image}!interpolation@{interpolation}}
+\index{interpolation@{interpolation}!Image@{Image}}
+\subsubsection[{interpolation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::interpolation (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ae6f9753e39897f50a1483f32fb84133b}
+
+
+This function doubles the size of the image and use the closer neighborhood interpolation. 
+
+\begin{DoxyReturn}{Returns}
+This function returns the image interpolated. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l02005}{2005} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+02006 \{
+02007     \textcolor{keywordtype}{int} i,j=0;
+02008     \hyperlink{class_image}{Image} result (2*this->get\_width(),2*this->get\_height(),this->get\_depth(),this->get\_spectrum(),0);
+02009     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+02010     \{
+02011         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02012         \{
+02013             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_width(); y++)
+02014             \{
+02015                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_height(); x++)
+02016                 \{
+02017                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel=this->get\_pixel\_value(x,y,z,c);
+02018                     
+02019                     result.set\_pixel\_value(x+i,y+j,z,c,pixel);
+02020                     result.set\_pixel\_value(x+1+i,y+j,z,c,pixel);
+02021                     result.set\_pixel\_value(x+i,y+1+j,z,c,pixel);
+02022                     result.set\_pixel\_value(x+1+i,y+1+j,z,c,pixel);
+02023                     i++;
+02024                 \}
+02025                 i=0;
+02026                 j++;
+02027             \}
+02028             j=0;
+02029         \}
+02030     \}
+02031     \textcolor{keywordflow}{return} result;
+02032 \}
+\end{DoxyCode}
+\hypertarget{class_image_a8a62778b8013b7f82ee74138678d5a24}{\index{Image@{Image}!inverse@{inverse}}
+\index{inverse@{inverse}!Image@{Image}}
+\subsubsection[{inverse}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::inverse (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a8a62778b8013b7f82ee74138678d5a24}
+Executes this transformation\-: $ v(x,y,z,c) = 255 - u(x,y,z,c) $ \begin{DoxyReturn}{Returns}
+An image object that contains the inverse of the original image, this means that every pixel value is substracted to 255. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00994}{994} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00995 \{
+00996     \hyperlink{class_image}{Image} inverted (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00997 
+00998     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00999     \{
+01000         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01001         \{
+01002             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01003             \{
+01004                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01005                 \{
+01006                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(255-this->get\_pixel\_value(x,y,z,c));
+01007                     inverted.set\_pixel\_value(x,y,z,c,pixel);
+01008                 \}
+01009             \}
+01010         \}
+01011     \}
+01012     \textcolor{keywordflow}{return} inverted;
+01013 \}
+\end{DoxyCode}
+\hypertarget{class_image_a23e96746fd7a360950a9588ca3fa466c}{\index{Image@{Image}!log\-\_\-transformation@{log\-\_\-transformation}}
+\index{log\-\_\-transformation@{log\-\_\-transformation}!Image@{Image}}
+\subsubsection[{log\-\_\-transformation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::log\-\_\-transformation (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a23e96746fd7a360950a9588ca3fa466c}
+Executes this transformation\-: $ v(x,y,z,c) = c log(u(x,y,z,c)+1)$ where v(x,y,z,c) is the transformed pixel, and u(x,y,z,c) is the original pixel. \begin{DoxyReturn}{Returns}
+An image object that contains the inverse of the original image, this means that every pixel value is substracted to 255. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01020}{1020} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01021 \{
+01022     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01023 
+01024     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01025     \{
+01026         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01027         \{
+01028             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01029             \{
+01030                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01031                 \{
+01032                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}((255/log(256)) * log(1+this->
+      get\_pixel\_value(x, y, z, c)));
+01033                     
+01034                     filtered.set\_pixel\_value(x,y,z,c, pixel);
+01035                 \}
+01036             \}
+01037         \}
+01038     \}
+01039     \textcolor{keywordflow}{return} filtered;
+01040 \}
+\end{DoxyCode}
+\hypertarget{class_image_af50c3c5a85c237f8b20af7dc4766c45d}{\index{Image@{Image}!median\-\_\-omp@{median\-\_\-omp}}
+\index{median\-\_\-omp@{median\-\_\-omp}!Image@{Image}}
+\subsubsection[{median\-\_\-omp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::median\-\_\-omp (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}}\label{class_image_af50c3c5a85c237f8b20af7dc4766c45d}
+\hypertarget{class_image_ae546904988636a989dfca3950030bd85}{\index{Image@{Image}!multiply\-\_\-img@{multiply\-\_\-img}}
+\index{multiply\-\_\-img@{multiply\-\_\-img}!Image@{Image}}
+\subsubsection[{multiply\-\_\-img}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::multiply\-\_\-img (
+\begin{DoxyParamCaption}
+\item[{double}]{multiplier, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ae546904988636a989dfca3950030bd85}
+
+
+This function multiplies the pixel values by a factor. If the pixel value is higher than 255, adjust the pixel value to 255. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em double} & multiplier is the factor that mutiplies all the pixel values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_image}{Image} result\-: Is the result of multiply the image. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00273}{273} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00274 \{
+00275     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+00276     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00277     \{
+00278         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00279         \{
+00280             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00281             \{
+00282                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00283                 \{
+00284                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)*
+      multiplier));
+00285                     \textcolor{keywordflow}{if} (pixel >255)
+00286                         pixel = 255;
+00287                     result.set\_pixel\_value(x,y,z,c,pixel);
+00288                 \}
+00289             \}
+00290         \}
+00291     \}
+00292     \textcolor{keywordflow}{return} result;
+00293 \}
+\end{DoxyCode}
+\hypertarget{class_image_a7ecc9bcad8ac9f0fe4fc42a1810f2b35}{\index{Image@{Image}!plot\-\_\-histogram@{plot\-\_\-histogram}}
+\index{plot\-\_\-histogram@{plot\-\_\-histogram}!Image@{Image}}
+\subsubsection[{plot\-\_\-histogram}]{\setlength{\rightskip}{0pt plus 5cm}void Image\-::plot\-\_\-histogram (
+\begin{DoxyParamCaption}
+\item[{int}]{levels, }
+\item[{const char $\ast$}]{title}
+\end{DoxyParamCaption}
+)}}\label{class_image_a7ecc9bcad8ac9f0fe4fc42a1810f2b35}
+
+
+This function plot the histogram, using the C\-Img histogram function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em levels} & is the number of bars or columns that appear in the histogram. \\
+\hline
+{\em title} & is the title of the histogram. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01197}{1197} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01198 \{
+01199     CImg<unsigned char> img = this->Img->histogram(levels);
+01200     
+01201     CImgDisplay main\_display (*(this->Img), title);
+01202     
+01203     img.display\_graph(main\_display, 3, 1, \textcolor{stringliteral}{"Pixel Intensity"}, 0, 0, \textcolor{stringliteral}{"Frequency"}, 0, 0);
+01204 \}
+\end{DoxyCode}
+\hypertarget{class_image_ac792db3b148a2b42e4ce1ee2ba7ac757}{\index{Image@{Image}!plot\-\_\-histogram\-\_\-equalization@{plot\-\_\-histogram\-\_\-equalization}}
+\index{plot\-\_\-histogram\-\_\-equalization@{plot\-\_\-histogram\-\_\-equalization}!Image@{Image}}
+\subsubsection[{plot\-\_\-histogram\-\_\-equalization}]{\setlength{\rightskip}{0pt plus 5cm}void Image\-::plot\-\_\-histogram\-\_\-equalization (
+\begin{DoxyParamCaption}
+\item[{int}]{levels, }
+\item[{const char $\ast$}]{title}
+\end{DoxyParamCaption}
+)}}\label{class_image_ac792db3b148a2b42e4ce1ee2ba7ac757}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01211}{1211} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01212 \{
+01213     CImg<unsigned char> img = this->Img->equalize(levels);
+01214     
+01215     CImgDisplay main\_display (*(this->Img), title);
+01216     
+01217     img.display\_graph(main\_display, 3, 1, \textcolor{stringliteral}{"Pixel Intensity"}, 0, 0, \textcolor{stringliteral}{"Frequency"}, 0, 0);
+01218 \}
+\end{DoxyCode}
+\hypertarget{class_image_a4934472d3d78a5b26bc658cb6511c7e3}{\index{Image@{Image}!power\-\_\-law\-\_\-transformatiom@{power\-\_\-law\-\_\-transformatiom}}
+\index{power\-\_\-law\-\_\-transformatiom@{power\-\_\-law\-\_\-transformatiom}!Image@{Image}}
+\subsubsection[{power\-\_\-law\-\_\-transformatiom}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::power\-\_\-law\-\_\-transformatiom (
+\begin{DoxyParamCaption}
+\item[{double}]{exponent, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a4934472d3d78a5b26bc658cb6511c7e3}
+
+
+Executes this transformation\-: $ v(x,y,z,c) = c log(u(x,y,z,c)+1)$. 
+
+Applies a transformation given by the ecuation $ v(x,y) = c {u(x,y)}^{\gamma} $ where $ u(x,y) $ is the value of the non filtered image, and $ v(xy) $ is the intensity value in the filtered image. $ \gamma, c $ are constants. In this case $ \gamma $ is a parameter. \begin{DoxyReturn}{Returns}
+A filtered image with the power law transformation 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01091}{1091} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01092 \{
+01093     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01094     
+01095     \textcolor{keywordtype}{double} k = (pow(255, 1-exponent));
+01096     
+01097     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01098     \{
+01099         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01100         \{
+01101             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01102             \{
+01103                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01104                 \{
+01105                     \textcolor{keywordtype}{double} power\_law = k * pow( (this->get\_pixel\_value(x,y,z,c)) , exponent);
+01106                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}(power\_law);
+01107                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01108                 \}
+01109                 
+01110              \}
+01111              
+01112          \}
+01113     \}  
+01114     \textcolor{keywordflow}{return} filtered;
+01115 \}
+\end{DoxyCode}
+\hypertarget{class_image_ac47eda496b9d7a8c91dcf9bb89b15fc8}{\index{Image@{Image}!rgb\-\_\-hsv@{rgb\-\_\-hsv}}
+\index{rgb\-\_\-hsv@{rgb\-\_\-hsv}!Image@{Image}}
+\subsubsection[{rgb\-\_\-hsv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::rgb\-\_\-hsv (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_image_ac47eda496b9d7a8c91dcf9bb89b15fc8}
+\hypertarget{class_image_a1afcd22275fa41ca473fc419719d3389}{\index{Image@{Image}!salt\-\_\-pepper@{salt\-\_\-pepper}}
+\index{salt\-\_\-pepper@{salt\-\_\-pepper}!Image@{Image}}
+\subsubsection[{salt\-\_\-pepper}]{\setlength{\rightskip}{0pt plus 5cm}void Image\-::salt\-\_\-pepper (
+\begin{DoxyParamCaption}
+\item[{double}]{intensity, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a1afcd22275fa41ca473fc419719d3389}
+
+
+Put pepper (black pixels) and salt(white pixels) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em intensity} & is used to compute the percentage of salt and pepper that is applied to the image. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{image_8cpp_source_l01933}{1933} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+01934 \{
+01935     srand(1);
+01936     \textcolor{keywordtype}{double} percentage = 1-(intensity/100);
+01937     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01938     \{
+01939         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01940         \{
+01941             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01942             \{
+01943                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01944                 \{
+01945                     \textcolor{keywordtype}{double} random= 2.0*(rand()-RAND\_MAX/2.0)/RAND\_MAX;
+01946                     \textcolor{keywordflow}{if}(random > percentage)
+01947                     \{
+01948                         (*(this->Img))(x, y, z, c)= 255;
+01949                     \}   
+01950 
+01951                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(random<-1*percentage)
+01952                     \{
+01953                         (*(this->Img))(x, y, z, c)= 0;                  
+01954                     \}
+01955                 \}
+01956                 
+01957                 
+01958              \}
+01959              
+01960          \}
+01961     \}  
+01962      
+01963 \}
+\end{DoxyCode}
+\hypertarget{class_image_a4800a984610ffce53488c13d223a5b38}{\index{Image@{Image}!set\-\_\-pixel\-\_\-value@{set\-\_\-pixel\-\_\-value}}
+\index{set\-\_\-pixel\-\_\-value@{set\-\_\-pixel\-\_\-value}!Image@{Image}}
+\subsubsection[{set\-\_\-pixel\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}void Image\-::set\-\_\-pixel\-\_\-value (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{int}]{z, }
+\item[{int}]{c, }
+\item[{unsigned char}]{value}
+\end{DoxyParamCaption}
+)}}\label{class_image_a4800a984610ffce53488c13d223a5b38}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00139}{139} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+
+Referenced by \hyperlink{image_8cpp_source_l00301}{binarize\-\_\-img()}, \hyperlink{image_8cpp_source_l01124}{color\-\_\-slicing()}, \hyperlink{image_8cpp_source_l02164}{coorrelogram()}, \hyperlink{image_8cpp_source_l02212}{coorrelogram\-\_\-\-Z\-C()}, \hyperlink{image_8cpp_source_l00803}{filter\-\_\-average()}, \hyperlink{image_8cpp_source_l01052}{filter\-\_\-dynamic\-\_\-range\-\_\-dilatation()}, \hyperlink{image_8cpp_source_l00662}{filter\-\_\-edge\-\_\-enhacement\-\_\-displacement()}, \hyperlink{image_8cpp_source_l01510}{filter\-\_\-freeman\-\_\-0()}, \hyperlink{image_8cpp_source_l01545}{filter\-\_\-freeman\-\_\-1()}, \hyperlink{image_8cpp_source_l01580}{filter\-\_\-freeman\-\_\-2()}, \hyperlink{image_8cpp_source_l01615}{filter\-\_\-freeman\-\_\-3()}, \hyperlink{image_8cpp_source_l01650}{filter\-\_\-freeman\-\_\-4()}, \hyperlink{image_8cpp_source_l01686}{filter\-\_\-freeman\-\_\-5()}, \hyperlink{image_8cpp_source_l01722}{filter\-\_\-freeman\-\_\-6()}, \hyperlink{image_8cpp_source_l01757}{filter\-\_\-freeman\-\_\-7()}, \hyperlink{image_8cpp_source_l00841}{filter\-\_\-gaussian()}, \hyperlink{image_8cpp_source_l00436}{filter\-\_\-\-Gradient\-\_\-horizontal()}, \hyperlink{image_8cpp_source_l00473}{filter\-\_\-\-Gradient\-\_\-vertical()}, \hyperlink{image_8cpp_source_l00711}{filter\-\_\-horizontal\-\_\-borders()}, \hyperlink{image_8cpp_source_l01228}{filter\-\_\-kirsch\-\_\-0()}, \hyperlink{image_8cpp_source_l01335}{filter\-\_\-kirsch\-\_\-135()}, \hyperlink{image_8cpp_source_l01370}{filter\-\_\-kirsch\-\_\-180()}, \hyperlink{image_8cpp_source_l01405}{filter\-\_\-kirsch\-\_\-225()}, \hyperlink{image_8cpp_source_l01440}{filter\-\_\-kirsch\-\_\-270()}, \hyperlink{image_8cpp_source_l01475}{filter\-\_\-kirsch\-\_\-315()}, \hyperlink{image_8cpp_source_l01264}{filter\-\_\-kirsch\-\_\-45()}, \hyperlink{image_8cpp_source_l01300}{filter\-\_\-kirsch\-\_\-90()}, \hyperlink{image_8cpp_source_l00347}{filter\-\_\-\-Laplacian()}, \hyperlink{image_8cpp_source_l00393}{filter\-\_\-\-Laplacian\-\_\-no\-\_\-diagonal()}, \hyperlink{image_8cpp_source_l01795}{filter\-\_\-maximum()}, \hyperlink{image_8cpp_source_l00747}{filter\-\_\-median()}, \hyperlink{image_8cpp_source_l01838}{filter\-\_\-minimum()}, \hyperlink{image_8cpp_source_l00898}{filter\-\_\-modal()}, \hyperlink{image_8cpp_source_l01873}{filter\-\_\-order\-\_\-stadistics()}, \hyperlink{image_8cpp_source_l00590}{filter\-\_\-\-Prewitt\-\_\-\-E\-\_\-\-W()}, \hyperlink{image_8cpp_source_l00520}{filter\-\_\-\-Prewitt\-\_\-\-N\-\_\-\-S()}, \hyperlink{image_8cpp_source_l00554}{filter\-\_\-\-Prewitt\-\_\-\-N\-E\-\_\-\-S\-W()}, \hyperlink{image_8cpp_source_l00626}{filter\-\_\-\-Prewitt\-\_\-\-N\-W\-\_\-\-S\-E()}, \hyperlink{image_8cpp_source_l00686}{filter\-\_\-vertical\-\_\-borders()}, \hyperlink{image_8cpp_source_l02136}{gray\-\_\-scale()}, \hyperlink{image_8cpp_source_l02005}{interpolation()}, \hyperlink{image_8cpp_source_l00994}{inverse()}, \hyperlink{image_8cpp_source_l01020}{log\-\_\-transformation()}, \hyperlink{image_8cpp_source_l00273}{multiply\-\_\-img()}, \hyperlink{image_8cpp_source_l01091}{power\-\_\-law\-\_\-transformatiom()}, \hyperlink{image_8cpp_source_l00207}{substract\-\_\-img()}, \hyperlink{image_8cpp_source_l00233}{sum\-\_\-img()}, and \hyperlink{image_8cpp_source_l02084}{variance()}.
+
+
+\begin{DoxyCode}
+00140 \{
+00141     (*(this->Img))(x, y, z, c)= value;
+00142 \}
+\end{DoxyCode}
+\hypertarget{class_image_ae503021a1c7b4188a457d55d7571e63d}{\index{Image@{Image}!substract\-\_\-img@{substract\-\_\-img}}
+\index{substract\-\_\-img@{substract\-\_\-img}!Image@{Image}}
+\subsubsection[{substract\-\_\-img}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::substract\-\_\-img (
+\begin{DoxyParamCaption}
+\item[{{\bf Image}}]{image2, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_ae503021a1c7b4188a457d55d7571e63d}
+
+
+This function substracts the pixel values of two images, that can be used to see the differences between them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_image}{Image}} & image2\-: Is the image that will be substracted to the original image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_image}{Image} result\-: Is the result of the substraction of both images. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00207}{207} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00208 \{
+00209     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00210 
+00211     \textcolor{keywordflow}{if}(this->get\_width() == image2.get\_width() && this->get\_height() == image2.get\_height() && this->
+      get\_depth() == image2.get\_depth() && this->get\_spectrum() == image2.get\_spectrum())
+00212     \{
+00213         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00214         \{
+00215             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00216             \{
+00217                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00218                 \{
+00219                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00220                     \{
+00221                         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)-
+      image2.get\_pixel\_value(x,y,z,c)));
+00222     
+00223                         result.set\_pixel\_value(x,y,z,c,pixel);
+00224                     \}
+00225                 \}
+00226             \}
+00227         \}
+00228     \}
+00229     \textcolor{keywordflow}{return} result;
+00230 \}
+\end{DoxyCode}
+\hypertarget{class_image_a652abac4bfdd2fcff0cdb5627ac8ad49}{\index{Image@{Image}!sum\-\_\-img@{sum\-\_\-img}}
+\index{sum\-\_\-img@{sum\-\_\-img}!Image@{Image}}
+\subsubsection[{sum\-\_\-img}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::sum\-\_\-img (
+\begin{DoxyParamCaption}
+\item[{{\bf Image}}]{image2, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_a652abac4bfdd2fcff0cdb5627ac8ad49}
+
+
+Definition at line \hyperlink{image_8cpp_source_l00233}{233} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+\begin{DoxyCode}
+00234 \{
+00235     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00236 
+00237     \textcolor{keywordflow}{if}(this->get\_width() == image2.get\_width() && this->get\_height() == image2.get\_height() && this->
+      get\_depth() == image2.get\_depth() && this->get\_spectrum() == image2.get\_spectrum())
+00238     \{
+00239         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00240         \{
+00241             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00242             \{
+00243                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00244                 \{
+00245                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00246                     \{
+00247                         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00248                         \textcolor{keywordtype}{int} sum = this->get\_pixel\_value(x,y,z,c)+image2.get\_pixel\_value(x,y,z,c);
+00249                         \textcolor{keywordflow}{if} (sum <= 255)
+00250                         \{
+00251                             pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(sum);
+00252                         \}
+00253                         \textcolor{keywordflow}{else}
+00254                         \{
+00255                             pixel = 255;
+00256                         \}
+00257                         result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,pixel);
+00258                     \}
+00259                 \}
+00260             \}
+00261         \}
+00262     \}
+00263     \textcolor{keywordflow}{return} result;
+00264 \}
+\end{DoxyCode}
+\hypertarget{class_image_aad9aac9600334fb18ae54e4807a12dc5}{\index{Image@{Image}!variance@{variance}}
+\index{variance@{variance}!Image@{Image}}
+\subsubsection[{variance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} Image\-::variance (
+\begin{DoxyParamCaption}
+\item[{int}]{dim, }
+\item[{int}]{num\-\_\-threads}
+\end{DoxyParamCaption}
+)}}\label{class_image_aad9aac9600334fb18ae54e4807a12dc5}
+
+
+This function compute the variance of an image. The variance is gived by the summation of the average multiplied by the substraction of the average with the pixel value, squared. 
+
+\begin{DoxyReturn}{Returns}
+This function returns the image interpolated. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{image_8cpp_source_l02084}{2084} of file \hyperlink{image_8cpp_source}{image.\-cpp}.
+
+
+
+Referenced by \hyperlink{image_8cpp_source_l01970}{gaussian\-\_\-noise()}.
+
+
+\begin{DoxyCode}
+02085 \{
+02086     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+02087     
+02088     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+02089     \{
+02090         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02091         \{
+02092             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = dim; x < this->get\_width()-dim; x++)
+02093             \{
+02094                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = dim; y < this->get\_height()-dim; y++)
+02095                 \{
+02096                     \textcolor{keywordtype}{int} sum = 0;
+02097                     \textcolor{keywordtype}{double} \hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{variance}=0;
+02098                     \textcolor{keywordtype}{int} kernel\_values[(dim*2+1)*(dim*2+1)];
+02099                     \textcolor{keywordtype}{int} cont=0;
+02100 
+02101                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-dim; i<= x+dim; i++)
+02102                     \{
+02103                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-dim; j<= y+dim; j++)
+02104                         \{
+02105                             sum += this->get\_pixel\_value(i, j, z, c);
+02106                             kernel\_values[cont]=this->get\_pixel\_value(i, j, z, c);
+02107                             cont++;
+02108                         \}
+02109                     \}
+02110             
+02111                     \textcolor{keywordtype}{double} average =  sum/((dim*2+1)*(dim*2+1));
+02112                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<(dim*2+1)*(dim*2+1);i++)
+02113                     \{
+02114                         variance+=pow(kernel\_values[i]-average,2)/((dim*2+1)*(dim*2+1));
+02115                     \}
+02116                     
+02117                     
+02118                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (variance);
+02119                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+02120                 \}
+02121                 
+02122              \}
+02123              
+02124          \}
+02125     \}  
+02126      \textcolor{keywordflow}{return} filtered;
+02127 \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/include/\hyperlink{_parallel_pic_8hh}{Parallel\-Pic.\-hh}\item 
+/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/src/\hyperlink{image_8cpp}{image.\-cpp}\item 
+/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/src/\hyperlink{_parallel_pic_8cpp}{Parallel\-Pic.\-cpp}\end{DoxyCompactItemize}

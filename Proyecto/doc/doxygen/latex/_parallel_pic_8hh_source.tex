@@ -1,0 +1,224 @@
+\hypertarget{_parallel_pic_8hh}{\section{Parallel\-Pic.\-hh}
+\label{_parallel_pic_8hh}\index{/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/include/\-Parallel\-Pic.\-hh@{/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/include/\-Parallel\-Pic.\-hh}}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{//#include "mpi.h"}
+00002 \textcolor{preprocessor}{#include "../include/CImg.h"}
+00003 \textcolor{preprocessor}{#include <string>}
+00004 \textcolor{preprocessor}{#include <cstddef>}
+00005 \textcolor{preprocessor}{#include <iostream>}
+00006 \textcolor{preprocessor}{#include <omp.h>}
+00007 
+00012 \textcolor{keyword}{using namespace }cimg\_library;
+00016 \textcolor{keyword}{using namespace }std;
+00017 
+00018 \textcolor{preprocessor}{#ifndef IMAGE\_CLASS}
+00019 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define IMAGE\_CLASS}
+00020 \textcolor{preprocessor}{}
+\hypertarget{_parallel_pic_8hh_source_l00021}{}\hyperlink{class_image}{00021} \textcolor{keyword}{class }\hyperlink{class_image}{Image}
+00028 \{
+00029 \textcolor{keyword}{private}:
+00030     CImg<unsigned char> *Img; 
+00031     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} width; 
+00032     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} height; 
+00033     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} depth; 
+00034     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} spectrum; 
+00035     CImgList<unsigned char> complex; 
+00036     
+00037 \textcolor{keyword}{public}:
+00038 \textcolor{comment}{// *************************************************************************}
+00039 \textcolor{comment}{// *********************** Constructors ************************************}
+00040 \textcolor{comment}{// *************************************************************************}
+00041 
+00042     \hyperlink{class_image}{Image} ();
+00044     
+00045     \hyperlink{class_image}{Image} (\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\textcolor{keyword}{const} filename);
+00047     
+00048     \hyperlink{class_image}{Image} (\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} width, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} height, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} depth, \textcolor{keyword}{const} \textcolor{keywordtype}{
+      unsigned} \textcolor{keywordtype}{int} spectrum, \textcolor{keywordtype}{int} value);
+00053     ~\hyperlink{class_image}{Image}(\textcolor{keywordtype}{void}); 
+00054     
+00055 
+00056 \textcolor{comment}{// *************************************************************************}
+00057 \textcolor{comment}{// *********************** Save and Display ********************************}
+00058 \textcolor{comment}{// *************************************************************************}
+00059 
+00060     \textcolor{keywordtype}{void} save(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\textcolor{keyword}{const} savefilename); 
+00061 
+00062     \textcolor{keywordtype}{void} display(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* message); 
+00063     
+00064 \textcolor{comment}{// *************************************************************************}
+00065 \textcolor{comment}{// *********************** GETs & SEts *************************************}
+00066 \textcolor{comment}{// *************************************************************************}
+00067 
+00068     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} get\_pixel\_value(\textcolor{keywordtype}{int}, \textcolor{keywordtype}{int}, \textcolor{keywordtype}{int}, \textcolor{keywordtype}{int}); 
+00069 
+00070     \textcolor{keywordtype}{void} set\_pixel\_value(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} z, \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}); 
+00071     
+00072     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} get\_width();
+00073     
+00074     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} get\_height();
+00075     
+00076     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} get\_depth();
+00077     
+00078     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} get\_spectrum();
+00079 
+00080 \textcolor{comment}{// *************************************************************************}
+00081 \textcolor{comment}{// *********************** Arithmetic & Logic ******************************}
+00082 \textcolor{comment}{// *************************************************************************}
+00083 
+00084     \hyperlink{class_image}{Image} substract\_img(\hyperlink{class_image}{Image},\textcolor{keywordtype}{int}); 
+00085 
+00086     \hyperlink{class_image}{Image} sum\_img(\hyperlink{class_image}{Image},\textcolor{keywordtype}{int}); 
+00087     
+00088     \hyperlink{class_image}{Image} multiply\_img(\textcolor{keywordtype}{double},\textcolor{keywordtype}{int}); 
+00089 
+00090     \hyperlink{class_image}{Image} binarize\_img(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{int}); 
+00091         
+00092 \textcolor{comment}{// *************************************************************************}
+00093 \textcolor{comment}{// ************************* SPACE DOMAIN FILTERS **************************}
+00094 \textcolor{comment}{// *************************************************************************}
+00095 
+00096 \textcolor{comment}{// *************************************************************************}
+00097 \textcolor{comment}{// ********************** Sharpening Spatial Filters ***********************}
+00098 \textcolor{comment}{// *************************************************************************}
+00099 
+00100     \hyperlink{class_image}{Image} filter\_Laplacian(\textcolor{keywordtype}{int}); 
+00101     
+00102     \hyperlink{class_image}{Image} filter\_Laplacian\_no\_diagonal(\textcolor{keywordtype}{int}); 
+00103 
+00104     \hyperlink{class_image}{Image} filter\_Gradient\_vertical(\textcolor{keywordtype}{int}); 
+00105     
+00106     \hyperlink{class_image}{Image} filter\_Gradient\_horizontal(\textcolor{keywordtype}{int}); 
+00107     
+00108     \hyperlink{class_image}{Image} filter\_Prewitt\_N\_S(\textcolor{keywordtype}{int}); 
+00109     
+00110     \hyperlink{class_image}{Image} filter\_Prewitt\_NE\_SW(\textcolor{keywordtype}{int}); 
+00111     
+00112     \hyperlink{class_image}{Image} filter\_Prewitt\_E\_W(\textcolor{keywordtype}{int}); 
+00113     
+00114     \hyperlink{class_image}{Image} filter\_Prewitt\_NW\_SE(\textcolor{keywordtype}{int}); 
+00115 
+00116     \hyperlink{class_image}{Image} filter\_edge\_enhacement\_displacement(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{int}); 
+00117     
+00118     \hyperlink{class_image}{Image} filter\_horizontal\_borders(\textcolor{keywordtype}{int});
+00119     
+00120     \hyperlink{class_image}{Image} filter\_vertical\_borders(\textcolor{keywordtype}{int});
+00121     
+00122 \textcolor{comment}{// *************************************************************************}
+00123 \textcolor{comment}{// *********************** Smoothing Spatial Filters ***********************}
+00124 \textcolor{comment}{// *************************************************************************}
+00125 
+00126     \hyperlink{class_image}{Image} filter\_median(\textcolor{keywordtype}{int},\textcolor{keywordtype}{int}); 
+00127     
+00128     \hyperlink{class_image}{Image} filter\_average(\textcolor{keywordtype}{int},\textcolor{keywordtype}{int}); 
+00129     
+00130     \hyperlink{class_image}{Image} average\_omp(\textcolor{keywordtype}{int},\textcolor{keywordtype}{int});
+00131     
+00132     \hyperlink{class_image}{Image} filter\_gaussian(\textcolor{keywordtype}{int}, \textcolor{keywordtype}{int},\textcolor{keywordtype}{int}); 
+00133     
+00134     \hyperlink{class_image}{Image} filter\_modal(\textcolor{keywordtype}{int},\textcolor{keywordtype}{int}); 
+00135     
+00136     \hyperlink{class_image}{Image} median\_omp(\textcolor{keywordtype}{int},\textcolor{keywordtype}{int});
+00137 
+00138 \textcolor{comment}{// *************************************************************************}
+00139 \textcolor{comment}{// *********************** Dot to Dot Transformations **********************}
+00140 \textcolor{comment}{// *************************************************************************}
+00141     \hyperlink{class_image}{Image} filter\_dynamic\_range\_dilatation(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}, \textcolor{keywordtype}{double}, \textcolor{keywordtype}{double}, \textcolor{keywordtype}{double}, \textcolor{keywordtype}{int} );
+00142 
+00143     \hyperlink{class_image}{Image} inverse(\textcolor{keywordtype}{int}); 
+00144     
+00145     \hyperlink{class_image}{Image} log\_transformation(\textcolor{keywordtype}{int}); 
+00146     
+00147     \hyperlink{class_image}{Image} power\_law\_transformatiom(\textcolor{keywordtype}{double} exponent,\textcolor{keywordtype}{int}); 
+00148 
+00149     \hyperlink{class_image}{Image} color\_slicing (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} [], \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} [], \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} [],\textcolor{keywordtype}{int}); 
+00150     
+00151 \textcolor{comment}{// *************************************************************************}
+00152 \textcolor{comment}{// *********************** HISTOGRAM AND EQUALIZATION **********************}
+00153 \textcolor{comment}{// *************************************************************************}
+00154 
+00155     \textcolor{keywordtype}{int}* get\_histogram(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z); 
+00156     
+00157     \textcolor{keywordtype}{void} plot\_histogram(\textcolor{keywordtype}{int}, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title); 
+00158     
+00159     \textcolor{keywordtype}{int}* histogram\_equalization(\textcolor{keywordtype}{int}*, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title);
+00160 
+00161     CImg<float> autocovariance(\textcolor{keywordtype}{int}, \textcolor{keywordtype}{int},\textcolor{keywordtype}{int});
+00162 
+00163     \textcolor{keywordtype}{void} plot\_histogram\_equalization(\textcolor{keywordtype}{int}, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title); 
+00164 
+00165 
+00166     
+00167 
+00168 \textcolor{comment}{// *************************************************************************}
+00169 \textcolor{comment}{// *********************** OTHER TRANSFORMATIONS ***************************}
+00170 \textcolor{comment}{// *************************************************************************}
+00171 
+00172 
+00173     \hyperlink{class_image}{Image} filter\_order\_stadistics(\textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{int} order,\textcolor{keywordtype}{int}); 
+00174 
+00175     \hyperlink{class_image}{Image} variance(\textcolor{keywordtype}{int}, \textcolor{keywordtype}{int}); 
+00176     
+00177     \hyperlink{class_image}{Image} filter\_kirsch\_0(\textcolor{keywordtype}{int}); 
+00178     
+00179     \hyperlink{class_image}{Image} filter\_kirsch\_45(\textcolor{keywordtype}{int});
+00180     
+00181     \hyperlink{class_image}{Image} filter\_kirsch\_90(\textcolor{keywordtype}{int});
+00182     
+00183     \hyperlink{class_image}{Image} filter\_kirsch\_135(\textcolor{keywordtype}{int});
+00184     
+00185     \hyperlink{class_image}{Image} filter\_kirsch\_180(\textcolor{keywordtype}{int});
+00186     
+00187     \hyperlink{class_image}{Image} filter\_kirsch\_225(\textcolor{keywordtype}{int});
+00188     
+00189     \hyperlink{class_image}{Image} filter\_kirsch\_270(\textcolor{keywordtype}{int});
+00190     
+00191     \hyperlink{class_image}{Image} filter\_kirsch\_315(\textcolor{keywordtype}{int});
+00192     
+00193     \hyperlink{class_image}{Image} filter\_freeman\_0(\textcolor{keywordtype}{int});
+00194     
+00195     \hyperlink{class_image}{Image} filter\_freeman\_1(\textcolor{keywordtype}{int});
+00196     
+00197     \hyperlink{class_image}{Image} filter\_freeman\_2(\textcolor{keywordtype}{int});
+00198     
+00199     \hyperlink{class_image}{Image} filter\_freeman\_3(\textcolor{keywordtype}{int});
+00200     
+00201     \hyperlink{class_image}{Image} filter\_freeman\_4(\textcolor{keywordtype}{int});
+00202     
+00203     \hyperlink{class_image}{Image} filter\_freeman\_5(\textcolor{keywordtype}{int});
+00204     
+00205     \hyperlink{class_image}{Image} filter\_freeman\_6(\textcolor{keywordtype}{int});
+00206     
+00207     \hyperlink{class_image}{Image} filter\_freeman\_7(\textcolor{keywordtype}{int});
+00208 
+00209     \hyperlink{class_image}{Image} filter\_maximum(\textcolor{keywordtype}{int});
+00210     
+00211     \hyperlink{class_image}{Image} filter\_minimum(\textcolor{keywordtype}{int});
+00212 
+00213     \hyperlink{class_image}{Image} gray\_scale(\textcolor{keywordtype}{int});
+00214 
+00215 
+00216 \textcolor{comment}{// *************************************************************************}
+00217 \textcolor{comment}{// ****************************** NOISES ***********************************}
+00218 \textcolor{comment}{// *************************************************************************}
+00219 
+00220     \textcolor{keywordtype}{void} gaussian\_noise(\textcolor{keywordtype}{double}, \textcolor{keywordtype}{int});
+00221     \textcolor{keywordtype}{void} salt\_pepper(\textcolor{keywordtype}{double}, \textcolor{keywordtype}{int}); 
+00222     
+00223     \hyperlink{class_image}{Image} interpolation(\textcolor{keywordtype}{int}); 
+00224 
+00225     \hyperlink{class_image}{Image} coorrelogram(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{int}); 
+00226     
+00227     \hyperlink{class_image}{Image} coorrelogram\_ZC(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}, \textcolor{keywordtype}{int}); 
+00228 
+00229     \hyperlink{class_image}{Image} coorrelogram\_par(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int},\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}); 
+00230 
+00231     \hyperlink{class_image}{Image} rgb\_hsv();
+00232     
+00233 
+00234 \};
+00235 
+00236 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}
