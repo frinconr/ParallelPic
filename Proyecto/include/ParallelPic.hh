@@ -139,7 +139,7 @@ public:
 	
 	Image filter_modal(int); /// \fn Modal filter calculates the modal of a certain group of pixels, in case there is no especific modal it calculates the average.
 	
-	Image median_omp(int);
+	Image median_omp(int,int);
 
 // *************************************************************************
 // *********************** Dot to Dot Transformations **********************
