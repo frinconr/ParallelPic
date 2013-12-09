@@ -35,7 +35,7 @@ Image Image::rgb_hsv(Image imagen)
 				
 			pixel RGB2 (RGB[0],RGB[1],RGB[2]);
 			
-			cout<<LUT.size()<<endl;
+			//cout<<LUT.size()<<endl;
 			
 			for (int m=0; m<LUT.size();++m)
 			{
@@ -57,10 +57,10 @@ Image Image::rgb_hsv(Image imagen)
 
 					//Calculate H
 					
-					if(Max==Min){H=Max;}
+					if(Max==Min){H=-1;}
 					else{
-					if(Max==RGB[0] & RGB[1]>=RGB[2]){H=60*(RGB[1]-RGB[2])/(Max-Min);}
-					if(Max==RGB[0] & RGB[1]<RGB[2]){H=360+60*(RGB[1]-RGB[2])/(Max-Min);}
+					if(Max==RGB[0] && RGB[1]>=RGB[2]){H=60*(RGB[1]-RGB[2])/(Max-Min);}
+					if(Max==RGB[0] && RGB[1]<RGB[2]){H=360+60*(RGB[1]-RGB[2])/(Max-Min);}
 					if(Max==RGB[1])	{H=120+60*(RGB[2]-RGB[0])/(Max-Min);}
 					if(Max==RGB[2]){H=240+60*(RGB[0]-RGB[1])/(Max-Min);}
 					}	
@@ -73,9 +73,10 @@ Image Image::rgb_hsv(Image imagen)
 					
 					pixel HSV (H,S,V);
 					pair<pixel,pixel> pix_pair(RGB2,HSV);
-					LUT.push_back(pix_pair);
+					//LUT.push_back(pix_pair);
 				}
 				
+				cout<<H<<"  "<<S<<"   "<<V<<endl;
 				
 				result.set_pixel_value(x,y,z,0,H);
 				result.set_pixel_value(x,y,z,1,S);
