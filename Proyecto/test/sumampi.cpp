@@ -1,19 +1,22 @@
 #include <mpi.h>
 #include "../../../mylib/imagelib/Proyecto/include/image.hh"
 
+
 int main(int argc, char** argv)
 {
 	Image img1 (argv[1]);
 	Image img2 (argv[2]);
-	img1.display("imagen 1");
-	img2.display("imagen 2");
+	//img1.display("imagen 1");
+	//img2.display("imagen 2");
+	
 	int matrix[img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
 	int matrix2[img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
 	int mat_result [img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum()];
 	
 	int x,y,z,c, procs, id, local_size, size, i,*matrix_local, *matrix2_local, *result_local;
 	//creamos dos matrices de enteros apartir de la imagen
-	
+	clock_t time;
+	time=clock();
 	for(z=0; z< img1.get_depth(); ++z)
 	{	
 		for(x=0; x<img1.get_width();++x)
@@ -79,7 +82,7 @@ int main(int argc, char** argv)
 
 	MPI_Gather(result_local, local_size, MPI_INT, mat_result, local_size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Barrier(MPI_COMM_WORLD);
-
+	MPI_Finalize();
 	// Esto lo único que hace es volver a construir la matriz
 	for(c=0; c< img1.get_spectrum();++c)
 	{
@@ -95,6 +98,7 @@ int main(int argc, char** argv)
 			}
 		}
 	}
-	
-	result.display("disp");
+	time=clock()-time;
+	cout<<"Tiempo de ejecución con "<<procs<<" procesadores: "<< ((float)time)/CLOCKS_PER_SEC <<endl;
+	//result.display("disp");
 }
