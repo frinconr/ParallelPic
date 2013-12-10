@@ -15,8 +15,9 @@ int main(int argc, char** argv)
 	int *matrix= (int*)malloc(size*sizeof(int));
 	int *matrix2= (int*)malloc(size*sizeof(int));
 	int *mat_result= (int*)malloc(size*sizeof(int));
-
+	Image result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 
 	int x,y,z,c, procs, id, local_size, i,*matrix_local, *matrix2_local, *result_local;
+	i=0;
 	//creamos dos matrices de enteros apartir de la imagen
 	clock_t time;
 	time=clock();
@@ -38,8 +39,6 @@ int main(int argc, char** argv)
 		}
 	}
 
-	Image result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 
-	i=0;
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &id);
 	MPI_Comm_size(MPI_COMM_WORLD, &procs);
@@ -90,8 +89,8 @@ int main(int argc, char** argv)
 	free(matrix_local);
 	free(matrix2_local);
 	MPI_Gather(result_local, local_size, MPI_INT, mat_result, local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	free(result_local);
 	MPI_Barrier(MPI_COMM_WORLD);
+	free(result_local);
 	MPI_Finalize();
 	// Esto lo único que hace es volver a construir la matriz
 	for(c=0; c< img1.get_spectrum();++c)
@@ -113,5 +112,5 @@ int main(int argc, char** argv)
 	cout<<"Tiempo de ejecución con "<<procs<<" procesadores: "<< ((float)time)/CLOCKS_PER_SEC <<endl;
 	result.display("disp");
 
-
+	return 0;
 }
