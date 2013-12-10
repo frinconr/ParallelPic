@@ -12,6 +12,8 @@ int main(int argc, char** argv)
 	img1.display("imagen 1");
 	img2.display("imagen 2");
 	int size=img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum();
+	int x,y,z,c, procs, id, local_size, i,*matrix, *matrix2,*mat_result,*matrix_local, *matrix2_local, *result_local;
+	Image result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 
 	
 	clock_t time;
 	time=clock();
@@ -24,11 +26,9 @@ int main(int argc, char** argv)
 	if(id==0)
 	{
 	
-	int *matrix= (int*)malloc(size*sizeof(int));
-	int *matrix2= (int*)malloc(size*sizeof(int));
-	int *mat_result= (int*)malloc(size*sizeof(int));
-	Image result(img1.get_width(), img1.get_height(), img1.get_depth(), img1.get_spectrum(), 0); 
-	int x,y,z,c, procs, id, local_size, i,*matrix_local, *matrix2_local, *result_local;
+	matrix= (int*)malloc(size*sizeof(int));
+	matrix2= (int*)malloc(size*sizeof(int));
+	mat_result= (int*)malloc(size*sizeof(int));
 	i=0;
 	//creamos dos matrices de enteros apartir de la imagen
 	
