@@ -45,3 +45,6 @@ sumampi: sumampi.cpp
 
 median: Median_par.cpp
 	$(CC) $(CFLAGS) Median_par.cpp $(EFLAGS) median.exe $(LFLAGS)
+	
+tutorial1: Tutorial_omp.cpp
+	$(CC) $(CFLAGS) Tutorial_omp.cpp $(EFLAGS) Tutorial_omp.exe $(LFLAGS)
