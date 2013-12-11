@@ -1,24 +1,31 @@
 #include "../include/ParallelPic.hh"
 #include <omp.h>
+#include <iostream>
 
-Image Image :: median_omp (int dim)
+
+Image Image :: median_omp (int dim, int num_threads)
 {
 	Image filtered (this->get_width() , this->get_height(), this->get_depth(), this->get_spectrum(), 0); /// 
 
 	int m = (dim-1)/2;
 	unsigned char pixel_values [dim*dim];
 	unsigned char temp;
-	int chunk= (this->get_width()/omp_get_num_threads());
+	int chunk;
+	omp_set_num_threads(num_threads);
+	#pragma omp parallel private(pixel_values,temp,chunk) shared(filtered)
+	{
+	chunk= (this->get_width()/omp_get_num_threads());
 	
+	#pragma omp for ordered schedule(dynamic,1)  
 	for(unsigned int c = 0; c < this->get_spectrum(); c++)
 	{
 		for(unsigned int z = 0; z < this->get_depth(); z++)
 		{
 			
-		#pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel_values,temp) shared(z,c,filtered,chunk)
+		//#pragma omp parallel for ordered schedule(dynamic,dim+1) private(pixel_values,temp,chunk) shared(z,c,filtered)
 		
 			for(unsigned int x = m; x < this->get_width(); x++)
-			{
+			{		
 				for(unsigned int y = m; y < this->get_height(); y++)
 				{
 					for(unsigned int i = x-m; i < x+m; i++)
@@ -48,10 +55,9 @@ Image Image :: median_omp (int dim)
 					filtered.set_pixel_value(x, y, z, c, pixel);
 				}
 				
-			 }
-			 
-		 }
-	}  
+			}
+		}  
+	}}
 	 return filtered;
  }
  
@@ -64,17 +70,11 @@ int main()
 	
 	
 	time= clock();
-	Image result=img1.median_omp(3);
+	Image result=img1.median_omp(3, 2);
 	time= clock()-time;
 	cout<<"Tiempo de ejecucion paralela (s) : "<<((float)time)/CLOCKS_PER_SEC<<endl;
 	result.display("result");
-	
-	
-	time= clock();
-	result= img1.filter_median(3);
-	time= clock()-time;
-	cout<<"Tiempo de ejecucion secuencial (s) : "<<((float)time)/CLOCKS_PER_SEC<<endl;
-	result.display("result");
+
 	
 	return 0;
 }
