@@ -65,11 +65,10 @@ int main(int argc, char** argv)
 		result_local=(int*)malloc(local_size*sizeof(int));
 	}
 	
+	MPI_Bcast(&matrix_local,(id!=procs-1)?local_size : local_size+size%procs, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Bcast(&matrix2_local,(id!=procs-1)?local_size : local_size+size%procs, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&matrix2,size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&matrix2_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&local_size,1, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	MPI_Barrier(MPI_COMM_WORLD);
 	cout<<local_size<<"   "<<size<<endl;
@@ -111,7 +110,7 @@ int main(int argc, char** argv)
 	}
 	time=clock()-time;
 	free(mat_result);
-	cout<<"Tiempo de ejecución con "<<procs<<" procesadores: "<< ((float)time)/CLOCKS_PER_SEC <<endl;
+	cout<<"Tiempo de ejecución con "<<procs<<" procesadores: "<< ((double)time)/CLOCKS_PER_SEC <<endl;
 	result.display("disp");
 
 	return 0;
