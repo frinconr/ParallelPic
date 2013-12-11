@@ -57,13 +57,13 @@ int main(int argc, char** argv)
 	MPI_Barrier(MPI_COMM_WORLD);
 	MPI_Bcast(&local_size,1, MPI_INT, 0, MPI_COMM_WORLD);
 	
-	/*if(procs >1 && id==procs-1)
+	if(procs >1 && id==procs-1)
 	{
 		local_size+= size%procs;
 		matrix2_local=(int*)malloc(local_size*sizeof(int));
 		matrix_local=(int*)malloc(local_size*sizeof(int));
 		result_local=(int*)malloc(local_size*sizeof(int));
-	}*/
+	}
 	
 	MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&matrix2_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
