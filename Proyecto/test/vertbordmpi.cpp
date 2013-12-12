@@ -13,7 +13,13 @@ int main(int argc, char** argv)
 	i=0;
 	//creamos dos matrices de enteros apartir de la imagen
 	
+	clock_t time;
+	time=clock();
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &id);
+	MPI_Comm_size(MPI_COMM_WORLD, &procs);
 	
+	local_size=size/procs;
 	for(c=0; c< img1.get_spectrum();++c)
 	{
 		for(z=0; z< img1.get_depth(); ++z)
@@ -29,15 +35,9 @@ int main(int argc, char** argv)
 			}
 		}
 	}
-	clock_t time;
-	time=clock();
-	MPI_Init(&argc, &argv);
-	MPI_Comm_rank(MPI_COMM_WORLD, &id);
-	MPI_Comm_size(MPI_COMM_WORLD, &procs);
 	
-	local_size=size/procs;
 	
-	if(id==0)
+	//if(id==0)
 	{
 		//crea las matrices locales que debe tener cada thread
 		matrix_local=(int*)malloc(local_size*sizeof(int));
@@ -48,16 +48,16 @@ int main(int argc, char** argv)
 	MPI_Barrier(MPI_COMM_WORLD);
 	MPI_Bcast(&local_size,1, MPI_INT, 0, MPI_COMM_WORLD);
 	
-	if(procs >1 && id==procs-1)
+	/*if(procs >1 && id==procs-1)
 	{
 		local_size+= size%procs;
 		matrix_local=(int*)malloc(local_size*sizeof(int));
 		result_local=(int*)malloc(local_size*sizeof(int));
-	}
+	}*/
 	
-	MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&result_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&result_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	MPI_Barrier(MPI_COMM_WORLD);
 	cout<<local_size<<"   "<<size<<endl;
@@ -68,7 +68,6 @@ int main(int argc, char** argv)
 	for(i=1; i<local_size-1; ++i)
 	{
 		result_local[i] = matrix_local[i-1]-matrix_local[i+1];
-	
 	}
 	free(matrix_local);
 	MPI_Gather(result_local, local_size, MPI_INT, mat_result, local_size, MPI_INT, 0, MPI_COMM_WORLD);
