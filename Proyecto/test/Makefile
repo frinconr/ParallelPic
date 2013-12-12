@@ -49,3 +49,6 @@ median: Median_par.cpp
 	
 tutorial1: Tutorial_omp.cpp
 	$(CC) $(CFLAGS) Tutorial_omp.cpp $(EFLAGS) Tutorial_omp.exe $(LFLAGS)
+
+interpolation: interpolation.cpp
+	$(CMPI) interpolation.cpp $(EFLAGS) interpolation.exe $(L2FLAGS)

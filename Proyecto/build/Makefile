@@ -7,3 +7,6 @@ all: ParallelPic
 ParallelPic:
 	$(CC) $(CFLAGS) ../src/ParallelPic.cpp $(LFLAGS)
 
+image:
+	$(CC) $(CFLAGS) ../src/image.cpp $(LFLAGS)
+
