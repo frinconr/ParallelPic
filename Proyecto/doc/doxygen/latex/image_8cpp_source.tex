@@ -1,0 +1,2042 @@
+\hypertarget{image_8cpp}{\section{image.\-cpp}
+\label{image_8cpp}\index{/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/src/image.\-cpp@{/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/src/image.\-cpp}}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#include "../include/image.hh"}
+00002 
+00003 
+00008  \textcolor{comment}{// *************************************************************************}
+00009  \textcolor{comment}{// ********************* CONTRUCTORS ***************************************}
+00010  \textcolor{comment}{// *************************************************************************}
+00011  
+\hypertarget{image_8cpp_source_l00017}{}\hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{00017} \hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image::Image}()
+00018 \{
+00019     this->Img = \textcolor{keyword}{new} CImg<unsigned char>();
+00020     this->width = 0;
+00021     this->height = 0;
+00022     this->depth = 0;
+00023     this->spectrum = 0;
+00024 
+00025 \}
+\hypertarget{image_8cpp_source_l00032}{}\hyperlink{class_image_a54de984d18843789d938f7328bdea800}{00032} \hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image::Image}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\textcolor{keyword}{const} filename)
+00033 \{
+00034     this->Img = \textcolor{keyword}{new} CImg<unsigned char>(filename);
+00036     this->width = this->Img->width();
+00038     this->height = this->Img->height();
+00040     this->depth = this->Img->depth();
+00042     this->spectrum = this->Img->spectrum();
+00044 \}
+\hypertarget{image_8cpp_source_l00049}{}\hyperlink{class_image_a2055dfd9700ce01e4f5b06f75b5f0fab}{00049} \hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image::Image}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} width, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} height, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} depth, \textcolor{keyword}{
+      const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} spectrum, \textcolor{keywordtype}{int} value)
+00050 \{
+00051     this->Img = \textcolor{keyword}{new} CImg<unsigned char>(width, height, depth, spectrum, value);
+00052     this->width = width;
+00053     this->height = height;
+00054     this->depth = depth;
+00055     this->spectrum = spectrum;
+00056 \}
+\hypertarget{image_8cpp_source_l00060}{}\hyperlink{class_image_a794ae7f8ff9b4b7b7306343ac2f56356}{00060} \hyperlink{class_image_a794ae7f8ff9b4b7b7306343ac2f56356}{Image::~Image}(\textcolor{keywordtype}{void})
+00061 \{
+00062     
+00063 \}
+00064 \textcolor{comment}{// *************************************************************************}
+00065 \textcolor{comment}{// ************************** SAVE & DISPLAY *******************************}
+00066 \textcolor{comment}{// *************************************************************************}
+00072 \textcolor{comment}{}\textcolor{keywordtype}{void} Image:: save(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\textcolor{keyword}{const} savefilename)
+00073 \{
+00074     this->Img->save(savefilename);
+00075 \}
+00076 
+\hypertarget{image_8cpp_source_l00077}{}\hyperlink{class_image_a62ff76610f4f6ed2817d7f60abda765f}{00077} \textcolor{keywordtype}{void} \hyperlink{class_image_a62ff76610f4f6ed2817d7f60abda765f}{Image :: display}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* message)
+00078 \{
+00079     CImgDisplay main (*(this->Img), message);
+00080     \textcolor{keywordflow}{while}(!main.is\_closed())
+00081     \{
+00082         main.wait();
+00083     \}
+00084 \}
+00085 
+00086 \textcolor{comment}{// *************************************************************************}
+00087 \textcolor{comment}{// *************************** GETs & SETs *********************************}
+00088 \textcolor{comment}{// *************************************************************************}
+00089 
+00094 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_width()
+00095 \{
+00096     \textcolor{keywordflow}{return} this->width;
+00097 \}
+00102 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_height()
+00103 \{
+00104     \textcolor{keywordflow}{return} this->height;
+00105 \}
+00106 
+00111 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_depth()
+00112 \{
+00113     \textcolor{keywordflow}{return} this->depth;
+00114 \}
+00115 
+00120 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_spectrum()
+00121 \{
+00122     \textcolor{keywordflow}{return} this->spectrum;
+00123 \}
+00124 
+00125 
+00130 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_pixel\_value(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} z, \textcolor{keywordtype}{int} c)
+00131 \{
+00132     \textcolor{keywordflow}{return} this->Img->get\_vector\_at(x, y, z)[c];
+00133 \}
+00134 
+\hypertarget{image_8cpp_source_l00139}{}\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{00139} \textcolor{keywordtype}{void} \hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{Image:: set\_pixel\_value}(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} z, \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} value)
+00140 \{
+00141     (*(this->Img))(x, y, z, c)= value;
+00142 \}
+00143 
+00144 
+00145 \textcolor{comment}{// *************************************************************************}
+00146 \textcolor{comment}{// ************************** FILTER ***************************************}
+00147 \textcolor{comment}{// *************************************************************************}
+00148 
+00149 
+00161 \hyperlink{class_image}{Image} Image :: filter (\textcolor{keywordtype}{int} kernel [], \textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{float} normalizer)
+00162 \{
+00163     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00164     
+00165     \textcolor{keywordtype}{int} m = (int)(dim-1)/2;
+00166     
+00167     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00168     \{
+00169         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00170         \{
+00171             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00172             \{
+00173                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00174                 \{
+00175                     \textcolor{keywordtype}{double} sum\_values = 0;
+00176                     
+00177                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = (x-m); i <= (x+m); i++)
+00178                     \{
+00179                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = (y-m); j<= (y+m); j++)
+00180                         \{
+00181                             sum\_values += (this->get\_pixel\_value(i, j, z, c)) * (kernel[ (i-x+m)*dim + (j-y
+      +m)]); 
+00182                         \}
+00183                     \}
+00184                     
+00185                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>} (abs(sum\_values/ normalizer));
+00186                     
+00187                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00188                 \}
+00189                 
+00190              \}
+00191              
+00192          \}
+00193     \}  
+00194      \textcolor{keywordflow}{return} filtered;
+00195  \}
+00196  
+00197  
+00198 \textcolor{comment}{// *************************************************************************}
+00199 \textcolor{comment}{// **************************Arithmetic and Logic **************************}
+00200 \textcolor{comment}{// *************************************************************************}
+00201 
+\hypertarget{image_8cpp_source_l00207}{}\hyperlink{class_image_ae503021a1c7b4188a457d55d7571e63d}{00207} \hyperlink{class_image}{Image} \hyperlink{class_image_ae503021a1c7b4188a457d55d7571e63d}{Image :: substract\_img}(\hyperlink{class_image}{Image} image2)
+00208 \{
+00209     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00210 
+00211     \textcolor{keywordflow}{if}(this->get\_width() == image2.get\_width() && this->get\_height() == image2.get\_height() && this->
+      get\_depth() == image2.get\_depth() && this->get\_spectrum() == image2.get\_spectrum())
+00212     \{
+00213         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00214         \{
+00215             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00216             \{
+00217                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00218                 \{
+00219                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00220                     \{
+00221                         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)-
+      image2.get\_pixel\_value(x,y,z,c)));
+00222     
+00223                         result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,pixel);
+00224                     \}
+00225                 \}
+00226             \}
+00227         \}
+00228     \}
+00229     \textcolor{keywordflow}{return} result;
+00230 \}
+00231 
+00232 
+\hypertarget{image_8cpp_source_l00233}{}\hyperlink{class_image_a652abac4bfdd2fcff0cdb5627ac8ad49}{00233} \hyperlink{class_image}{Image} \hyperlink{class_image_a652abac4bfdd2fcff0cdb5627ac8ad49}{Image :: sum\_img}(\hyperlink{class_image}{Image} image2)
+00234 \{
+00235     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00236 
+00237     \textcolor{keywordflow}{if}(this->get\_width() == image2.get\_width() && this->get\_height() == image2.get\_height() && this->
+      get\_depth() == image2.get\_depth() && this->get\_spectrum() == image2.get\_spectrum())
+00238     \{
+00239         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00240         \{
+00241             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00242             \{
+00243                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00244                 \{
+00245                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00246                     \{
+00247                         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00248                         \textcolor{keywordtype}{int} sum = this->get\_pixel\_value(x,y,z,c)+image2.get\_pixel\_value(x,y,z,c);
+00249                         \textcolor{keywordflow}{if} (sum <= 255)
+00250                         \{
+00251                             pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(sum);
+00252                         \}
+00253                         \textcolor{keywordflow}{else}
+00254                         \{
+00255                             pixel = 255;
+00256                         \}
+00257                         result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,pixel);
+00258                     \}
+00259                 \}
+00260             \}
+00261         \}
+00262     \}
+00263     \textcolor{keywordflow}{return} result;
+00264 \}
+00265 
+00266 
+\hypertarget{image_8cpp_source_l00273}{}\hyperlink{class_image_ae546904988636a989dfca3950030bd85}{00273} \hyperlink{class_image}{Image} \hyperlink{class_image_ae546904988636a989dfca3950030bd85}{Image :: multiply\_img}(\textcolor{keywordtype}{double} multiplier)
+00274 \{
+00275     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+00276     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00277     \{
+00278         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00279         \{
+00280             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00281             \{
+00282                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00283                 \{
+00284                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)*
+      multiplier));
+00285                     \textcolor{keywordflow}{if} (pixel >255)
+00286                         pixel = 255;
+00287                     result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,pixel);
+00288                 \}
+00289             \}
+00290         \}
+00291     \}
+00292     \textcolor{keywordflow}{return} result;
+00293 \}
+00294 
+\hypertarget{image_8cpp_source_l00301}{}\hyperlink{class_image_ac23d8c133700c751fac7ce6615641fde}{00301} \hyperlink{class_image}{Image} \hyperlink{class_image_ac23d8c133700c751fac7ce6615641fde}{Image :: binarize\_img}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} cutoff\_value)
+00302 \{
+00303     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+00304     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00305     \{
+00306         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00307         \{
+00308             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+00309             \{
+00310                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+00311                 \{
+00312                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(this->get\_pixel\_value(x,y,z,c));
+00313                     \textcolor{keywordflow}{if}(pixel >= cutoff\_value)
+00314                         pixel=255;
+00315                     \textcolor{keywordflow}{else}
+00316                         pixel=0;
+00317                     result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,pixel);
+00318 
+00319                 \}
+00320             \}
+00321         \}
+00322     \}
+00323 
+00324     
+00325     \textcolor{keywordflow}{return} result;
+00326 \}
+00327 
+00328 
+00329 \textcolor{comment}{// *************************************************************************}
+00330 \textcolor{comment}{// ************************** SPACE DOMAIN FILTERS *************************}
+00331 \textcolor{comment}{// *************************************************************************}
+00332 
+00333 
+00334 
+00335 
+00336 \textcolor{comment}{// *************************************************************************}
+00337 \textcolor{comment}{// *********************** Sharpening Spatial Filters **********************}
+00338 \textcolor{comment}{// *************************************************************************}
+00339 
+\hypertarget{image_8cpp_source_l00347}{}\hyperlink{class_image_abda67bfc036d9de98bf806c93fbae370}{00347} \hyperlink{class_image}{Image} \hyperlink{class_image_abda67bfc036d9de98bf806c93fbae370}{Image::filter\_Laplacian}()
+00348 \{
+00349     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00350     
+00351     \textcolor{keywordtype}{int} m = 1;
+00352     
+00353     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00354     \{
+00355         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00356         \{
+00357             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00358             \{
+00359                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00360                 \{
+00361                     \textcolor{keywordtype}{int} sum = 0;
+00362                     
+00363                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0 ; i < 3; i++)
+00364                     \{
+00365                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = 0 ; j < 3; j++)
+00366                         \{
+00367                         sum += -this->get\_pixel\_value(x+i-1, y+i-1, z, c);
+00368                         \}
+00369                     \}
+00370                     
+00371                     sum += 9*(this->get\_pixel\_value(x,y,z,c));
+00372                     
+00373                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00374                     \{
+00375                         sum = 255;
+00376                     \}
+00377                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00378                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00379                 \}
+00380                 
+00381              \}
+00382              
+00383          \}
+00384     \}  
+00385     \textcolor{keywordflow}{return} filtered; 
+00386 \}
+00387 
+\hypertarget{image_8cpp_source_l00393}{}\hyperlink{class_image_a308423cd4b7291228c4dcd1a9a4f8856}{00393} \hyperlink{class_image}{Image} \hyperlink{class_image_a308423cd4b7291228c4dcd1a9a4f8856}{Image :: filter\_Laplacian\_no\_diagonal}()
+00394 \{
+00395     \textcolor{comment}{//int kernel[9] = \{0, -1, 0, -1, 4, -1, 0, -1, 0\};}
+00396     
+00397     \textcolor{comment}{//return (this->filter(kernel, 3, 1));}
+00398     
+00399     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00400     
+00401     \textcolor{keywordtype}{int} m = 1;
+00402     
+00403     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00404     \{
+00405         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00406         \{
+00407             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00408             \{
+00409                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00410                 \{
+00411                     \textcolor{keywordtype}{int} sum = 4*(this->get\_pixel\_value(x,y,z,c)) - (this->get\_pixel\_value(x-1,y,z,c) + 
+      this->get\_pixel\_value(x+1,y,z,c) + this->get\_pixel\_value(x,y-1,z,c) +this->get\_pixel\_value(x,y+1,z,c));
+00412                     
+00413                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00414                     \{
+00415                         sum = 255;
+00416                     \}
+00417                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00418                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00419                 \}
+00420                 
+00421              \}
+00422              
+00423          \}
+00424     \}  
+00425     \textcolor{keywordflow}{return} filtered; 
+00426     
+00427 \}
+00428 
+\hypertarget{image_8cpp_source_l00436}{}\hyperlink{class_image_aeff1dd9c6747100583ecd976a298e67b}{00436} \hyperlink{class_image}{Image} \hyperlink{class_image_aeff1dd9c6747100583ecd976a298e67b}{Image :: filter\_Gradient\_horizontal}()
+00437 \{   
+00438     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00439     
+00440     \textcolor{keywordtype}{int} m = 1;
+00441     
+00442     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00443     \{
+00444         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00445         \{
+00446             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00447             \{
+00448                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00449                 \{
+00450                     \textcolor{keywordtype}{int} sum = this->get\_pixel\_value(x-1, y-1, z, c) + 2*(this->get\_pixel\_value(x, y-1, z, c
+      )) + this->get\_pixel\_value(x+1, y-1, z, c) - (this->get\_pixel\_value(x-1, y+1, z, c) + 2*(this->
+      get\_pixel\_value(x, y+1, z, c)) + this->get\_pixel\_value(x+1, y+1, z, c));
+00451                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00452                     \{
+00453                         sum = 255;
+00454                     \}
+00455                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00456                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00457                 \}
+00458                 
+00459              \}
+00460              
+00461          \}
+00462     \}  
+00463      \textcolor{keywordflow}{return} filtered;
+00464 \}
+00465 
+\hypertarget{image_8cpp_source_l00473}{}\hyperlink{class_image_a66ea21718b13184a2d49d52a49cda750}{00473} \hyperlink{class_image}{Image} \hyperlink{class_image_a66ea21718b13184a2d49d52a49cda750}{Image :: filter\_Gradient\_vertical}()
+00474 \{
+00475     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00476     
+00477     \textcolor{keywordtype}{int} m = 1;
+00478     
+00479     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00480     \{
+00481         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00482         \{
+00483             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00484             \{
+00485                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00486                 \{
+00487                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + 2*get\_pixel\_value(x-1, y, z, c) + 
+      get\_pixel\_value(x-1, y+1, z, c) - (get\_pixel\_value(x+1, y-1, z, c) + 2*get\_pixel\_value(x+1, y, z, c) + 
+      get\_pixel\_value(x+1, y+1, z, c));
+00488                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00489                     \{
+00490                         sum = 255;
+00491                     \}
+00492                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00493                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00494                 \}
+00495                 
+00496              \}
+00497              
+00498          \}
+00499     \}  
+00500      \textcolor{keywordflow}{return} filtered;
+00501 \}
+00502 
+\hypertarget{image_8cpp_source_l00520}{}\hyperlink{class_image_a931b36f6843f103be624d1f58150ab63}{00520} \hyperlink{class_image}{Image} \hyperlink{class_image_a931b36f6843f103be624d1f58150ab63}{Image :: filter\_Prewitt\_N\_S}()
+00521 \{
+00522     \textcolor{comment}{//int kernel[9] = \{1, 1, 1, 0, 0, 0, -1, -1, -1\};}
+00523     
+00524     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00525     
+00526     \textcolor{keywordtype}{int} m = 1;
+00527     
+00528     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00529     \{
+00530         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00531         \{
+00532             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00533             \{
+00534                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00535                 \{
+00536                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x, y-1, z, c) + 
+      get\_pixel\_value(x+1, y-1, z, c) - (get\_pixel\_value(x-1, y+1, z, c) + get\_pixel\_value(x, y+1, z, c) + get\_pixel\_value(x+
+      1, y+1, z, c));
+00537                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00538                     \{
+00539                         sum = 255;
+00540                     \}
+00541                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00542                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00543                 \}
+00544                 
+00545              \}
+00546              
+00547          \}
+00548     \}  
+00549     
+00550     \textcolor{keywordflow}{return} filtered;
+00551     
+00552 \}
+00553     
+\hypertarget{image_8cpp_source_l00554}{}\hyperlink{class_image_adfefe21b9272e6ded5ba7939d7dbe99c}{00554} \hyperlink{class_image}{Image} \hyperlink{class_image_adfefe21b9272e6ded5ba7939d7dbe99c}{Image ::filter\_Prewitt\_NE\_SW}()
+00555 \{
+00556     \textcolor{comment}{//int kernel[9] = \{0, 1, 1, -1, 0, 1, -1, -1, 0\};}
+00557     
+00558     \textcolor{comment}{//return (this->filter(kernel, 3, 1));}
+00559     
+00560     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00561     
+00562     \textcolor{keywordtype}{int} m = 1;
+00563     
+00564     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00565     \{
+00566         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00567         \{
+00568             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00569             \{
+00570                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00571                 \{
+00572                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x, y-1, z, c) + get\_pixel\_value(x+1, y-1, z, c) + 
+      get\_pixel\_value(x+1, y, z, c) - (get\_pixel\_value(x-1, y, z, c) + get\_pixel\_value(x-1, y+1, z, c) + get\_pixel\_value(x, y
+      +1, z, c));
+00573                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00574                     \{
+00575                         sum = 255;
+00576                     \}
+00577                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00578                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00579                 \}
+00580                 
+00581              \}
+00582              
+00583          \}
+00584     \}  
+00585     
+00586     \textcolor{keywordflow}{return} filtered;
+00587     
+00588 \}
+00589 
+\hypertarget{image_8cpp_source_l00590}{}\hyperlink{class_image_ac9a433b59be54fea12aa1397defd6c81}{00590} \hyperlink{class_image}{Image} \hyperlink{class_image_ac9a433b59be54fea12aa1397defd6c81}{Image ::filter\_Prewitt\_E\_W}()
+00591 \{
+00592     \textcolor{comment}{//int kernel[9] = \{1, 0, -1, 1, 0, -1, 1, 0, -1\};}
+00593     
+00594     \textcolor{comment}{//return (this->filter(kernel, 3, 1));  }
+00595     
+00596     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00597     
+00598     \textcolor{keywordtype}{int} m = 1;
+00599     
+00600     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00601     \{
+00602         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00603         \{
+00604             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00605             \{
+00606                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00607                 \{
+00608                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x-1, y, z, c) + 
+      get\_pixel\_value(x-1, y+1, z, c) - (get\_pixel\_value(x+1, y-1, z, c) + get\_pixel\_value(x+1, y, z, c) + get\_pixel\_value(x+
+      1, y+1, z, c));
+00609                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00610                     \{
+00611                         sum = 255;
+00612                     \}
+00613                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00614                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00615                 \}
+00616                 
+00617              \}
+00618              
+00619          \}
+00620     \}  
+00621     
+00622     \textcolor{keywordflow}{return} filtered;
+00623     
+00624 \}
+00625     
+\hypertarget{image_8cpp_source_l00626}{}\hyperlink{class_image_ab33257cb397927a0445527d41a3b6dfa}{00626} \hyperlink{class_image}{Image} \hyperlink{class_image_ab33257cb397927a0445527d41a3b6dfa}{Image ::filter\_Prewitt\_NW\_SE}()
+00627 \{
+00628     \textcolor{comment}{//int kernel[9] = \{-1, -1, 0, -1, 0, 1, 0, 1, 1\};}
+00629     
+00630     \textcolor{comment}{// (this->filter(kernel, 3, 1));    }
+00631     
+00632     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00633     
+00634     \textcolor{keywordtype}{int} m = 1;
+00635     
+00636     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00637     \{
+00638         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00639         \{
+00640             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00641             \{
+00642                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00643                 \{
+00644                     \textcolor{keywordtype}{int} sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x-1, y, z, c) + 
+      get\_pixel\_value(x, y-1, z, c) - (get\_pixel\_value(x+1, y, z, c) + get\_pixel\_value(x+1, y+1, z, c) + get\_pixel\_value(x, y
+      +1, z, c));
+00645                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00646                     \{
+00647                         sum = 255;
+00648                     \}
+00649                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00650                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00651                 \}
+00652                 
+00653              \}
+00654              
+00655          \}
+00656     \}  
+00657     
+00658     \textcolor{keywordflow}{return} filtered;
+00659         
+00660 \}
+00661 
+\hypertarget{image_8cpp_source_l00662}{}\hyperlink{class_image_aa5e19816018edced13326f1d58d30f4c}{00662} \hyperlink{class_image}{Image} \hyperlink{class_image_aa5e19816018edced13326f1d58d30f4c}{Image ::filter\_edge\_enhacement\_displacement}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{
+      int} horizontal\_dis, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} vertical\_dis)
+00663 \{
+00664     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00665     \textcolor{keywordflow}{if}((horizontal\_dis < this->get\_width()) && (vertical\_dis < this->get\_height()))
+00666     \{
+00667         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00668         \{
+00669             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00670             \{
+00671                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = horizontal\_dis; x < this->get\_width(); x++)
+00672                 \{
+00673                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = vertical\_dis; y < this->get\_height(); y++)
+00674                     \{
+00675                         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} value = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)
+       - this->get\_pixel\_value(x-horizontal\_dis, y-vertical\_dis, z, c)));
+00676                         
+00677                         result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c, value);
+00678                     \}
+00679                 \}
+00680             \}
+00681         \}
+00682     \}
+00683     \textcolor{keywordflow}{return} result;
+00684 \}
+00685 
+\hypertarget{image_8cpp_source_l00686}{}\hyperlink{class_image_a1a755f73ec71ad095f47e9222ee2c9d1}{00686} \hyperlink{class_image}{Image} \hyperlink{class_image_a1a755f73ec71ad095f47e9222ee2c9d1}{Image :: filter\_vertical\_borders}()
+00687 \{
+00688     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00689     
+00690     \textcolor{keywordtype}{int} m = 1;
+00691     
+00692     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00693     \{
+00694         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00695         \{
+00696             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+00697             \{
+00698                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height()-m; y++)
+00699                 \{
+00700                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(this->
+      get\_pixel\_value(x-1, y, z, c) - get\_pixel\_value(x+1, y, z, c)));
+00701                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00702                 \}
+00703                 
+00704              \}
+00705              
+00706          \}
+00707     \}  
+00708      \textcolor{keywordflow}{return} filtered;
+00709 \}
+00710 
+\hypertarget{image_8cpp_source_l00711}{}\hyperlink{class_image_ad6baefede32227602d896966e44aed4e}{00711} \hyperlink{class_image}{Image} \hyperlink{class_image_ad6baefede32227602d896966e44aed4e}{Image :: filter\_horizontal\_borders}()
+00712 \{
+00713     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00714     
+00715     \textcolor{keywordtype}{int} m = 1;
+00716     
+00717     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00718     \{
+00719         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00720         \{
+00721             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width()-m; x++)
+00722             \{
+00723                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+00724                 \{
+00725                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(this->
+      get\_pixel\_value(x, y-1, z, c) - get\_pixel\_value(x, y+1, z, c)));
+00726                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00727                 \}
+00728                 
+00729              \}
+00730              
+00731          \}
+00732     \}  
+00733      \textcolor{keywordflow}{return} filtered;
+00734 \}
+00735 
+00736 \textcolor{comment}{// *************************************************************************}
+00737 \textcolor{comment}{// *********************** Smoothing Spatial Filters **********************}
+00738 \textcolor{comment}{// *************************************************************************}
+00739 
+00740 
+\hypertarget{image_8cpp_source_l00747}{}\hyperlink{class_image_aad6fa435024cf4f1635b8769325f389f}{00747} \hyperlink{class_image}{Image} \hyperlink{class_image_aad6fa435024cf4f1635b8769325f389f}{Image :: filter\_median} (\textcolor{keywordtype}{int} dim)
+00748 \{
+00749     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00750     
+00751     \textcolor{comment}{//int kernel [dim*dim];}
+00752 
+00753     \textcolor{keywordtype}{int} m = (dim-1)/2;
+00754     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values [dim*dim];
+00755     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} temp;
+00756     
+00757     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00758     \{
+00759         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00760         \{
+00761             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+00762             \{
+00763                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+00764                 \{
+00765                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00766                     \{
+00767                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00768                         \{
+00769                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+00770                             
+00771                         \}   
+00772                     \}
+00773                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0; k<dim*dim ; k++)
+00774                     \{
+00775                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=k+1 ; p<dim*dim ; p++)
+00776                         \{
+00777                             \textcolor{keywordflow}{if}(pixel\_values[p] < pixel\_values[k])
+00778                             \{
+00779                             \textcolor{comment}{// Intercambiar los valores}
+00780                             temp = pixel\_values[k];
+00781                             pixel\_values[k] = pixel\_values[p];
+00782                             pixel\_values[p] = temp;
+00783                             \}
+00784                         \}
+00785                     \}                   
+00786                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = pixel\_values[((dim*dim-1)/2)-1];
+00787                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00788                 \}
+00789                 
+00790              \}
+00791              
+00792          \}
+00793     \}  
+00794      \textcolor{keywordflow}{return} filtered;
+00795  \}
+00796 
+\hypertarget{image_8cpp_source_l00803}{}\hyperlink{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{00803} \hyperlink{class_image}{Image} \hyperlink{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{Image :: filter\_average}(\textcolor{keywordtype}{int} dim)
+00804 \{
+00805     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00806 
+00807     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00808     \{
+00809         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00810         \{
+00811             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = dim; x < this->get\_width()-dim; x++)
+00812             \{
+00813                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = dim; y < this->get\_height()-dim; y++)
+00814                 \{
+00815                     \textcolor{keywordtype}{int} sum = 0;
+00816                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-dim; i<= x+dim; i++)
+00817                     \{
+00818                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-dim; j<= y+dim; j++)
+00819                         \{
+00820                             sum += this->get\_pixel\_value(i, j, z, c);
+00821                         \}
+00822                     \}
+00823             
+00824                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (sum/((dim*2+1)*(dim*2+
+      1)));
+00825                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+00826                 \}
+00827                 
+00828              \}
+00829              
+00830          \}
+00831     \}  
+00832      \textcolor{keywordflow}{return} filtered;   
+00833 \} 
+00834 
+\hypertarget{image_8cpp_source_l00841}{}\hyperlink{class_image_ae8b435684bdd6f715bfcd31517ddca0a}{00841} \hyperlink{class_image}{Image} \hyperlink{class_image_ae8b435684bdd6f715bfcd31517ddca0a}{Image :: filter\_gaussian}(\textcolor{keywordtype}{int} o, \textcolor{keywordtype}{int} dim\_kernel)
+00842 \{
+00843     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      );
+00844 
+00845     \textcolor{keywordtype}{double} kernel[dim\_kernel*dim\_kernel];
+00846     
+00847     \textcolor{keywordtype}{int} m = (dim\_kernel-1)/2;
+00848     
+00849     \textcolor{keywordtype}{double} gaussian =1/pow(3.1415*2*o*o,0.5);
+00850 
+00851     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =-m; i <=m; i++)
+00852     \{
+00853         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j =-m; j<=+m; j++)
+00854         \{
+00855             \textcolor{keywordtype}{double} exp= -(i*i+j*j)*0.5/(o*o);
+00856             kernel[(i+m)*dim\_kernel + (j+m)]=gaussian*pow(2.7,exp); 
+00857             
+00858         \}
+00859     \}
+00860     
+00861     
+00862     
+00863     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00864     \{
+00865         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00866         \{
+00867             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+00868             \{
+00869                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+00870                 \{
+00871                     \textcolor{keywordtype}{int} cont=0;
+00872                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel=0;
+00873                     
+00874                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00875                     \{
+00876                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00877                         \{
+00878                             pixel+= this->get\_pixel\_value(i, j, z, c)*(kernel[cont]); 
+00879                             cont++;
+00880                         \}
+00881                     \}
+00882                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, (pixel/2));
+00883                 \}
+00884                 
+00885              \}
+00886              
+00887          \}
+00888     \}  
+00889      \textcolor{keywordflow}{return} filtered;       
+00890 \}   
+00891 
+\hypertarget{image_8cpp_source_l00898}{}\hyperlink{class_image_ae67455a397b27c4a3bda96f3cc3e9d9f}{00898} \hyperlink{class_image}{Image} \hyperlink{class_image_ae67455a397b27c4a3bda96f3cc3e9d9f}{Image :: filter\_modal}(\textcolor{keywordtype}{int} dim)
+00899 \{
+00900     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      );
+00901     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values[dim*dim];
+00902     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} moda;
+00903     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} average=0;
+00904     \textcolor{keywordtype}{int} m=(dim-1)/2;
+00905     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} copy\_pixels[dim*dim];
+00906 
+00907     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00908     \{
+00909         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+00910         \{
+00911             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+00912             \{
+00913                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+00914                 \{
+00915                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00916                     \{
+00917                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00918                         \{
+00919                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+00920         
+00921                             \textcolor{keywordtype}{int} frequency[dim*dim];
+00922                             moda=0; 
+00923                             
+00924                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<dim*dim;k++)
+00925                             \{
+00926                                 copy\_pixels[k]= pixel\_values[k];
+00927                                 frequency[k]=0;
+00928                             \}
+00929                             
+00930                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=0;p<dim*dim;p++)
+00931                             \{
+00932                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} q=p+1;q<dim*dim;q++)
+00933                                 \{
+00934                                     \textcolor{keywordflow}{if}(copy\_pixels[p]==pixel\_values[q])\{
+00935                                         frequency[p]++;
+00936                                 
+00937                                     \}
+00938             
+00939                                 \}
+00940     
+00941                             \}
+00942 
+00943 
+00944 
+00945                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} s=0; s<dim*dim ; s++)
+00946                             \{
+00947                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} e=s+1 ; e<dim*dim ; e++)
+00948                                 \{
+00949                                     \textcolor{keywordflow}{if}(frequency[e] < frequency[s])
+00950                                     \{
+00951                                         moda = copy\_pixels[s];
+00952                                         average=copy\_pixels[s];
+00953                                     \}
+00954                                 \}
+00955                             \}
+00956                             
+00957 
+00958                             \textcolor{keywordflow}{if}(moda==0)
+00959                             \{
+00960                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<dim*dim;k++)
+00961                                 \{
+00962                                     moda += pixel\_values[k];
+00963                                 \}
+00964                             average=(moda/dim);
+00965                             \}
+00966 
+00967 
+00968                         \}   
+00969                     \}
+00970                     
+00971                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, average);
+00972                 \}
+00973                 
+00974              \}
+00975              
+00976          \}
+00977     \}
+00978 
+00979 \textcolor{keywordflow}{return} filtered;
+00980 
+00981 \}
+00982     
+00983 
+00984 
+00985 \textcolor{comment}{// *************************************************************************}
+00986 \textcolor{comment}{// *********************** Dot to Dot Transformations **********************}
+00987 \textcolor{comment}{// *************************************************************************}
+00988 
+\hypertarget{image_8cpp_source_l00994}{}\hyperlink{class_image_a8a62778b8013b7f82ee74138678d5a24}{00994} \hyperlink{class_image}{Image} \hyperlink{class_image_a8a62778b8013b7f82ee74138678d5a24}{Image ::inverse}()
+00995 \{
+00996     \hyperlink{class_image}{Image} inverted (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00997 
+00998     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+00999     \{
+01000         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01001         \{
+01002             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01003             \{
+01004                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01005                 \{
+01006                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(255-this->get\_pixel\_value(x,y,z,c));
+01007                     inverted.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,pixel);
+01008                 \}
+01009             \}
+01010         \}
+01011     \}
+01012     \textcolor{keywordflow}{return} inverted;
+01013 \}
+01014 
+\hypertarget{image_8cpp_source_l01020}{}\hyperlink{class_image_a23e96746fd7a360950a9588ca3fa466c}{01020} \hyperlink{class_image}{Image} \hyperlink{class_image_a23e96746fd7a360950a9588ca3fa466c}{Image :: log\_transformation}()
+01021 \{
+01022     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01023 
+01024     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01025     \{
+01026         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01027         \{
+01028             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01029             \{
+01030                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01031                 \{
+01032                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}((255/log(256)) * log(1+this->
+      get\_pixel\_value(x, y, z, c)));
+01033                     
+01034                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c, pixel);
+01035                 \}
+01036             \}
+01037         \}
+01038     \}
+01039     \textcolor{keywordflow}{return} filtered;
+01040 \}
+01041 
+\hypertarget{image_8cpp_source_l01052}{}\hyperlink{class_image_ae8dc7bd96987cf43f2b608f5f42bd8e3}{01052} \hyperlink{class_image}{Image} \hyperlink{class_image_ae8dc7bd96987cf43f2b608f5f42bd8e3}{Image ::filter\_dynamic\_range\_dilatation}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} a, \textcolor{keywordtype}{
+      unsigned} \textcolor{keywordtype}{char} b, \textcolor{keywordtype}{double} alpha, \textcolor{keywordtype}{double} beta, \textcolor{keywordtype}{double} gamma)
+01053 \{
+01054     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01055     
+01056     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01057     \{
+01058         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01059         \{
+01060             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01061             \{
+01062                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01063                 \{
+01064                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel=0;
+01065                     
+01066                     \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)<a)
+01067                         pixel =abs(alpha*this->get\_pixel\_value(x,y,z,c));
+01068                         
+01069                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)>=a && this->get\_pixel\_value(x,y,z,c)<b)
+01070                         pixel=abs(beta*(this->get\_pixel\_value(x,y,z,c)-a)+alpha*a);
+01071                     
+01072                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)<=b)
+01073                         
+01074                         pixel=abs(gamma*(this->get\_pixel\_value(x,y,z,c)-b)+((beta*(b-a))+alpha*a));
+01075                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,static\_cast<unsigned int>(pixel));
+01076                 \}
+01077             \}
+01078         \}
+01079     \}
+01080     \textcolor{keywordflow}{return} filtered;
+01081 \}
+01082 
+01083 
+\hypertarget{image_8cpp_source_l01091}{}\hyperlink{class_image_a4934472d3d78a5b26bc658cb6511c7e3}{01091} \hyperlink{class_image}{Image} \hyperlink{class_image_a4934472d3d78a5b26bc658cb6511c7e3}{Image :: power\_law\_transformatiom}(\textcolor{keywordtype}{double} exponent)
+01092 \{
+01093     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01094     
+01095     \textcolor{keywordtype}{double} k = (pow(255, 1-exponent));
+01096     
+01097     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01098     \{
+01099         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01100         \{
+01101             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01102             \{
+01103                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01104                 \{
+01105                     \textcolor{keywordtype}{double} power\_law = k * pow( (this->get\_pixel\_value(x,y,z,c)) , exponent);
+01106                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}(power\_law);
+01107                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01108                 \}
+01109                 
+01110              \}
+01111              
+01112          \}
+01113     \}  
+01114     \textcolor{keywordflow}{return} filtered;
+01115 \}
+01116 
+\hypertarget{image_8cpp_source_l01124}{}\hyperlink{class_image_abad859b7de6c0237bdfeb0c41e754f6b}{01124} \hyperlink{class_image}{Image} \hyperlink{class_image_abad859b7de6c0237bdfeb0c41e754f6b}{Image :: color\_slicing}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} color1[], \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} color2[], \textcolor{keywordtype}{
+      unsigned} \textcolor{keywordtype}{char} neutral[])
+01125 \{
+01126     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01127     
+01128     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01129     \{
+01130         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01131         \{
+01132             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01133             \{
+01134                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01135                 \{
+01136                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = this->get\_pixel\_value(x,y,z,c);
+01137                     \textcolor{keywordflow}{if}(pixel > color1[c] && pixel < color2[c] )
+01138                     \{
+01139                         filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01140                     \}
+01141                     \textcolor{keywordflow}{else}
+01142                     \{
+01143                         filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c, neutral[c]);
+01144                     \}
+01145                 \}
+01146                 
+01147              \}
+01148              
+01149          \}
+01150     \}  
+01151     
+01152     \textcolor{keywordflow}{return} filtered;
+01153     
+01154 \}
+01155 
+01156 \textcolor{comment}{// *************************************************************************}
+01157 \textcolor{comment}{// *********************** HISTOGRAM AND EQUALIZATION **********************}
+01158 \textcolor{comment}{// *************************************************************************}
+01159 
+\hypertarget{image_8cpp_source_l01167}{}\hyperlink{class_image_a36596e19076b920ec0b2c2aa9eee639c}{01167} \textcolor{keywordtype}{int}* \hyperlink{class_image_a36596e19076b920ec0b2c2aa9eee639c}{Image :: get\_histogram}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z)
+01168 \{
+01169     \textcolor{keywordtype}{int} histogram [256];
+01170     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<256; i++)
+01171     \{
+01172     histogram[i] = 0;   
+01173     \}
+01174     
+01175     \textcolor{keywordflow}{if} (c < this->get\_spectrum() && z < this->get\_depth())
+01176     \{
+01177         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01178         \{
+01179             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01180             \{
+01181                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_value = this->get\_pixel\_value(x,y,z,c);
+01182                 (histogram[pixel\_value])++;
+01183             \}
+01184         \}
+01185     \}
+01186     
+01187     \textcolor{keywordtype}{int}* histogram\_pointer = histogram;
+01188     
+01189     \textcolor{keywordflow}{return} histogram\_pointer;
+01190 \}
+01191 
+\hypertarget{image_8cpp_source_l01197}{}\hyperlink{class_image_a7ecc9bcad8ac9f0fe4fc42a1810f2b35}{01197} \textcolor{keywordtype}{void} \hyperlink{class_image_a7ecc9bcad8ac9f0fe4fc42a1810f2b35}{Image :: plot\_histogram}(\textcolor{keywordtype}{int} levels,\textcolor{keyword}{const} \textcolor{keywordtype}{char}* title)
+01198 \{
+01199     CImg<unsigned char> img = this->Img->histogram(levels);
+01200     
+01201     CImgDisplay main\_display (*(this->Img), title);
+01202     
+01203     img.display\_graph(main\_display, 3, 1, \textcolor{stringliteral}{"Pixel Intensity"}, 0, 0, \textcolor{stringliteral}{"Frequency"}, 0, 0);
+01204 \}
+01205 
+\hypertarget{image_8cpp_source_l01211}{}\hyperlink{class_image_ac792db3b148a2b42e4ce1ee2ba7ac757}{01211} \textcolor{keywordtype}{void} \hyperlink{class_image_ac792db3b148a2b42e4ce1ee2ba7ac757}{Image :: plot\_histogram\_equalization}(\textcolor{keywordtype}{int} levels, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title
+      )
+01212 \{
+01213     CImg<unsigned char> img = this->Img->equalize(levels);
+01214     
+01215     CImgDisplay main\_display (*(this->Img), title);
+01216     
+01217     img.display\_graph(main\_display, 3, 1, \textcolor{stringliteral}{"Pixel Intensity"}, 0, 0, \textcolor{stringliteral}{"Frequency"}, 0, 0);
+01218 \}
+01219 
+01220 \textcolor{comment}{// *************************************************************************}
+01221 \textcolor{comment}{// *********************** OTHER TRANSFORMATIONS ***************************}
+01222 \textcolor{comment}{// *************************************************************************}
+01223 
+\hypertarget{image_8cpp_source_l01228}{}\hyperlink{class_image_a9551b317e71d65ca1573a9518644154d}{01228} \hyperlink{class_image}{Image} \hyperlink{class_image_a9551b317e71d65ca1573a9518644154d}{Image ::filter\_kirsch\_0}()
+01229 \{
+01230     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01231     
+01232     \textcolor{keywordtype}{int} m = 1;
+01233     
+01234     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01235     \{
+01236         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01237         \{
+01238             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01239             \{
+01240                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01241                 \{
+01242                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x+1, y-
+      1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c));
+01243                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01244                     \{
+01245                         sum = 255;
+01246                     \}
+01247                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01248                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01249                 \}
+01250                 
+01251              \}
+01252              
+01253          \}
+01254     \}  
+01255     
+01256     \textcolor{keywordflow}{return} filtered;
+01257     
+01258 \}
+01259 
+\hypertarget{image_8cpp_source_l01264}{}\hyperlink{class_image_afc2543445381bf7b7dc07167f5bef42f}{01264} \hyperlink{class_image}{Image} \hyperlink{class_image_afc2543445381bf7b7dc07167f5bef42f}{Image ::filter\_kirsch\_45}()
+01265 \{
+01266     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01267     \textcolor{keywordtype}{int} m = 1;
+01268     
+01269     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01270     \{
+01271         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01272         \{
+01273             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01274             \{
+01275                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01276                 \{
+01277                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x+1, 
+      y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x, y-1, z, c));
+01278                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01279                     \{
+01280                         sum = 255;
+01281                     \}
+01282                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01283                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01284                 \}
+01285                 
+01286              \}
+01287              
+01288          \}
+01289     \}  
+01290     
+01291     \textcolor{keywordflow}{return} filtered;
+01292     
+01293     
+01294 \}
+01295 
+\hypertarget{image_8cpp_source_l01300}{}\hyperlink{class_image_afe3524a312d6860dba3ae9caeb41aaac}{01300} \hyperlink{class_image}{Image} \hyperlink{class_image_afe3524a312d6860dba3ae9caeb41aaac}{Image ::filter\_kirsch\_90}()
+01301 \{
+01302     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01303     \textcolor{keywordtype}{int} m = 1;
+01304     
+01305     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01306     \{
+01307         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01308         \{
+01309             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01310             \{
+01311                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01312                 \{
+01313                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+
+      get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c))+5*(get\_pixel\_value(x+1, y-
+      1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x-1, y-1, z, c));
+01314                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01315                     \{
+01316                         sum = 255;
+01317                     \}
+01318                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01319                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01320                 \}
+01321                 
+01322              \}
+01323              
+01324          \}
+01325     \}  
+01326     
+01327     \textcolor{keywordflow}{return} filtered;
+01328     
+01329 \}
+01330 
+\hypertarget{image_8cpp_source_l01335}{}\hyperlink{class_image_a89c324635717b51fce1fdb53eb20ea53}{01335} \hyperlink{class_image}{Image} \hyperlink{class_image_a89c324635717b51fce1fdb53eb20ea53}{Image ::filter\_kirsch\_135}()
+01336 \{
+01337     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01338     \textcolor{keywordtype}{int} m = 1;
+01339     
+01340     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01341     \{
+01342         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01343         \{
+01344             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01345             \{
+01346                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01347                 \{
+01348                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+
+      get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1, y+1, z, c))+5*(get\_pixel\_value(x-1, 
+      y, z, c)+get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c));
+01349                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01350                     \{
+01351                         sum = 255;
+01352                     \}
+01353                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01354                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01355                 \}
+01356                 
+01357              \}
+01358              
+01359          \}
+01360     \}  
+01361     
+01362     \textcolor{keywordflow}{return} filtered;
+01363     
+01364 \}
+01365 
+\hypertarget{image_8cpp_source_l01370}{}\hyperlink{class_image_a2d98fe13c3ad3949e7e5a42e0381dfae}{01370} \hyperlink{class_image}{Image} \hyperlink{class_image_a2d98fe13c3ad3949e7e5a42e0381dfae}{Image ::filter\_kirsch\_180}()
+01371 \{
+01372     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01373     \textcolor{keywordtype}{int} m = 1;
+01374     
+01375     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01376     \{
+01377         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01378         \{
+01379             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01380             \{
+01381                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01382                 \{
+01383                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+
+      get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x-1, y,
+       z, c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x-1, y-1, z, c));
+01384                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01385                     \{
+01386                         sum = 255;
+01387                     \}
+01388                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01389                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01390                 \}
+01391                 
+01392              \}
+01393              
+01394          \}
+01395     \}  
+01396     
+01397     \textcolor{keywordflow}{return} filtered;
+01398     
+01399 \}
+01400 
+\hypertarget{image_8cpp_source_l01405}{}\hyperlink{class_image_a3d99f369ce877076d9de45608566e5ab}{01405} \hyperlink{class_image}{Image} \hyperlink{class_image_a3d99f369ce877076d9de45608566e5ab}{Image ::filter\_kirsch\_225}()
+01406 \{
+01407     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01408     \textcolor{keywordtype}{int} m = 1;
+01409     
+01410     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01411     \{
+01412         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01413         \{
+01414             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01415             \{
+01416                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01417                 \{
+01418                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c)+
+      get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c))+5*(get\_pixel\_value(x-1, 
+      y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c));
+01419                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01420                     \{
+01421                         sum = 255;
+01422                     \}
+01423                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01424                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01425                 \}
+01426                 
+01427              \}
+01428              
+01429          \}
+01430     \}  
+01431     
+01432     \textcolor{keywordflow}{return} filtered;
+01433     
+01434 \}
+01435 
+\hypertarget{image_8cpp_source_l01440}{}\hyperlink{class_image_a3deff23888dd56ee45c6e2556bb2e407}{01440} \hyperlink{class_image}{Image} \hyperlink{class_image_a3deff23888dd56ee45c6e2556bb2e407}{Image ::filter\_kirsch\_270}()
+01441 \{
+01442     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01443     \textcolor{keywordtype}{int} m = 1;
+01444     
+01445     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01446     \{
+01447         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01448         \{
+01449             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01450             \{
+01451                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01452                 \{
+01453                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c))+5*(get\_pixel\_value(x, y+1,
+       z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x-1, y+1, z, c));
+01454                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01455                     \{
+01456                         sum = 255;
+01457                     \}
+01458                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01459                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01460                 \}
+01461                 
+01462              \}
+01463              
+01464          \}
+01465     \}  
+01466     
+01467     \textcolor{keywordflow}{return} filtered;
+01468     
+01469 \}
+01470 
+\hypertarget{image_8cpp_source_l01475}{}\hyperlink{class_image_afaacfcecb4f65541f06dd2aebc6a8d0c}{01475} \hyperlink{class_image}{Image} \hyperlink{class_image_afaacfcecb4f65541f06dd2aebc6a8d0c}{Image ::filter\_kirsch\_315}()
+01476 \{
+01477     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01478     \textcolor{keywordtype}{int} m = 1;
+01479     
+01480     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01481     \{
+01482         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01483         \{
+01484             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01485             \{
+01486                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01487                 \{
+01488                     \textcolor{keywordtype}{int} sum = -3*(get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c))+5*(get\_pixel\_value(x, y+
+      1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c));
+01489                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01490                     \{
+01491                         sum = 255;
+01492                     \}
+01493                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01494                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01495                 \}
+01496                 
+01497              \}
+01498              
+01499          \}
+01500     \}  
+01501     
+01502     \textcolor{keywordflow}{return} filtered;
+01503     
+01504 \}
+01505 
+\hypertarget{image_8cpp_source_l01510}{}\hyperlink{class_image_ab25fe6e85844905599119faf087968aa}{01510} \hyperlink{class_image}{Image} \hyperlink{class_image_ab25fe6e85844905599119faf087968aa}{Image ::filter\_freeman\_0}()
+01511 \{
+01512     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01513     
+01514     \textcolor{keywordtype}{int} m = 1;
+01515     
+01516     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01517     \{
+01518         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01519         \{
+01520             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01521             \{
+01522                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01523                 \{
+01524                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1,y,z,c))-
+      1*(get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01525                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01526                     \{
+01527                         sum = 255;
+01528                     \}
+01529                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01530                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01531                 \}
+01532                 
+01533              \}
+01534              
+01535          \}
+01536     \}  
+01537     
+01538     \textcolor{keywordflow}{return} filtered;
+01539     
+01540 \}
+01541 
+\hypertarget{image_8cpp_source_l01545}{}\hyperlink{class_image_a2f0919c597afa2427d139012d99eabd2}{01545} \hyperlink{class_image}{Image} \hyperlink{class_image_a2f0919c597afa2427d139012d99eabd2}{Image ::filter\_freeman\_1}()
+01546 \{
+01547     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01548     
+01549     \textcolor{keywordtype}{int} m = 1;
+01550     
+01551     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01552     \{
+01553         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01554         \{
+01555             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01556             \{
+01557                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01558                 \{
+01559                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1,y,z,c)
+      )-1*(get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x, y+1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01560                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01561                     \{
+01562                         sum = 255;
+01563                     \}
+01564                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01565                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01566                 \}
+01567                 
+01568              \}
+01569              
+01570          \}
+01571     \}  
+01572     
+01573     \textcolor{keywordflow}{return} filtered;
+01574     
+01575 \}
+01576 
+\hypertarget{image_8cpp_source_l01580}{}\hyperlink{class_image_a0f095fc1129cd6d3856f98e0e0434f24}{01580} \hyperlink{class_image}{Image} \hyperlink{class_image_a0f095fc1129cd6d3856f98e0e0434f24}{Image ::filter\_freeman\_2}()
+01581 \{
+01582     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01583     
+01584     \textcolor{keywordtype}{int} m = 1;
+01585     
+01586     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01587     \{
+01588         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01589         \{
+01590             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01591             \{
+01592                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01593                 \{
+01594                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+
+      get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1,y+1,z,c))-
+      1*(get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y-1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01595                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01596                     \{
+01597                         sum = 255;
+01598                     \}
+01599                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01600                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01601                 \}
+01602                 
+01603              \}
+01604              
+01605          \}
+01606     \}  
+01607     
+01608     \textcolor{keywordflow}{return} filtered;
+01609     
+01610 \}
+01611 
+\hypertarget{image_8cpp_source_l01615}{}\hyperlink{class_image_a4efc2b9483472b31aa05ec3104569111}{01615} \hyperlink{class_image}{Image} \hyperlink{class_image_a4efc2b9483472b31aa05ec3104569111}{Image ::filter\_freeman\_3}()
+01616 \{
+01617     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01618     
+01619     \textcolor{keywordtype}{int} m = 1;
+01620     
+01621     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01622     \{
+01623         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01624         \{
+01625             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01626             \{
+01627                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01628                 \{
+01629                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+
+      get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1,y+1,z,c))-1*(get\_pixel\_value(x-1, y, z, 
+      c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x-1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01630                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01631                     \{
+01632                         sum = 255;
+01633                     \}
+01634                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01635                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01636                 \}
+01637                 
+01638              \}
+01639              
+01640          \}
+01641     \}  
+01642     
+01643     \textcolor{keywordflow}{return} filtered;
+01644     
+01645 \}
+01646 
+\hypertarget{image_8cpp_source_l01650}{}\hyperlink{class_image_a9bcd8a39cadee68de81ea8a35c832a94}{01650} \hyperlink{class_image}{Image} \hyperlink{class_image_a9bcd8a39cadee68de81ea8a35c832a94}{Image ::filter\_freeman\_4}()
+01651 \{
+01652     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01653     
+01654     \textcolor{keywordtype}{int} m = 1;
+01655     
+01656     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01657     \{
+01658         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01659         \{
+01660             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01661             \{
+01662                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01663                 \{
+01664                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+
+      get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c))-1*(get\_pixel\_value(x-1, y-1, 
+      z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01665                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01666                     \{
+01667                         sum = 255;
+01668                     \}
+01669                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01670                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01671                 \}
+01672                 
+01673              \}
+01674              
+01675          \}
+01676     \}  
+01677     
+01678     \textcolor{keywordflow}{return} filtered;
+01679     
+01680 \}
+01681 
+01682 
+\hypertarget{image_8cpp_source_l01686}{}\hyperlink{class_image_a22c69e4b9c06a20381be1f27c75c2745}{01686} \hyperlink{class_image}{Image} \hyperlink{class_image_a22c69e4b9c06a20381be1f27c75c2745}{Image ::filter\_freeman\_5}()
+01687 \{
+01688     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01689     
+01690     \textcolor{keywordtype}{int} m = 1;
+01691     
+01692     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01693     \{
+01694         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01695         \{
+01696             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01697             \{
+01698                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01699                 \{
+01700                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c))-1*(get\_pixel\_value(x+1, y, 
+      z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01701                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01702                     \{
+01703                         sum = 255;
+01704                     \}
+01705                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01706                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01707                 \}
+01708                 
+01709              \}
+01710              
+01711          \}
+01712     \}  
+01713     
+01714     \textcolor{keywordflow}{return} filtered;
+01715     
+01716 \}
+01717 
+01718 
+\hypertarget{image_8cpp_source_l01722}{}\hyperlink{class_image_a09cddc961c37f59f8e4fe298d7bef2eb}{01722} \hyperlink{class_image}{Image} \hyperlink{class_image_a09cddc961c37f59f8e4fe298d7bef2eb}{Image ::filter\_freeman\_6}()
+01723 \{
+01724     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01725     
+01726     \textcolor{keywordtype}{int} m = 1;
+01727     
+01728     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01729     \{
+01730         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01731         \{
+01732             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01733             \{
+01734                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01735                 \{
+01736                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x, y-1, z, c))-1*(get\_pixel\_value(x+1, y-1, 
+      z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1,y+1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01737                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01738                     \{
+01739                         sum = 255;
+01740                     \}
+01741                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01742                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01743                 \}
+01744                 
+01745              \}
+01746              
+01747          \}
+01748     \}  
+01749     
+01750     \textcolor{keywordflow}{return} filtered;
+01751     
+01752 \}
+01753 
+\hypertarget{image_8cpp_source_l01757}{}\hyperlink{class_image_abc60e72c623751597eaa64a5c295e65f}{01757} \hyperlink{class_image}{Image} \hyperlink{class_image_abc60e72c623751597eaa64a5c295e65f}{Image ::filter\_freeman\_7}()
+01758 \{
+01759     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01760     
+01761     \textcolor{keywordtype}{int} m = 1;
+01762     
+01763     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01764     \{
+01765         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01766         \{
+01767             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width()-m; x++)
+01768             \{
+01769                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height()-m; y++)
+01770                 \{
+01771                     \textcolor{keywordtype}{int} sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c))-1*(get\_pixel\_value(x, y+1, 
+      z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1,y+1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01772                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01773                     \{
+01774                         sum = 255;
+01775                     \}
+01776                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01777                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01778                 \}
+01779                 
+01780              \}
+01781              
+01782          \}
+01783     \}  
+01784     
+01785     \textcolor{keywordflow}{return} filtered;
+01786     
+01787 \}
+01788 
+\hypertarget{image_8cpp_source_l01795}{}\hyperlink{class_image_a42ddfccab80370efd993590850669837}{01795} \hyperlink{class_image}{Image} \hyperlink{class_image_a42ddfccab80370efd993590850669837}{Image :: filter\_maximum}()
+01796 \{
+01797     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01798     
+01799     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01800     \{
+01801         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01802         \{
+01803             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 1; x < this->get\_width()-1; x++)
+01804             \{
+01805                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 1; y < this->get\_height()-1; y++)
+01806                 \{
+01807                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} max = 0;
+01808                     
+01809                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-1; i< x+2; i++)
+01810                     \{
+01811                         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-1; j< y+2; j++)
+01812                         \{
+01813                             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (this->get\_pixel\_value(i, j, z, c));
+01814                              
+01815                             \textcolor{keywordflow}{if} (pixel > max)
+01816                             \{
+01817                                 max = this->get\_pixel\_value(i, j, z, c);
+01818                             \}
+01819                         \} 
+01820                     \}
+01821                     
+01822                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, max);
+01823                 \}
+01824                 
+01825              \}
+01826              
+01827          \}
+01828     \}  
+01829     \textcolor{keywordflow}{return} filtered;
+01830 \}
+01831 
+01832 
+\hypertarget{image_8cpp_source_l01838}{}\hyperlink{class_image_af37690485375d17d0c55a3d89e5c0292}{01838} \hyperlink{class_image}{Image} \hyperlink{class_image_af37690485375d17d0c55a3d89e5c0292}{Image :: filter\_minimum}()
+01839 \{
+01840     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01841     
+01842     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01843     \{
+01844         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01845         \{
+01846             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 1; x < this->get\_width()-1; x++)
+01847             \{
+01848                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 1; y < this->get\_height()-1; y++)
+01849                 \{
+01850                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} minimun = 255;
+01851                     
+01852                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-1; i< x+2; i++)
+01853                     \{
+01854                         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-1; j< y+2; j++)
+01855                         \{
+01856                             \textcolor{keywordflow}{if} ((this->get\_pixel\_value(i, j, z, c)) < minimun)
+01857                             \{
+01858                                 minimun = this->get\_pixel\_value(i, j, z, c);
+01859                             \}
+01860                         \} 
+01861                     \}
+01862                     
+01863                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, minimun);
+01864                 \}
+01865                 
+01866              \}
+01867              
+01868          \}
+01869     \}  
+01870      \textcolor{keywordflow}{return} filtered;
+01871 \}
+01872 
+\hypertarget{image_8cpp_source_l01873}{}\hyperlink{class_image_a44679d228a0d6864fb1cfe4fb2dc83af}{01873} \hyperlink{class_image}{Image} \hyperlink{class_image_a44679d228a0d6864fb1cfe4fb2dc83af}{Image :: filter\_order\_stadistics}(\textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{int} order)
+01874 \{
+01875     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01876     
+01877     \textcolor{comment}{//int kernel [dim*dim];}
+01878     
+01879     \textcolor{keywordtype}{int} m = (dim-1)/2;
+01880     
+01881     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values [dim*dim];
+01882     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} temp;
+01883     
+01884     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01885     \{
+01886         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01887         \{
+01888             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = m; x < this->get\_width(); x++)
+01889             \{
+01890                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = m; y < this->get\_height(); y++)
+01891                 \{
+01892                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m+1; i++)
+01893                     \{
+01894                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m+1; j++)
+01895                         \{
+01896                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+01897                             
+01898                         \}   
+01899                     \}
+01900                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0; k<dim*dim ; k++)
+01901                     \{
+01902                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=k+1 ; p<dim*dim ; p++)
+01903                         \{
+01904                             \textcolor{keywordflow}{if}(pixel\_values[p] < pixel\_values[k])
+01905                             \{
+01906                             \textcolor{comment}{// Intercambiar los valores}
+01907                             temp = pixel\_values[k];
+01908                             pixel\_values[k] = pixel\_values[p];
+01909                             pixel\_values[p] = temp;
+01910                             \}
+01911                         \}
+01912                     \}                   
+01913                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = pixel\_values[order];
+01914                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+01915                 \}
+01916                 
+01917              \}
+01918              
+01919          \}
+01920     \}  
+01921      \textcolor{keywordflow}{return} filtered;
+01922 \}
+01923 
+01924 
+01925 \textcolor{comment}{// *************************************************************************}
+01926 \textcolor{comment}{// ****************************** NOISES ***********************************}
+01927 \textcolor{comment}{// *************************************************************************}
+01928 
+\hypertarget{image_8cpp_source_l01933}{}\hyperlink{class_image_a1afcd22275fa41ca473fc419719d3389}{01933} \textcolor{keywordtype}{void} \hyperlink{class_image_a1afcd22275fa41ca473fc419719d3389}{Image :: salt\_pepper}(\textcolor{keywordtype}{double} intensity)
+01934 \{
+01935     srand(1);
+01936     \textcolor{keywordtype}{double} percentage = 1-(intensity/100);
+01937     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01938     \{
+01939         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01940         \{
+01941             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01942             \{
+01943                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01944                 \{
+01945                     \textcolor{keywordtype}{double} random= 2.0*(rand()-RAND\_MAX/2.0)/RAND\_MAX;
+01946                     \textcolor{keywordflow}{if}(random > percentage)
+01947                     \{
+01948                         (*(this->Img))(x, y, z, c)= 255;
+01949                     \}   
+01950 
+01951                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(random<-1*percentage)
+01952                     \{
+01953                         (*(this->Img))(x, y, z, c)= 0;                  
+01954                     \}
+01955                 \}
+01956                 
+01957                 
+01958              \}
+01959              
+01960          \}
+01961     \}  
+01962      
+01963 \}
+01964 
+\hypertarget{image_8cpp_source_l01970}{}\hyperlink{class_image_a16390bf8509b67dedec6ca9ece27eb39}{01970} \textcolor{keywordtype}{void} \hyperlink{class_image_a16390bf8509b67dedec6ca9ece27eb39}{Image :: gaussian\_noise}(\textcolor{keywordtype}{double} variance)
+01971 \{
+01972     srand(1);
+01973     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+01974     \{
+01975         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+01976         \{
+01977             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01978             \{
+01979                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01980                 \{
+01981                     \textcolor{keywordtype}{double} random= variance*(rand()-RAND\_MAX/\hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{variance})/RAND\_MAX;
+01982                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel= this->get\_pixel\_value(x,y,z,c) + random;
+01983                     
+01984                     \textcolor{keywordflow}{if}((pixel<255) & (pixel>0))
+01985                     \{
+01986                         (*(this->Img))(x, y, z, c)= pixel;
+01987                     \}   
+01988 
+01989                 \}
+01990                 
+01991                 
+01992              \}
+01993              
+01994          \}
+01995     \}  
+01996      
+01997 \}
+01998 
+01999 
+\hypertarget{image_8cpp_source_l02005}{}\hyperlink{class_image_ae6f9753e39897f50a1483f32fb84133b}{02005} \hyperlink{class_image}{Image} \hyperlink{class_image_ae6f9753e39897f50a1483f32fb84133b}{Image :: interpolation}()
+02006 \{
+02007     \textcolor{keywordtype}{int} i,j=0;
+02008     \hyperlink{class_image}{Image} result (2*this->get\_width(),2*this->get\_height(),this->get\_depth(),this->get\_spectrum(),0);
+02009     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+02010     \{
+02011         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02012         \{
+02013             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_width(); y++)
+02014             \{
+02015                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_height(); x++)
+02016                 \{
+02017                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel=this->get\_pixel\_value(x,y,z,c);
+02018                     
+02019                     result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x+i,y+j,z,c,pixel);
+02020                     result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x+1+i,y+j,z,c,pixel);
+02021                     result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x+i,y+1+j,z,c,pixel);
+02022                     result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x+1+i,y+1+j,z,c,pixel);
+02023                     i++;
+02024                 \}
+02025                 i=0;
+02026                 j++;
+02027             \}
+02028             j=0;
+02029         \}
+02030     \}
+02031     \textcolor{keywordflow}{return} result;
+02032 \}
+02033 
+\hypertarget{image_8cpp_source_l02047}{}\hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{02047} CImg<float> \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{Image:: autocovariance} (\textcolor{keywordtype}{int} hor\_dis, \textcolor{keywordtype}{int} ver\_dis)
+02048 \{
+02049     CImg<float> \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance} (this->get\_width() , this->get\_height(), this->get\_depth(), 
+      this->get\_spectrum(), 0); 
+02050     
+02051     \hyperlink{class_image}{Image} average = this->\hyperlink{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{filter\_average}(1);
+02052 
+02053     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+02054     \{
+02055         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02056         \{
+02057             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 3+hor\_dis; x < this->get\_width()-(3+hor\_dis); x++)
+02058             \{
+02059                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 3+ver\_dis; y < this->get\_height()-(3+ver\_dis); y++)
+02060                 \{
+02061                     \textcolor{keywordtype}{int} sum = 0;
+02062                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-3; i<x+4; i++)
+02063                     \{
+02064                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j= y-3; j<y+4; j++)
+02065                         \{
+02066                             sum += ( (this->get\_pixel\_value(i,j,z,c))  -  average.get\_pixel\_value(i,j,z,c))
+       * ( (this->get\_pixel\_value(i+hor\_dis,j+ver\_dis,z,c))  -  average.get\_pixel\_value(i+hor\_dis,j+ver\_dis,z,c)) 
+      ;
+02067                         \}
+02068                     \}
+02069                 
+02070                     \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance}(x,y,z,c) = sum/49;
+02071                 \}
+02072             \}
+02073         \}
+02074      \}
+02075     \textcolor{keywordflow}{return} \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance};
+02076 \}
+02077 
+\hypertarget{image_8cpp_source_l02084}{}\hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{02084} \hyperlink{class_image}{Image} \hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{Image :: variance}(\textcolor{keywordtype}{int} dim)
+02085 \{
+02086     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+02087     
+02088     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c = 0; c < this->get\_spectrum(); c++)
+02089     \{
+02090         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02091         \{
+02092             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = dim; x < this->get\_width()-dim; x++)
+02093             \{
+02094                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = dim; y < this->get\_height()-dim; y++)
+02095                 \{
+02096                     \textcolor{keywordtype}{int} sum = 0;
+02097                     \textcolor{keywordtype}{double} \hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{variance}=0;
+02098                     \textcolor{keywordtype}{int} kernel\_values[(dim*2+1)*(dim*2+1)];
+02099                     \textcolor{keywordtype}{int} cont=0;
+02100 
+02101                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-dim; i<= x+dim; i++)
+02102                     \{
+02103                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-dim; j<= y+dim; j++)
+02104                         \{
+02105                             sum += this->get\_pixel\_value(i, j, z, c);
+02106                             kernel\_values[cont]=this->get\_pixel\_value(i, j, z, c);
+02107                             cont++;
+02108                         \}
+02109                     \}
+02110             
+02111                     \textcolor{keywordtype}{double} average =  sum/((dim*2+1)*(dim*2+1));
+02112                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<(dim*2+1)*(dim*2+1);i++)
+02113                     \{
+02114                         variance+=pow(kernel\_values[i]-average,2)/((dim*2+1)*(dim*2+1));
+02115                     \}
+02116                     
+02117                     
+02118                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (variance);
+02119                     filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+02120                 \}
+02121                 
+02122              \}
+02123              
+02124          \}
+02125     \}  
+02126      \textcolor{keywordflow}{return} filtered;
+02127 \}
+02128 
+\hypertarget{image_8cpp_source_l02136}{}\hyperlink{class_image_ab9ffca5856cd3e5032166d312719333d}{02136} \hyperlink{class_image}{Image} \hyperlink{class_image_ab9ffca5856cd3e5032166d312719333d}{Image :: gray\_scale}()
+02137 \{
+02138     \hyperlink{class_image}{Image} gray\_image (this->get\_width() , this->get\_height(), this->get\_depth(), 1, 0); 
+02139 
+02140 
+02141     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z = 0; z < this->get\_depth(); z++)
+02142     \{
+02143         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+02144         \{
+02145             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+02146             \{
+02147             
+02148                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_intensity = 0.56*this->get\_pixel\_value(x,y,z,1)+0.14*this->
+      get\_pixel\_value(x,y,z,0)+0.11*this->get\_pixel\_value(x,y,z,2);
+02149                 gray\_image.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, 0, pixel\_intensity);
+02150                 
+02151             \}
+02152              
+02153          \}
+02154     \}  
+02155      \textcolor{keywordflow}{return} gray\_image; 
+02156 \} 
+02157 
+\hypertarget{image_8cpp_source_l02164}{}\hyperlink{class_image_ace5b005b225d2ec360695cd8a3dfdf98}{02164} \hyperlink{class_image}{Image} \hyperlink{class_image_ace5b005b225d2ec360695cd8a3dfdf98}{Image :: coorrelogram}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ver,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} hor)
+02165 \{
+02166     
+02167     \hyperlink{class_image}{Image} result (256,256, 1, 1, 0);   
+02168     
+02169     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < 256; i++)
+02170     \{
+02171         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j< 256; j++)
+02172         \{
+02173             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} pixel = 0;
+02174             
+02175             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x< (this->get\_width()-hor);++x)
+02176             \{
+02177                 
+02178                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0; y< (this->get\_height()-ver);++y)
+02179                 \{
+02180                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first = (this->get\_pixel\_value(x,y,0,0));
+02181                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} secnd = (this->get\_pixel\_value(x+hor, y+ver, 0, 0));
+02182                     
+02183                     \textcolor{keywordflow}{if}(first == i && secnd == j)
+02184                     \{
+02185                         pixel ++;
+02186                     \}
+02187                 \}
+02188             \}
+02189             \textcolor{keywordflow}{if}(pixel>255)
+02190             \{
+02191                 pixel=255;
+02192             \}
+02193             
+02194             result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(i, j, 0, 0, pixel);
+02195             
+02196         \}
+02197         
+02198         cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<i<<\textcolor{stringliteral}{"\(\backslash\)n"}<<endl;  
+02199     \}
+02200     \textcolor{keywordflow}{return} result;
+02201 
+02202 \}
+02203 
+\hypertarget{image_8cpp_source_l02212}{}\hyperlink{class_image_a1c2b2ed567925faeda7d1fbbe6888554}{02212} \hyperlink{class_image}{Image} \hyperlink{class_image_a1c2b2ed567925faeda7d1fbbe6888554}{Image :: coorrelogram\_ZC}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ver,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} hor, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}
+       z, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c)
+02213 \{
+02214     
+02215     \hyperlink{class_image}{Image} result (256,256, 1, 1, 0);   
+02216     
+02217     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < 256; i++)
+02218     \{
+02219         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j< 256; j++)
+02220         \{
+02221             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} pixel = 0;
+02222             
+02223             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x< (this->get\_width()-hor);++x)
+02224             \{
+02225                 
+02226                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0; y< (this->get\_height()-ver);++y)
+02227                 \{
+02228                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first = (this->get\_pixel\_value(x,y,z,c));
+02229                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} secnd = (this->get\_pixel\_value(x+hor, y+ver, z, c));
+02230                     \textcolor{keywordflow}{if}(first == i && secnd == j)
+02231                     \{
+02232                         pixel ++;
+02233                     \}
+02234                 \}
+02235             \}
+02236             \textcolor{keywordflow}{if}(pixel>255)
+02237             \{
+02238                 pixel=255;
+02239             \}
+02240 
+02241             result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(i, j, 0, 0, pixel);
+02242             
+02243         \}
+02244         
+02245     \}
+02246     \textcolor{keywordflow}{return} result;
+02247 
+02248 \}
+02249 
+02250 
+02251 
+02252 
+\end{DoxyCode}

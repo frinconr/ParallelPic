@@ -1,5 +1,5 @@
 #include <mpi.h>
-#include "../include/image.hh"
+#include "../../../ParallelPic/Proyecto/include/ParallelPic.hh"
 #include <stdlib.h>
 #include <vector>
 
@@ -10,8 +10,8 @@ int main(int argc, char** argv)
 {
 	Image img1 (argv[1]);
 	Image img2 (argv[2]);
-	img1.display("imagen 1");
-	img2.display("imagen 2");
+//	img1.display("imagen 1");
+//	img2.display("imagen 2");
 	int size=img1.get_width()*img1.get_height()*img1.get_depth()*img1.get_spectrum();
 	int *matrix= (int*)malloc(size*sizeof(int));
 	int *matrix2= (int*)malloc(size*sizeof(int));
@@ -21,16 +21,16 @@ int main(int argc, char** argv)
 	i=0;
 	//creamos dos matrices de enteros apartir de la imagen
 
-	int time;
-	time=MPI_Wtime();
+	double time;
 
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &id);
 	MPI_Comm_size(MPI_COMM_WORLD, &procs);
+	time=MPI_Wtime();
 	
 	local_size=size/procs;
 	
-	if(id==0)
+	//if(id==0)
 	{
 	
 		for(c=0; c< img1.get_spectrum();++c)
@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 	}	
 	
 	MPI_Barrier(MPI_COMM_WORLD);
-	MPI_Bcast(&local_size,1, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&local_size,1, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	/*if(procs >1 && id==procs-1)
 	{
@@ -66,10 +66,10 @@ int main(int argc, char** argv)
 		result_local=(int*)malloc(local_size*sizeof(int));
 	}*/
 	
-	MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&matrix2_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
-	MPI_Bcast(&matrix2,size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&matrix_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&matrix2_local,local_size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&matrix,size, MPI_INT, 0, MPI_COMM_WORLD);
+	//MPI_Bcast(&matrix2,size, MPI_INT, 0, MPI_COMM_WORLD);
 	
 	MPI_Barrier(MPI_COMM_WORLD);
 	cout<<local_size<<"   "<<size<<endl;
@@ -93,6 +93,7 @@ int main(int argc, char** argv)
 	MPI_Gather(result_local, local_size, MPI_INT, mat_result, local_size, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Barrier(MPI_COMM_WORLD);
 	free(result_local);
+	time=MPI_Wtime()-time;
 	MPI_Finalize();
 	// Esto lo único que hace es volver a construir la matriz
 
@@ -110,10 +111,10 @@ int main(int argc, char** argv)
 			}
 		}
 	}
-	time=MPI_Wtime()-time;
 	free(mat_result);
 	cout<<"Tiempo de ejecución con "<<procs<<" procesadores: "<< time <<endl;
-	result.display("disp");
-
+//	result.display("disp");
+	result.save("sumampi2.jpg");
 	return 0;
 }
+

@@ -5,6 +5,7 @@ CMPI=mpiCC.openmpi
 CFLAGS = -fopenmp
 
 LFLAGS = ../build/ParallelPic.o -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+L2FLAGS = ../../../mylib/imagelib/Proyecto/build/image.o -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
 EFLAGS = -o
 
 # All the targets
@@ -40,7 +41,7 @@ sum_omp: sum_omp.cpp
 	$(CC) $(CFLAGS) sum_omp.cpp $(EFLAGS) sum_omp.exe $(LFLAGS)
 
 sumampi: sumampi.cpp
-	$(CMPI) sumampi.cpp $(EFLAGS) sumampi.exe $(LFLAGS)
+	$(CMPI) sumampi.cpp $(EFLAGS) sumampi.exe $(L2FLAGS)
 
 
 median: Median_par.cpp

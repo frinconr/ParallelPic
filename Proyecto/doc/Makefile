@@ -28,10 +28,10 @@ doxygen: Doxyfile
 doc: 
 	make -C ./doxygen/ all
 
-latex: latex/refman.tex
+latex: doxygen/latex/refman.tex 
 	@echo "******************* PRODUCING DOXYGEN LATEX OUTPUT *********************";\
-	make -C latex/ all
-	cp latex/refman.pdf ./
+	make -C doxygen/latex/ all
+	cp doxygen/latex/refman.pdf ./
 
 clean:
 	@echo "******************* CLEANING *******************************************"

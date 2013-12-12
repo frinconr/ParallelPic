@@ -1,0 +1,295 @@
+\begin{theindex}
+
+  \item {$\sim $\discretionary {-}{}{}Image}
+    \subitem {Image}, \hyperpage{9}
+  \item {/home/fish/\discretionary {-}{}{}Documents/\discretionary {-}{}{}Parallel\discretionary {-}{}{}Pic/\discretionary {-}{}{}Proyecto/include/\discretionary {-}{}{}Parallel\discretionary {-}{}{}Pic.\discretionary {-}{}{}hh}, 
+		\hyperpage{45}
+  \item {/home/fish/\discretionary {-}{}{}Documents/\discretionary {-}{}{}Parallel\discretionary {-}{}{}Pic/\discretionary {-}{}{}Proyecto/src/\discretionary {-}{}{}Parallel\discretionary {-}{}{}Pic.\discretionary {-}{}{}cpp}, 
+		\hyperpage{73}
+  \item {/home/fish/\discretionary {-}{}{}Documents/\discretionary {-}{}{}Parallel\discretionary {-}{}{}Pic/\discretionary {-}{}{}Proyecto/src/image.\discretionary {-}{}{}cpp}, 
+		\hyperpage{48}
+
+  \indexspace
+
+  \item {autocovariance}
+    \subitem {Image}, \hyperpage{9}
+  \item {average\discretionary {-}{}{}\_\discretionary {-}{}{}omp}
+    \subitem {Image}, \hyperpage{10}
+
+  \indexspace
+
+  \item {binarize\discretionary {-}{}{}\_\discretionary {-}{}{}img}
+    \subitem {Image}, \hyperpage{10}
+
+  \indexspace
+
+  \item {color\discretionary {-}{}{}\_\discretionary {-}{}{}slicing}
+    \subitem {Image}, \hyperpage{10}
+  \item {coorrelogram}
+    \subitem {Image}, \hyperpage{11}
+  \item {coorrelogram\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Z\discretionary {-}{}{}C}
+    \subitem {Image}, \hyperpage{12}
+  \item {coorrelogram\discretionary {-}{}{}\_\discretionary {-}{}{}par}
+    \subitem {Image}, \hyperpage{12}
+
+  \indexspace
+
+  \item {display}
+    \subitem {Image}, \hyperpage{13}
+
+  \indexspace
+
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Gradient\discretionary {-}{}{}\_\discretionary {-}{}{}horizontal}
+    \subitem {Image}, \hyperpage{20}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Gradient\discretionary {-}{}{}\_\discretionary {-}{}{}vertical}
+    \subitem {Image}, \hyperpage{21}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Laplacian}
+    \subitem {Image}, \hyperpage{26}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Laplacian\discretionary {-}{}{}\_\discretionary {-}{}{}no\discretionary {-}{}{}\_\discretionary {-}{}{}diagonal}
+    \subitem {Image}, \hyperpage{27}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}W}
+    \subitem {Image}, \hyperpage{32}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S}
+    \subitem {Image}, \hyperpage{32}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}W}
+    \subitem {Image}, \hyperpage{33}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}W\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}E}
+    \subitem {Image}, \hyperpage{34}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}average}
+    \subitem {Image}, \hyperpage{13}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}dynamic\discretionary {-}{}{}\_\discretionary {-}{}{}range\discretionary {-}{}{}\_\discretionary {-}{}{}dilatation}
+    \subitem {Image}, \hyperpage{13}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}edge\discretionary {-}{}{}\_\discretionary {-}{}{}enhacement\discretionary {-}{}{}\_\discretionary {-}{}{}displacement}
+    \subitem {Image}, \hyperpage{14}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}0}
+    \subitem {Image}, \hyperpage{15}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}1}
+    \subitem {Image}, \hyperpage{15}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}2}
+    \subitem {Image}, \hyperpage{16}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}3}
+    \subitem {Image}, \hyperpage{16}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}4}
+    \subitem {Image}, \hyperpage{17}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}5}
+    \subitem {Image}, \hyperpage{17}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}6}
+    \subitem {Image}, \hyperpage{18}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}7}
+    \subitem {Image}, \hyperpage{19}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}gaussian}
+    \subitem {Image}, \hyperpage{19}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}horizontal\discretionary {-}{}{}\_\discretionary {-}{}{}borders}
+    \subitem {Image}, \hyperpage{21}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}0}
+    \subitem {Image}, \hyperpage{22}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}135}
+    \subitem {Image}, \hyperpage{22}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}180}
+    \subitem {Image}, \hyperpage{23}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}225}
+    \subitem {Image}, \hyperpage{23}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}270}
+    \subitem {Image}, \hyperpage{24}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}315}
+    \subitem {Image}, \hyperpage{25}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}45}
+    \subitem {Image}, \hyperpage{25}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}90}
+    \subitem {Image}, \hyperpage{26}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}maximum}
+    \subitem {Image}, \hyperpage{28}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}median}
+    \subitem {Image}, \hyperpage{28}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}minimum}
+    \subitem {Image}, \hyperpage{29}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}modal}
+    \subitem {Image}, \hyperpage{30}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}order\discretionary {-}{}{}\_\discretionary {-}{}{}stadistics}
+    \subitem {Image}, \hyperpage{31}
+  \item {filter\discretionary {-}{}{}\_\discretionary {-}{}{}vertical\discretionary {-}{}{}\_\discretionary {-}{}{}borders}
+    \subitem {Image}, \hyperpage{34}
+
+  \indexspace
+
+  \item {gaussian\discretionary {-}{}{}\_\discretionary {-}{}{}noise}
+    \subitem {Image}, \hyperpage{35}
+  \item {get\discretionary {-}{}{}\_\discretionary {-}{}{}histogram}
+    \subitem {Image}, \hyperpage{35}
+  \item {gray\discretionary {-}{}{}\_\discretionary {-}{}{}scale}
+    \subitem {Image}, \hyperpage{36}
+
+  \indexspace
+
+  \item {histogram\discretionary {-}{}{}\_\discretionary {-}{}{}equalization}
+    \subitem {Image}, \hyperpage{36}
+
+  \indexspace
+
+  \item {Image}, \hyperpage{5}
+    \subitem {$\sim $\discretionary {-}{}{}Image}, \hyperpage{9}
+    \subitem {autocovariance}, \hyperpage{9}
+    \subitem {average\discretionary {-}{}{}\_\discretionary {-}{}{}omp}, 
+		\hyperpage{10}
+    \subitem {binarize\discretionary {-}{}{}\_\discretionary {-}{}{}img}, 
+		\hyperpage{10}
+    \subitem {color\discretionary {-}{}{}\_\discretionary {-}{}{}slicing}, 
+		\hyperpage{10}
+    \subitem {coorrelogram}, \hyperpage{11}
+    \subitem {coorrelogram\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Z\discretionary {-}{}{}C}, 
+		\hyperpage{12}
+    \subitem {coorrelogram\discretionary {-}{}{}\_\discretionary {-}{}{}par}, 
+		\hyperpage{12}
+    \subitem {display}, \hyperpage{13}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Gradient\discretionary {-}{}{}\_\discretionary {-}{}{}horizontal}, 
+		\hyperpage{20}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Gradient\discretionary {-}{}{}\_\discretionary {-}{}{}vertical}, 
+		\hyperpage{21}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Laplacian}, 
+		\hyperpage{26}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Laplacian\discretionary {-}{}{}\_\discretionary {-}{}{}no\discretionary {-}{}{}\_\discretionary {-}{}{}diagonal}, 
+		\hyperpage{27}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}W}, 
+		\hyperpage{32}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S}, 
+		\hyperpage{32}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}W}, 
+		\hyperpage{33}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}Prewitt\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}W\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}E}, 
+		\hyperpage{34}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}average}, 
+		\hyperpage{13}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}dynamic\discretionary {-}{}{}\_\discretionary {-}{}{}range\discretionary {-}{}{}\_\discretionary {-}{}{}dilatation}, 
+		\hyperpage{13}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}edge\discretionary {-}{}{}\_\discretionary {-}{}{}enhacement\discretionary {-}{}{}\_\discretionary {-}{}{}displacement}, 
+		\hyperpage{14}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}0}, 
+		\hyperpage{15}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}1}, 
+		\hyperpage{15}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}2}, 
+		\hyperpage{16}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}3}, 
+		\hyperpage{16}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}4}, 
+		\hyperpage{17}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}5}, 
+		\hyperpage{17}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}6}, 
+		\hyperpage{18}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}freeman\discretionary {-}{}{}\_\discretionary {-}{}{}7}, 
+		\hyperpage{19}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}gaussian}, 
+		\hyperpage{19}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}horizontal\discretionary {-}{}{}\_\discretionary {-}{}{}borders}, 
+		\hyperpage{21}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}0}, 
+		\hyperpage{22}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}135}, 
+		\hyperpage{22}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}180}, 
+		\hyperpage{23}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}225}, 
+		\hyperpage{23}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}270}, 
+		\hyperpage{24}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}315}, 
+		\hyperpage{25}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}45}, 
+		\hyperpage{25}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}kirsch\discretionary {-}{}{}\_\discretionary {-}{}{}90}, 
+		\hyperpage{26}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}maximum}, 
+		\hyperpage{28}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}median}, 
+		\hyperpage{28}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}minimum}, 
+		\hyperpage{29}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}modal}, 
+		\hyperpage{30}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}order\discretionary {-}{}{}\_\discretionary {-}{}{}stadistics}, 
+		\hyperpage{31}
+    \subitem {filter\discretionary {-}{}{}\_\discretionary {-}{}{}vertical\discretionary {-}{}{}\_\discretionary {-}{}{}borders}, 
+		\hyperpage{34}
+    \subitem {gaussian\discretionary {-}{}{}\_\discretionary {-}{}{}noise}, 
+		\hyperpage{35}
+    \subitem {get\discretionary {-}{}{}\_\discretionary {-}{}{}histogram}, 
+		\hyperpage{35}
+    \subitem {gray\discretionary {-}{}{}\_\discretionary {-}{}{}scale}, 
+		\hyperpage{36}
+    \subitem {histogram\discretionary {-}{}{}\_\discretionary {-}{}{}equalization}, 
+		\hyperpage{36}
+    \subitem {Image}, \hyperpage{8}
+    \subitem {interpolation}, \hyperpage{36}
+    \subitem {inverse}, \hyperpage{37}
+    \subitem {log\discretionary {-}{}{}\_\discretionary {-}{}{}transformation}, 
+		\hyperpage{37}
+    \subitem {median\discretionary {-}{}{}\_\discretionary {-}{}{}omp}, 
+		\hyperpage{38}
+    \subitem {multiply\discretionary {-}{}{}\_\discretionary {-}{}{}img}, 
+		\hyperpage{38}
+    \subitem {plot\discretionary {-}{}{}\_\discretionary {-}{}{}histogram}, 
+		\hyperpage{38}
+    \subitem {plot\discretionary {-}{}{}\_\discretionary {-}{}{}histogram\discretionary {-}{}{}\_\discretionary {-}{}{}equalization}, 
+		\hyperpage{40}
+    \subitem {power\discretionary {-}{}{}\_\discretionary {-}{}{}law\discretionary {-}{}{}\_\discretionary {-}{}{}transformatiom}, 
+		\hyperpage{40}
+    \subitem {rgb\discretionary {-}{}{}\_\discretionary {-}{}{}hsv}, 
+		\hyperpage{40}
+    \subitem {salt\discretionary {-}{}{}\_\discretionary {-}{}{}pepper}, 
+		\hyperpage{41}
+    \subitem {set\discretionary {-}{}{}\_\discretionary {-}{}{}pixel\discretionary {-}{}{}\_\discretionary {-}{}{}value}, 
+		\hyperpage{41}
+    \subitem {substract\discretionary {-}{}{}\_\discretionary {-}{}{}img}, 
+		\hyperpage{41}
+    \subitem {sum\discretionary {-}{}{}\_\discretionary {-}{}{}img}, 
+		\hyperpage{42}
+    \subitem {variance}, \hyperpage{43}
+  \item {interpolation}
+    \subitem {Image}, \hyperpage{36}
+  \item {inverse}
+    \subitem {Image}, \hyperpage{37}
+
+  \indexspace
+
+  \item {log\discretionary {-}{}{}\_\discretionary {-}{}{}transformation}
+    \subitem {Image}, \hyperpage{37}
+
+  \indexspace
+
+  \item {median\discretionary {-}{}{}\_\discretionary {-}{}{}omp}
+    \subitem {Image}, \hyperpage{38}
+  \item {multiply\discretionary {-}{}{}\_\discretionary {-}{}{}img}
+    \subitem {Image}, \hyperpage{38}
+
+  \indexspace
+
+  \item {plot\discretionary {-}{}{}\_\discretionary {-}{}{}histogram}
+    \subitem {Image}, \hyperpage{38}
+  \item {plot\discretionary {-}{}{}\_\discretionary {-}{}{}histogram\discretionary {-}{}{}\_\discretionary {-}{}{}equalization}
+    \subitem {Image}, \hyperpage{40}
+  \item {power\discretionary {-}{}{}\_\discretionary {-}{}{}law\discretionary {-}{}{}\_\discretionary {-}{}{}transformatiom}
+    \subitem {Image}, \hyperpage{40}
+
+  \indexspace
+
+  \item {rgb\discretionary {-}{}{}\_\discretionary {-}{}{}hsv}
+    \subitem {Image}, \hyperpage{40}
+
+  \indexspace
+
+  \item {salt\discretionary {-}{}{}\_\discretionary {-}{}{}pepper}
+    \subitem {Image}, \hyperpage{41}
+  \item {set\discretionary {-}{}{}\_\discretionary {-}{}{}pixel\discretionary {-}{}{}\_\discretionary {-}{}{}value}
+    \subitem {Image}, \hyperpage{41}
+  \item {substract\discretionary {-}{}{}\_\discretionary {-}{}{}img}
+    \subitem {Image}, \hyperpage{41}
+  \item {sum\discretionary {-}{}{}\_\discretionary {-}{}{}img}
+    \subitem {Image}, \hyperpage{42}
+
+  \indexspace
+
+  \item {variance}
+    \subitem {Image}, \hyperpage{43}
+
+\end{theindex}

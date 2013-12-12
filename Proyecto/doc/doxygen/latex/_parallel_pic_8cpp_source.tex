@@ -1,0 +1,2409 @@
+\hypertarget{_parallel_pic_8cpp}{\section{Parallel\-Pic.\-cpp}
+\label{_parallel_pic_8cpp}\index{/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/src/\-Parallel\-Pic.\-cpp@{/home/fish/\-Documents/\-Parallel\-Pic/\-Proyecto/src/\-Parallel\-Pic.\-cpp}}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#include "../include/ParallelPic.hh"}
+00002 
+00003 
+00008  \textcolor{comment}{// *************************************************************************}
+00009  \textcolor{comment}{// ********************* CONTRUCTORS ***************************************}
+00010  \textcolor{comment}{// *************************************************************************}
+00011  
+00017 \hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image::Image}()
+00018 \{
+00019     this->Img = \textcolor{keyword}{new} CImg<unsigned char>();
+00020     this->width = 0;
+00021     this->height = 0;
+00022     this->depth = 0;
+00023     this->spectrum = 0;
+00024 
+00025 \}
+00032 \hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image::Image}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\textcolor{keyword}{const} filename)
+00033 \{
+00034     this->Img = \textcolor{keyword}{new} CImg<unsigned char>(filename);
+00036     this->width = this->Img->width();
+00038     this->height = this->Img->height();
+00040     this->depth = this->Img->depth();
+00042     this->spectrum = this->Img->spectrum();
+00044 \}
+00049 \hyperlink{class_image_a58edd1c45b4faeb5f789b0d036d02313}{Image::Image}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} width, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} height, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} depth, \textcolor{keyword}{
+      const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} spectrum, \textcolor{keywordtype}{int} value)
+00050 \{
+00051     this->Img = \textcolor{keyword}{new} CImg<unsigned char>(width, height, depth, spectrum, value);
+00052     this->width = width;
+00053     this->height = height;
+00054     this->depth = depth;
+00055     this->spectrum = spectrum;
+00056 \}
+00060 \hyperlink{class_image_a794ae7f8ff9b4b7b7306343ac2f56356}{Image::~Image}(\textcolor{keywordtype}{void})
+00061 \{
+00062     
+00063 \}
+00064 \textcolor{comment}{// *************************************************************************}
+00065 \textcolor{comment}{// ************************** SAVE & DISPLAY *******************************}
+00066 \textcolor{comment}{// *************************************************************************}
+00072 \textcolor{comment}{}\textcolor{keywordtype}{void} Image:: save(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *\textcolor{keyword}{const} savefilename)
+00073 \{
+00074     this->Img->save(savefilename);
+00075 \}
+00076 
+00077 \textcolor{keywordtype}{void} \hyperlink{class_image_a62ff76610f4f6ed2817d7f60abda765f}{Image :: display}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* message)
+00078 \{
+00079     CImgDisplay main (*(this->Img), message);
+00080     \textcolor{keywordflow}{while}(!main.is\_closed())
+00081     \{
+00082         main.wait();
+00083     \}
+00084 \}
+00085 
+00086 \textcolor{comment}{// *************************************************************************}
+00087 \textcolor{comment}{// *************************** GETs & SETs *********************************}
+00088 \textcolor{comment}{// *************************************************************************}
+00089 
+00094 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_width()
+00095 \{
+00096     \textcolor{keywordflow}{return} this->width;
+00097 \}
+00102 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_height()
+00103 \{
+00104     \textcolor{keywordflow}{return} this->height;
+00105 \}
+00106 
+00111 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_depth()
+00112 \{
+00113     \textcolor{keywordflow}{return} this->depth;
+00114 \}
+00115 
+00120 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_spectrum()
+00121 \{
+00122     \textcolor{keywordflow}{return} this->spectrum;
+00123 \}
+00124 
+00125 
+00130 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} Image:: get\_pixel\_value(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} z, \textcolor{keywordtype}{int} c)
+00131 \{
+00132     \textcolor{keywordflow}{return} this->Img->get\_vector\_at(x, y, z)[c];
+00133 \}
+00134 
+00139 \textcolor{keywordtype}{void} \hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{Image:: set\_pixel\_value}(\textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{int} z, \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} value)
+00140 \{
+00141     (*(this->Img))(x, y, z, c)= value;
+00142 \} 
+00143 
+00144  
+00145 \textcolor{comment}{// *************************************************************************}
+00146 \textcolor{comment}{// **************************Arithmetic and Logic **************************}
+00147 \textcolor{comment}{// *************************************************************************}
+00148 
+00154 \hyperlink{class_image}{Image} \hyperlink{class_image_ae503021a1c7b4188a457d55d7571e63d}{Image :: substract\_img}(\hyperlink{class_image}{Image} image2, \textcolor{keywordtype}{int} num\_threads)
+00155 \{
+00156     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00157     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00158     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00159     omp\_set\_num\_threads(num\_threads);
+00160     
+00161     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00162 
+00163     \textcolor{keywordflow}{if}(this->get\_width() == image2.get\_width() && this->get\_height() == image2.get\_height() && this->
+      get\_depth() == image2.get\_depth() && this->get\_spectrum() == image2.get\_spectrum())
+00164     \{
+00165         \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00166         \{
+00167             \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00168             \{
+00169 \textcolor{preprocessor}{                #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y)
+       shared(z,c,result,chunk)}
+00170 \textcolor{preprocessor}{}                \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+00171                 \{
+00172                     \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+00173                     \{
+00174                         pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)-image2.
+      get\_pixel\_value(x,y,z,c)));
+00175                         
+00176 \textcolor{preprocessor}{                        #pragma omp ordered}
+00177 \textcolor{preprocessor}{}                        result.set\_pixel\_value(x,y,z,c,pixel);
+00178                     \}
+00179                 \}
+00180             \}
+00181         \}
+00182     \}
+00183     \textcolor{keywordflow}{return} result;
+00184 \}
+00185 
+00186 
+00187 \hyperlink{class_image}{Image} \hyperlink{class_image_a652abac4bfdd2fcff0cdb5627ac8ad49}{Image :: sum\_img}(\hyperlink{class_image}{Image} image2, \textcolor{keywordtype}{int} num\_threads)
+00188 \{
+00189     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z,sum;
+00190     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00191     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00192     omp\_set\_num\_threads(num\_threads);
+00193     
+00194     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00195 
+00196     \textcolor{keywordflow}{if}(this->get\_width() == image2.get\_width() && this->get\_height() == image2.get\_height() && this->
+      get\_depth() == image2.get\_depth() && this->get\_spectrum() == image2.get\_spectrum())
+00197     \{
+00198         \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00199         \{
+00200             \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00201             \{
+00202 \textcolor{preprocessor}{                #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,result,chunk)}
+00203 \textcolor{preprocessor}{}                \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+00204                 \{
+00205                     \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+00206                     \{
+00207             
+00208                         sum = this->get\_pixel\_value(x,y,z,c)+image2.get\_pixel\_value(x,y,z,c);
+00209                         \textcolor{keywordflow}{if} (sum <= 255)
+00210                         \{
+00211                             pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(sum);
+00212                         \}
+00213                         \textcolor{keywordflow}{else}
+00214                         \{
+00215                             pixel = 255;
+00216                         \}
+00217 \textcolor{preprocessor}{                        #pragma omp ordered}
+00218 \textcolor{preprocessor}{}                        result.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x,y,z,c,pixel);
+00219                     \}
+00220                 \}
+00221             \}
+00222         \}
+00223     \}
+00224     \textcolor{keywordflow}{return} result;
+00225 \}
+00226 
+00227 
+00234 \hyperlink{class_image}{Image} \hyperlink{class_image_ae546904988636a989dfca3950030bd85}{Image :: multiply\_img}(\textcolor{keywordtype}{double} multiplier,\textcolor{keywordtype}{int} num\_threads)
+00235 \{
+00236     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00237     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00238     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00239     omp\_set\_num\_threads(num\_threads);
+00240     
+00241     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+00242     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00243     \{
+00244         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00245         \{
+00246 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel)
+       shared(z,c,result,chunk)}
+00247 \textcolor{preprocessor}{}            \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+00248             \{
+00249                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+00250                 \{
+00251                     pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c)*multiplier));
+00252                     \textcolor{keywordflow}{if} (pixel >255)
+00253                         pixel = 255;
+00254 \textcolor{preprocessor}{                    #pragma omp parallel}
+00255 \textcolor{preprocessor}{}                    result.set\_pixel\_value(x,y,z,c,pixel);
+00256                 \}
+00257             \}
+00258         \}
+00259     \}
+00260     \textcolor{keywordflow}{return} result;
+00261 \}
+00262 
+00269 \hyperlink{class_image}{Image} \hyperlink{class_image_ac23d8c133700c751fac7ce6615641fde}{Image :: binarize\_img}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} cutoff\_value , \textcolor{keywordtype}{int} num\_threads)
+00270 \{
+00271     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00272     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00273     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00274     omp\_set\_num\_threads(num\_threads);   
+00275     
+00276     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+00277     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00278     \{
+00279         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00280         \{
+00281 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel)
+       shared(z,c,result,chunk)}
+00282 \textcolor{preprocessor}{}            \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+00283             \{
+00284                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+00285                 \{
+00286                     pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(this->get\_pixel\_value(x,y,z,c));
+00287                     \textcolor{keywordflow}{if}(pixel >= cutoff\_value)
+00288                         pixel=255;
+00289                     \textcolor{keywordflow}{else}
+00290                         pixel=0;
+00291                         
+00292 \textcolor{preprocessor}{                    #pragma omp ordered}
+00293 \textcolor{preprocessor}{}                    result.set\_pixel\_value(x,y,z,c,pixel);
+00294 
+00295                 \}
+00296             \}
+00297         \}
+00298     \}
+00299 
+00300     
+00301     \textcolor{keywordflow}{return} result;
+00302 \}
+00303 
+00304 
+00305 \textcolor{comment}{// *************************************************************************}
+00306 \textcolor{comment}{// ************************** SPACE DOMAIN FILTERS *************************}
+00307 \textcolor{comment}{// *************************************************************************}
+00308 
+00309 
+00310 
+00311 
+00312 \textcolor{comment}{// *************************************************************************}
+00313 \textcolor{comment}{// *********************** Sharpening Spatial Filters **********************}
+00314 \textcolor{comment}{// *************************************************************************}
+00315 
+00323 \hyperlink{class_image}{Image} \hyperlink{class_image_abda67bfc036d9de98bf806c93fbae370}{Image::filter\_Laplacian}(\textcolor{keywordtype}{int} num\_threads)
+00324 \{
+00325     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00326     
+00327     \textcolor{keywordtype}{int} m = 1;
+00328     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00329     \textcolor{keywordtype}{int} sum;
+00330     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00331     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00332     omp\_set\_num\_threads(num\_threads);
+00333     
+00334     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00335     \{
+00336         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00337         \{
+00338 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00339 \textcolor{preprocessor}{}            \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00340             \{
+00341                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00342                 \{
+00343                     sum = 0;
+00344                     
+00345                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0 ; i < 3; i++)
+00346                     \{
+00347                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = 0 ; j < 3; j++)
+00348                         \{
+00349                         sum += -this->get\_pixel\_value(x+i-1, y+i-1, z, c);
+00350                         \}
+00351                     \}
+00352                     
+00353                     sum += 9*(this->get\_pixel\_value(x,y,z,c));
+00354                     
+00355                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00356                     \{
+00357                         sum = 255;
+00358                     \}
+00359                     
+00360                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00361 \textcolor{preprocessor}{                    #pragma omp ordered}
+00362 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00363                 \}
+00364                 
+00365              \}
+00366              
+00367          \}
+00368     \}  
+00369     \textcolor{keywordflow}{return} filtered; 
+00370 \}
+00371 
+00377 \hyperlink{class_image}{Image} \hyperlink{class_image_a308423cd4b7291228c4dcd1a9a4f8856}{Image :: filter\_Laplacian\_no\_diagonal}(\textcolor{keywordtype}{int} num\_threads)
+00378 \{
+00379     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00380     \textcolor{keywordtype}{int} sum;
+00381     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00382     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00383     omp\_set\_num\_threads(num\_threads);
+00384     
+00385     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00386     
+00387     \textcolor{keywordtype}{int} m = 1;
+00388     
+00389     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00390     \{
+00391         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00392         \{
+00393 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00394 \textcolor{preprocessor}{}
+00395             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00396             \{
+00397                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00398                 \{
+00399                     sum = 4*(this->get\_pixel\_value(x,y,z,c)) - (this->get\_pixel\_value(x-1,y,z,c) + this->
+      get\_pixel\_value(x+1,y,z,c) + this->get\_pixel\_value(x,y-1,z,c) +this->get\_pixel\_value(x,y+1,z,c));
+00400                     
+00401                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00402                     \{
+00403                         sum = 255;
+00404                     \}
+00405                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00406                     
+00407 \textcolor{preprocessor}{                    #pragma omp ordered}
+00408 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00409                 \}
+00410                 
+00411              \}
+00412              
+00413          \}
+00414     \}  
+00415     \textcolor{keywordflow}{return} filtered; 
+00416     
+00417 \}
+00418 
+00426 \hyperlink{class_image}{Image} \hyperlink{class_image_aeff1dd9c6747100583ecd976a298e67b}{Image :: filter\_Gradient\_horizontal}(\textcolor{keywordtype}{int} num\_threads)
+00427 \{   
+00428     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00429     \textcolor{keywordtype}{int} sum;
+00430     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00431     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00432     omp\_set\_num\_threads(num\_threads);
+00433     
+00434     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00435     
+00436     \textcolor{keywordtype}{int} m = 1;
+00437     
+00438     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00439     \{
+00440         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00441         \{
+00442 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00443 \textcolor{preprocessor}{}
+00444             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00445             \{
+00446                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00447                 \{
+00448                     sum = this->get\_pixel\_value(x-1, y-1, z, c) + 2*(this->get\_pixel\_value(x, y-1, z, c)) +
+       this->get\_pixel\_value(x+1, y-1, z, c) - (this->get\_pixel\_value(x-1, y+1, z, c) + 2*(this->get\_pixel\_value(x
+      , y+1, z, c)) + this->get\_pixel\_value(x+1, y+1, z, c));
+00449                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00450                     \{
+00451                         sum = 255;
+00452                     \}
+00453                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00454 \textcolor{preprocessor}{                    #pragma omp ordered}
+00455 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00456                 \}
+00457                 
+00458              \}
+00459              
+00460          \}
+00461     \}  
+00462      \textcolor{keywordflow}{return} filtered;
+00463 \}
+00464 
+00472 \hyperlink{class_image}{Image} \hyperlink{class_image_a66ea21718b13184a2d49d52a49cda750}{Image :: filter\_Gradient\_vertical}(\textcolor{keywordtype}{int} num\_threads)
+00473 \{
+00474     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00475     \textcolor{keywordtype}{int} sum;
+00476     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00477     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00478     omp\_set\_num\_threads(num\_threads);
+00479     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00480     
+00481     \textcolor{keywordtype}{int} m = 1;
+00482     
+00483     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00484     \{
+00485         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00486         \{
+00487 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00488 \textcolor{preprocessor}{}
+00489             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00490             \{
+00491                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00492                 \{
+00493                     sum = get\_pixel\_value(x-1, y-1, z, c) + 2*get\_pixel\_value(x-1, y, z, c) + 
+      get\_pixel\_value(x-1, y+1, z, c) - (get\_pixel\_value(x+1, y-1, z, c) + 2*get\_pixel\_value(x+1, y, z, c) + get\_pixel\_value(x+
+      1, y+1, z, c));
+00494                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00495                     \{
+00496                         sum = 255;
+00497                     \}
+00498                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00499 \textcolor{preprocessor}{                    #pragma omp ordered}
+00500 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00501                 \}
+00502                 
+00503              \}
+00504              
+00505          \}
+00506     \}  
+00507      \textcolor{keywordflow}{return} filtered;
+00508 \}
+00509 
+00527 \hyperlink{class_image}{Image} \hyperlink{class_image_a931b36f6843f103be624d1f58150ab63}{Image :: filter\_Prewitt\_N\_S}(\textcolor{keywordtype}{int} num\_threads)
+00528 \{
+00529     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00530     \textcolor{keywordtype}{int} sum;
+00531     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00532     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00533     omp\_set\_num\_threads(num\_threads);
+00534     
+00535     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00536     
+00537     \textcolor{keywordtype}{int} m = 1;
+00538     
+00539     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00540     \{
+00541         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00542         \{
+00543 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00544 \textcolor{preprocessor}{}
+00545             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00546             \{
+00547                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00548                 \{
+00549                     sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x, y-1, z, c) + get\_pixel\_value
+      (x+1, y-1, z, c) - (get\_pixel\_value(x-1, y+1, z, c) + get\_pixel\_value(x, y+1, z, c) + get\_pixel\_value(x+1, y
+      +1, z, c));
+00550                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00551                     \{
+00552                         sum = 255;
+00553                     \}
+00554                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00555 \textcolor{preprocessor}{                    #pragma omp ordered}
+00556 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00557                 \}
+00558                 
+00559              \}
+00560              
+00561          \}
+00562     \}  
+00563     
+00564     \textcolor{keywordflow}{return} filtered;
+00565     
+00566 \}
+00567     
+00568 \hyperlink{class_image}{Image} \hyperlink{class_image_adfefe21b9272e6ded5ba7939d7dbe99c}{Image ::filter\_Prewitt\_NE\_SW}(\textcolor{keywordtype}{int} num\_threads)
+00569 \{
+00570     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00571     \textcolor{keywordtype}{int} sum;
+00572     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00573     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00574     omp\_set\_num\_threads(num\_threads);
+00575     
+00576     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00577     
+00578     \textcolor{keywordtype}{int} m = 1;
+00579     
+00580     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00581     \{
+00582         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00583         \{
+00584 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00585 \textcolor{preprocessor}{}
+00586             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00587             \{
+00588                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00589                 \{
+00590                     sum = get\_pixel\_value(x, y-1, z, c) + get\_pixel\_value(x+1, y-1, z, c) + get\_pixel\_value
+      (x+1, y, z, c) - (get\_pixel\_value(x-1, y, z, c) + get\_pixel\_value(x-1, y+1, z, c) + get\_pixel\_value(x, y+1, 
+      z, c));
+00591                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00592                     \{
+00593                         sum = 255;
+00594                     \}
+00595                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00596 \textcolor{preprocessor}{                    #pragma omp ordered}
+00597 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00598                 \}
+00599                 
+00600              \}
+00601              
+00602          \}
+00603     \}  
+00604     
+00605     \textcolor{keywordflow}{return} filtered;
+00606     
+00607 \}
+00608 
+00609 \hyperlink{class_image}{Image} \hyperlink{class_image_ac9a433b59be54fea12aa1397defd6c81}{Image ::filter\_Prewitt\_E\_W}(\textcolor{keywordtype}{int} num\_threads)
+00610 \{
+00611     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00612     \textcolor{keywordtype}{int} sum;
+00613     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00614     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00615     omp\_set\_num\_threads(num\_threads);
+00616     
+00617     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00618     
+00619     \textcolor{keywordtype}{int} m = 1;
+00620     
+00621     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00622     \{
+00623         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00624         \{
+00625 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00626 \textcolor{preprocessor}{}
+00627             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00628             \{
+00629                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00630                 \{
+00631                     sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x-1, y, z, c) + get\_pixel\_value
+      (x-1, y+1, z, c) - (get\_pixel\_value(x+1, y-1, z, c) + get\_pixel\_value(x+1, y, z, c) + get\_pixel\_value(x+1, y
+      +1, z, c));
+00632                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00633                     \{
+00634                         sum = 255;
+00635                     \}
+00636                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00637 \textcolor{preprocessor}{                    #pragma omp ordered}
+00638 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00639                 \}
+00640                 
+00641              \}
+00642              
+00643          \}
+00644     \}  
+00645     
+00646     \textcolor{keywordflow}{return} filtered;
+00647     
+00648 \}
+00649     
+00650 \hyperlink{class_image}{Image} \hyperlink{class_image_ab33257cb397927a0445527d41a3b6dfa}{Image ::filter\_Prewitt\_NW\_SE}(\textcolor{keywordtype}{int} num\_threads)
+00651 \{
+00652     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00653     \textcolor{keywordtype}{int} sum;
+00654     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00655     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00656     omp\_set\_num\_threads(num\_threads);   
+00657     
+00658     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00659     
+00660     \textcolor{keywordtype}{int} m = 1;
+00661     
+00662     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00663     \{
+00664         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00665         \{
+00666 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,sum)
+       shared(z,c,filtered,chunk,m)}
+00667 \textcolor{preprocessor}{}
+00668             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00669             \{
+00670                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00671                 \{
+00672                     sum = get\_pixel\_value(x-1, y-1, z, c) + get\_pixel\_value(x-1, y, z, c) + get\_pixel\_value
+      (x, y-1, z, c) - (get\_pixel\_value(x+1, y, z, c) + get\_pixel\_value(x+1, y+1, z, c) + get\_pixel\_value(x, y+1, 
+      z, c));
+00673                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+00674                     \{
+00675                         sum = 255;
+00676                     \}
+00677                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+00678 \textcolor{preprocessor}{                    #pragma omp ordered}
+00679 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00680                 \}
+00681                 
+00682              \}
+00683              
+00684          \}
+00685     \}  
+00686     
+00687     \textcolor{keywordflow}{return} filtered;
+00688         
+00689 \}
+00690 
+00691 \hyperlink{class_image}{Image} \hyperlink{class_image_aa5e19816018edced13326f1d58d30f4c}{Image ::filter\_edge\_enhacement\_displacement}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{
+      int} horizontal\_dis, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} vertical\_dis, \textcolor{keywordtype}{int} num\_threads)
+00692 \{
+00693     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00694     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} value;
+00695     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00696     omp\_set\_num\_threads(num\_threads);
+00697     \hyperlink{class_image}{Image} result (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0);
+       
+00698     \textcolor{keywordflow}{if}((horizontal\_dis < this->get\_width()) && (vertical\_dis < this->get\_height()))
+00699     \{
+00700         \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00701         \{
+00702             \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00703             \{
+00704 \textcolor{preprocessor}{                #pragma omp parallel for ordered schedule(dynamic,chunk) private(value)
+       shared(z,c,result,chunk)}
+00705 \textcolor{preprocessor}{}
+00706                 \textcolor{keywordflow}{for}(x = horizontal\_dis; x < this->get\_width(); x++)
+00707                 \{
+00708                     \textcolor{keywordflow}{for}(y = vertical\_dis; y < this->get\_height(); y++)
+00709                     \{
+00710                         value = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}(abs(this->get\_pixel\_value(x,y,z,c) - this->
+      get\_pixel\_value(x-horizontal\_dis, y-vertical\_dis, z, c)));
+00711                         
+00712 \textcolor{preprocessor}{                        #pragma omp ordered}
+00713 \textcolor{preprocessor}{}                        result.set\_pixel\_value(x,y,z,c, value);
+00714                     \}
+00715                 \}
+00716             \}
+00717         \}
+00718     \}
+00719     \textcolor{keywordflow}{return} result;
+00720 \}
+00721 
+00722 \hyperlink{class_image}{Image} \hyperlink{class_image_a1a755f73ec71ad095f47e9222ee2c9d1}{Image :: filter\_vertical\_borders}(\textcolor{keywordtype}{int} num\_threads)
+00723 \{
+00724     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00725     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00726     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00727     omp\_set\_num\_threads(num\_threads);
+00728     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00729     
+00730     \textcolor{keywordtype}{int} m = 1;
+00731     
+00732     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00733     \{
+00734         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00735         \{
+00736 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel)
+       shared(z,c,filtered,chunk,m)}
+00737 \textcolor{preprocessor}{}
+00738             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+00739             \{
+00740                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height()-m; y++)
+00741                 \{
+00742                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(this->get\_pixel\_value(x-1, y, z,
+       c) - get\_pixel\_value(x+1, y, z, c)));
+00743                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+00744                 \}
+00745                 
+00746              \}
+00747              
+00748          \}
+00749     \}  
+00750      \textcolor{keywordflow}{return} filtered;
+00751 \}
+00752 
+00753 \hyperlink{class_image}{Image} \hyperlink{class_image_ad6baefede32227602d896966e44aed4e}{Image :: filter\_horizontal\_borders}(\textcolor{keywordtype}{int} num\_threads)
+00754 \{
+00755     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00756     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00757     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00758     omp\_set\_num\_threads(num\_threads);
+00759     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00760     
+00761     \textcolor{keywordtype}{int} m = 1;
+00762     
+00763     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00764     \{
+00765         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00766         \{
+00767 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel)
+       shared(z,c,filtered,chunk,m)}
+00768 \textcolor{preprocessor}{}
+00769             \textcolor{keywordflow}{for}(x = 0; x < this->get\_width()-m; x++)
+00770             \{
+00771                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+00772                 \{
+00773                     
+00774                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(this->get\_pixel\_value(x, y-1, z,
+       c) - get\_pixel\_value(x, y+1, z, c)));
+00775 \textcolor{preprocessor}{                    #pragma omp ordered}
+00776 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00777                 \}
+00778                 
+00779              \}
+00780              
+00781          \}
+00782     \}  
+00783      \textcolor{keywordflow}{return} filtered;
+00784 \}
+00785 
+00786 \textcolor{comment}{// *************************************************************************}
+00787 \textcolor{comment}{// *********************** Smoothing Spatial Filters **********************}
+00788 \textcolor{comment}{// *************************************************************************}
+00789 
+00790 
+00797 \hyperlink{class_image}{Image} \hyperlink{class_image_aad6fa435024cf4f1635b8769325f389f}{Image :: filter\_median} (\textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{int} num\_threads)
+00798 \{
+00799     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00800     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00801     omp\_set\_num\_threads(num\_threads);
+00802     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00803 
+00804     \textcolor{keywordtype}{int} m = (dim-1)/2;
+00805     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values [dim*dim];
+00806     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} temp,pixel;
+00807     
+00808     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00809     \{
+00810         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00811         \{
+00812 \textcolor{preprocessor}{        #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel\_values,temp,x,y)
+       shared(z,c,filtered,chunk)}
+00813 \textcolor{preprocessor}{}
+00814             \textcolor{keywordflow}{for}(x = m; x < this->get\_width(); x++)
+00815             \{
+00816                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height(); y++)
+00817                 \{
+00818                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00819                     \{
+00820                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00821                         \{
+00822                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+00823                             
+00824                         \}   
+00825                     \}
+00826                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0; k<dim*dim ; k++)
+00827                     \{
+00828                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=k+1 ; p<dim*dim ; p++)
+00829                         \{
+00830                             \textcolor{keywordflow}{if}(pixel\_values[p] < pixel\_values[k])
+00831                             \{
+00832                             \textcolor{comment}{// Intercambiar los valores}
+00833                             temp = pixel\_values[k];
+00834                             pixel\_values[k] = pixel\_values[p];
+00835                             pixel\_values[p] = temp;
+00836                             \}
+00837                         \}
+00838                     \}                   
+00839                     pixel = pixel\_values[((dim*dim-1)/2)-1];
+00840 \textcolor{preprocessor}{                    #pragma omp ordered}
+00841 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00842                 \}
+00843                 
+00844              \}
+00845              
+00846          \}
+00847     \}  
+00848      \textcolor{keywordflow}{return} filtered;
+00849  \}
+00850 
+00857 \hyperlink{class_image}{Image} \hyperlink{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{Image :: filter\_average}(\textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{int} num\_threads)
+00858 \{
+00859     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,sum;
+00860     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00861     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00862     omp\_set\_num\_threads(num\_threads);
+00863     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+00864 
+00865     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00866     \{
+00867         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00868         \{
+00869 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,y,sum)
+       shared(z,c,filtered,chunk)}
+00870 \textcolor{preprocessor}{}
+00871             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = dim; x < this->get\_width()-dim; x++)
+00872             \{
+00873                 \textcolor{keywordflow}{for}(y = dim; y < this->get\_height()-dim; y++)
+00874                 \{
+00875                     sum = 0;
+00876                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-dim; i<= x+dim; i++)
+00877                     \{
+00878                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-dim; j<= y+dim; j++)
+00879                         \{
+00880                             sum += this->get\_pixel\_value(i, j, z, c);
+00881                         \}
+00882                     \}
+00883             
+00884                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (sum/((dim*2+1)*(dim*2+1)));
+00885 \textcolor{preprocessor}{                    #pragma omp ordered}
+00886 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+00887                 \}
+00888                 
+00889              \}
+00890              
+00891          \}
+00892     \}  
+00893      \textcolor{keywordflow}{return} filtered;   
+00894 \} 
+00895 
+00902 \hyperlink{class_image}{Image} \hyperlink{class_image_ae8b435684bdd6f715bfcd31517ddca0a}{Image :: filter\_gaussian}(\textcolor{keywordtype}{int} o, \textcolor{keywordtype}{int} dim\_kernel, \textcolor{keywordtype}{int} num\_threads)
+00903 \{
+00904     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z,cont;
+00905     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+00906     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00907     omp\_set\_num\_threads(num\_threads);
+00908     
+00909     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      );
+00910 
+00911     \textcolor{keywordtype}{double} kernel[dim\_kernel*dim\_kernel];
+00912     
+00913     \textcolor{keywordtype}{int} m = (dim\_kernel-1)/2;
+00914     
+00915     \textcolor{keywordtype}{double} gaussian =1/pow(3.1415*2*o*o,0.5);
+00916 
+00917     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =-m; i <=m; i++)
+00918     \{
+00919         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j =-m; j<=+m; j++)
+00920         \{
+00921             \textcolor{keywordtype}{double} exp= -(i*i+j*j)*0.5/(o*o);
+00922             kernel[(i+m)*dim\_kernel + (j+m)]=gaussian*pow(2.7,exp); 
+00923             
+00924         \}
+00925     \}
+00926     
+00927     
+00928     
+00929     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00930     \{
+00931         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00932         \{
+00933 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,cont)
+       shared(z,c,filtered,chunk,kernel)}
+00934 \textcolor{preprocessor}{}
+00935             \textcolor{keywordflow}{for}(x = m; x < this->get\_width(); x++)
+00936             \{
+00937                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height(); y++)
+00938                 \{
+00939                     cont=0;
+00940                     pixel=0;
+00941                     
+00942                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00943                     \{
+00944                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00945                         \{
+00946                             pixel+= this->get\_pixel\_value(i, j, z, c)*(kernel[cont]); 
+00947                             cont++;
+00948                         \}
+00949                     \}
+00950 \textcolor{preprocessor}{                    #pragma omp ordered}
+00951 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, (pixel/2));
+00952                 \}
+00953                 
+00954              \}
+00955              
+00956          \}
+00957     \}  
+00958      \textcolor{keywordflow}{return} filtered;       
+00959 \}   
+00960 
+00967 \hyperlink{class_image}{Image} \hyperlink{class_image_ae67455a397b27c4a3bda96f3cc3e9d9f}{Image :: filter\_modal}(\textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{int} num\_threads)
+00968 \{
+00969     
+00970     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,c,z;
+00971     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} average=0;
+00972     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+00973     omp\_set\_num\_threads(num\_threads);
+00974     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      );
+00975     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values[dim*dim];
+00976     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} moda;
+00977     
+00978     \textcolor{keywordtype}{int} m=(dim-1)/2;
+00979     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} copy\_pixels[dim*dim];
+00980 
+00981     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+00982     \{
+00983         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+00984         \{
+00985 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel\_values,moda,x,y)
+       shared(z,c,filtered,chunk,m)}
+00986 \textcolor{preprocessor}{}
+00987             \textcolor{keywordflow}{for}(x = m; x < this->get\_width(); x++)
+00988             \{
+00989                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height(); y++)
+00990                 \{
+00991                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m; i++)
+00992                     \{
+00993                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m; j++)
+00994                         \{
+00995                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+00996         
+00997                             \textcolor{keywordtype}{int} frequency[dim*dim];
+00998                             moda=0; 
+00999                             
+01000                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<dim*dim;k++)
+01001                             \{
+01002                                 copy\_pixels[k]= pixel\_values[k];
+01003                                 frequency[k]=0;
+01004                             \}
+01005                             
+01006                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=0;p<dim*dim;p++)
+01007                             \{
+01008                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} q=p+1;q<dim*dim;q++)
+01009                                 \{
+01010                                     \textcolor{keywordflow}{if}(copy\_pixels[p]==pixel\_values[q])\{
+01011                                         frequency[p]++;
+01012                                 
+01013                                     \}
+01014             
+01015                                 \}
+01016     
+01017                             \}
+01018 
+01019 
+01020 
+01021                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} s=0; s<dim*dim ; s++)
+01022                             \{
+01023                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} e=s+1 ; e<dim*dim ; e++)
+01024                                 \{
+01025                                     \textcolor{keywordflow}{if}(frequency[e] < frequency[s])
+01026                                     \{
+01027                                         moda = copy\_pixels[s];
+01028                                         average=copy\_pixels[s];
+01029                                     \}
+01030                                 \}
+01031                             \}
+01032                             
+01033 
+01034                             \textcolor{keywordflow}{if}(moda==0)
+01035                             \{
+01036                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0;k<dim*dim;k++)
+01037                                 \{
+01038                                     moda += pixel\_values[k];
+01039                                 \}
+01040                             average=(moda/dim);
+01041                             \}
+01042 
+01043 
+01044                         \}   
+01045                     \}
+01046 \textcolor{preprocessor}{                    #pragma omp ordered}
+01047 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, average);
+01048                 \}
+01049                 
+01050              \}
+01051              
+01052          \}
+01053     \}
+01054 
+01055 \textcolor{keywordflow}{return} filtered;
+01056 
+01057 \}
+01058     
+01059 
+01060 
+01061 \textcolor{comment}{// *************************************************************************}
+01062 \textcolor{comment}{// *********************** Dot to Dot Transformations **********************}
+01063 \textcolor{comment}{// *************************************************************************}
+01064 
+01070 \hyperlink{class_image}{Image} \hyperlink{class_image_a8a62778b8013b7f82ee74138678d5a24}{Image ::inverse}(\textcolor{keywordtype}{int} num\_threads)
+01071 \{
+01072     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01073     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01074     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01075     omp\_set\_num\_threads(num\_threads);
+01076     \hyperlink{class_image}{Image} inverted (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01077 
+01078     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01079     \{
+01080         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01081         \{
+01082 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y)
+       shared(z,c,inverted,chunk)}
+01083 \textcolor{preprocessor}{}
+01084             \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+01085             \{
+01086                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+01087                 \{
+01088                     pixel= \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}\textcolor{keyword}{>}(255-this->get\_pixel\_value(x,y,z,c));
+01089 \textcolor{preprocessor}{                    #pragma omp ordered}
+01090 \textcolor{preprocessor}{}                    inverted.set\_pixel\_value(x,y,z,c,pixel);
+01091                 \}
+01092             \}
+01093         \}
+01094     \}
+01095     \textcolor{keywordflow}{return} inverted;
+01096 \}
+01097 
+01103 \hyperlink{class_image}{Image} \hyperlink{class_image_a23e96746fd7a360950a9588ca3fa466c}{Image :: log\_transformation}(\textcolor{keywordtype}{int} num\_threads)
+01104 \{
+01105     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01106     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01107     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01108     omp\_set\_num\_threads(num\_threads);
+01109     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01110 
+01111     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01112     \{
+01113         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01114         \{
+01115 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y)
+       shared(z,c,filtered,chunk)}
+01116 \textcolor{preprocessor}{}
+01117             \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+01118             \{
+01119                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+01120                 \{
+01121                     pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}((255/log(256)) * log(1+this->get\_pixel\_value(x, y, z
+      , c)));
+01122 \textcolor{preprocessor}{                    #pragma omp ordered}
+01123 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x,y,z,c, pixel);
+01124                 \}
+01125             \}
+01126         \}
+01127     \}
+01128     \textcolor{keywordflow}{return} filtered;
+01129 \}
+01130 
+01141 \hyperlink{class_image}{Image} \hyperlink{class_image_ae8dc7bd96987cf43f2b608f5f42bd8e3}{Image ::filter\_dynamic\_range\_dilatation}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} a, \textcolor{keywordtype}{
+      unsigned} \textcolor{keywordtype}{char} b, \textcolor{keywordtype}{double} alpha, \textcolor{keywordtype}{double} beta, \textcolor{keywordtype}{double} gamma, \textcolor{keywordtype}{int} num\_threads)
+01142 \{
+01143     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01144     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01145     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01146     omp\_set\_num\_threads(num\_threads);
+01147     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01148     
+01149     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01150     \{
+01151         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01152         \{
+01153 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y)
+       shared(z,c,filtered,chunk)}
+01154 \textcolor{preprocessor}{}            \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+01155             \{
+01156                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+01157                 \{
+01158                     pixel=0;
+01159                     
+01160                     \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)<a)
+01161                         pixel =abs(alpha*this->get\_pixel\_value(x,y,z,c));
+01162                         
+01163                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)>=a && this->get\_pixel\_value(x,y,z,c)<b)
+01164                         pixel=abs(beta*(this->get\_pixel\_value(x,y,z,c)-a)+alpha*a);
+01165                     
+01166                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(this->get\_pixel\_value(x,y,z,c)<=b)
+01167                         
+01168                     pixel=abs(gamma*(this->get\_pixel\_value(x,y,z,c)-b)+((beta*(b-a))+alpha*a));
+01169 \textcolor{preprocessor}{                    #pragma omp ordered}
+01170 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x,y,z,c,static\_cast<unsigned int>(pixel));
+01171                 \}
+01172             \}
+01173         \}
+01174     \}
+01175     \textcolor{keywordflow}{return} filtered;
+01176 \}
+01177 
+01178 
+01186 \hyperlink{class_image}{Image} \hyperlink{class_image_a4934472d3d78a5b26bc658cb6511c7e3}{Image :: power\_law\_transformatiom}(\textcolor{keywordtype}{double} exponent, \textcolor{keywordtype}{int} 
+      num\_threads)
+01187 \{
+01188     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01189     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01190     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01191     omp\_set\_num\_threads(num\_threads);
+01192     \textcolor{keywordtype}{double} power\_law;
+01193     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01194     
+01195     \textcolor{keywordtype}{double} k = (pow(255, 1-exponent));
+01196     
+01197     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01198     \{
+01199         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01200         \{
+01201 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,power\_law)
+       shared(z,c,filtered,chunk,k)}
+01202 \textcolor{preprocessor}{}
+01203             \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+01204             \{
+01205                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+01206                 \{
+01207                     power\_law = k * pow( (this->get\_pixel\_value(x,y,z,c)) , exponent);
+01208                     pixel = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}(power\_law);
+01209                     filtered.set\_pixel\_value(x, y, z, c, pixel);
+01210                 \}
+01211                 
+01212              \}
+01213              
+01214          \}
+01215     \}  
+01216     \textcolor{keywordflow}{return} filtered;
+01217 \}
+01218 
+01226 \hyperlink{class_image}{Image} \hyperlink{class_image_abad859b7de6c0237bdfeb0c41e754f6b}{Image :: color\_slicing}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} color1[], \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} color2[], \textcolor{keywordtype}{
+      unsigned} \textcolor{keywordtype}{char} neutral[], \textcolor{keywordtype}{int} num\_threads)
+01227 \{
+01228     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01229     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01230     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01231     omp\_set\_num\_threads(num\_threads);
+01232     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01233     
+01234     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01235     \{
+01236         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01237         \{
+01238 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y)
+       shared(z,c,filtered,chunk)}
+01239 \textcolor{preprocessor}{}
+01240             \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+01241             \{
+01242                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+01243                 \{
+01244                     pixel = this->get\_pixel\_value(x,y,z,c);
+01245                     \textcolor{keywordflow}{if}(pixel > color1[c] && pixel < color2[c] )
+01246                     \{
+01247 \textcolor{preprocessor}{                        #pragma omp ordered}
+01248 \textcolor{preprocessor}{}                        filtered.set\_pixel\_value(x, y, z, c, pixel);
+01249                     \}
+01250                     \textcolor{keywordflow}{else}
+01251                     \{
+01252 \textcolor{preprocessor}{                        #pragma omp ordered}
+01253 \textcolor{preprocessor}{}                        filtered.set\_pixel\_value(x,y,z,c, neutral[c]);
+01254                     \}
+01255                 \}
+01256                 
+01257              \}
+01258              
+01259          \}
+01260     \}  
+01261     
+01262     \textcolor{keywordflow}{return} filtered;
+01263     
+01264 \}
+01265 
+01266 \textcolor{comment}{// *************************************************************************}
+01267 \textcolor{comment}{// *********************** HISTOGRAM AND EQUALIZATION **********************}
+01268 \textcolor{comment}{// *************************************************************************}
+01269 
+01277 \textcolor{keywordtype}{int}* \hyperlink{class_image_a36596e19076b920ec0b2c2aa9eee639c}{Image :: get\_histogram}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} z)
+01278 \{
+01279     \textcolor{keywordtype}{int} histogram [256];
+01280     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i<256; i++)
+01281     \{
+01282     histogram[i] = 0;   
+01283     \}
+01284     
+01285     \textcolor{keywordflow}{if} (c < this->get\_spectrum() && z < this->get\_depth())
+01286     \{
+01287         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x = 0; x < this->get\_width(); x++)
+01288         \{
+01289             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y = 0; y < this->get\_height(); y++)
+01290             \{
+01291                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_value = this->get\_pixel\_value(x,y,z,c);
+01292                 (histogram[pixel\_value])++;
+01293             \}
+01294         \}
+01295     \}
+01296     
+01297     \textcolor{keywordtype}{int}* histogram\_pointer = histogram;
+01298     
+01299     \textcolor{keywordflow}{return} histogram\_pointer;
+01300 \}
+01301 
+01307 \textcolor{keywordtype}{void} \hyperlink{class_image_a7ecc9bcad8ac9f0fe4fc42a1810f2b35}{Image :: plot\_histogram}(\textcolor{keywordtype}{int} levels,\textcolor{keyword}{const} \textcolor{keywordtype}{char}* title)
+01308 \{
+01309     CImg<unsigned char> img = this->Img->histogram(levels);
+01310     
+01311     CImgDisplay main\_display (*(this->Img), title);
+01312     
+01313     img.display\_graph(main\_display, 3, 1, \textcolor{stringliteral}{"Pixel Intensity"}, 0, 0, \textcolor{stringliteral}{"Frequency"}, 0, 0);
+01314 \}
+01315 
+01321 \textcolor{keywordtype}{void} \hyperlink{class_image_ac792db3b148a2b42e4ce1ee2ba7ac757}{Image :: plot\_histogram\_equalization}(\textcolor{keywordtype}{int} levels, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* title
+      )
+01322 \{
+01323     CImg<unsigned char> img = this->Img->equalize(levels);
+01324     
+01325     CImgDisplay main\_display (*(this->Img), title);
+01326     
+01327     img.display\_graph(main\_display, 3, 1, \textcolor{stringliteral}{"Pixel Intensity"}, 0, 0, \textcolor{stringliteral}{"Frequency"}, 0, 0);
+01328 \}
+01329 
+01330 \textcolor{comment}{// *************************************************************************}
+01331 \textcolor{comment}{// *********************** OTHER TRANSFORMATIONS ***************************}
+01332 \textcolor{comment}{// *************************************************************************}
+01333 
+01338 \hyperlink{class_image}{Image} \hyperlink{class_image_a9551b317e71d65ca1573a9518644154d}{Image ::filter\_kirsch\_0}(\textcolor{keywordtype}{int} num\_threads)
+01339 \{
+01340     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01341     \textcolor{keywordtype}{int} sum;
+01342     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01343     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01344     omp\_set\_num\_threads(num\_threads);
+01345     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01346     
+01347     \textcolor{keywordtype}{int} m = 1;
+01348     
+01349     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01350     \{
+01351         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01352         \{
+01353 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01354 \textcolor{preprocessor}{}
+01355             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01356             \{
+01357                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01358                 \{
+01359                     sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value
+      (x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x+1, y-1, z
+      , c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c));
+01360                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01361                     \{
+01362                         sum = 255;
+01363                     \}
+01364                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01365 \textcolor{preprocessor}{                    #pragma omp ordered}
+01366 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01367                 \}
+01368                 
+01369              \}
+01370              
+01371          \}
+01372     \}  
+01373     
+01374     \textcolor{keywordflow}{return} filtered;
+01375     
+01376 \}
+01377 
+01382 \hyperlink{class_image}{Image} \hyperlink{class_image_afc2543445381bf7b7dc07167f5bef42f}{Image ::filter\_kirsch\_45}(\textcolor{keywordtype}{int} num\_threads)
+01383 \{
+01384     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01385     \textcolor{keywordtype}{int} sum;
+01386     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01387     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01388     omp\_set\_num\_threads(num\_threads);
+01389     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01390     \textcolor{keywordtype}{int} m = 1;
+01391     
+01392     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01393     \{
+01394         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01395         \{
+01396 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01397 \textcolor{preprocessor}{}
+01398             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01399             \{
+01400                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01401                 \{
+01402                     sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value
+      (x-1, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x+1, y-1,
+       z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x, y-1, z, c));
+01403                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01404                     \{
+01405                         sum = 255;
+01406                     \}
+01407                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01408 \textcolor{preprocessor}{                    #pragma omp ordered}
+01409 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01410                 \}
+01411                 
+01412              \}
+01413              
+01414          \}
+01415     \}  
+01416     
+01417     \textcolor{keywordflow}{return} filtered;
+01418     
+01419     
+01420 \}
+01421 
+01426 \hyperlink{class_image}{Image} \hyperlink{class_image_afe3524a312d6860dba3ae9caeb41aaac}{Image ::filter\_kirsch\_90}(\textcolor{keywordtype}{int} num\_threads)
+01427 \{
+01428     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01429     \textcolor{keywordtype}{int} sum;
+01430     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01431     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01432     omp\_set\_num\_threads(num\_threads);
+01433     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01434     \textcolor{keywordtype}{int} m = 1;
+01435     
+01436     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01437     \{
+01438         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01439         \{
+01440 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01441 \textcolor{preprocessor}{}
+01442             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01443             \{
+01444                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01445                 \{
+01446                     sum = -3*(get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value
+      (x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c))+5*(get\_pixel\_value(x+1, y-1, z
+      , c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x-1, y-1, z, c));
+01447                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01448                     \{
+01449                         sum = 255;
+01450                     \}
+01451                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01452 \textcolor{preprocessor}{                    #pragma omp ordered}
+01453 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01454                 \}
+01455                 
+01456              \}
+01457              
+01458          \}
+01459     \}  
+01460     
+01461     \textcolor{keywordflow}{return} filtered;
+01462     
+01463 \}
+01464 
+01469 \hyperlink{class_image}{Image} \hyperlink{class_image_a89c324635717b51fce1fdb53eb20ea53}{Image ::filter\_kirsch\_135}(\textcolor{keywordtype}{int} num\_threads)
+01470 \{
+01471     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01472     \textcolor{keywordtype}{int} sum;
+01473     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01474     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01475     omp\_set\_num\_threads(num\_threads);
+01476     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01477     \textcolor{keywordtype}{int} m = 1;
+01478     
+01479     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01480     \{
+01481         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01482         \{
+01483 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01484 \textcolor{preprocessor}{}
+01485             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01486             \{
+01487                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01488                 \{
+01489                     sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value
+      (x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1, y+1, z, c))+5*(get\_pixel\_value(x-1, y, z
+      , c)+get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c));
+01490                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01491                     \{
+01492                         sum = 255;
+01493                     \}
+01494                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01495 \textcolor{preprocessor}{                    #pragma omp ordered}
+01496 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01497                 \}
+01498                 
+01499              \}
+01500              
+01501          \}
+01502     \}  
+01503     
+01504     \textcolor{keywordflow}{return} filtered;
+01505     
+01506 \}
+01507 
+01512 \hyperlink{class_image}{Image} \hyperlink{class_image_a2d98fe13c3ad3949e7e5a42e0381dfae}{Image ::filter\_kirsch\_180}(\textcolor{keywordtype}{int} num\_threads)
+01513 \{
+01514     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01515     \textcolor{keywordtype}{int} sum;
+01516     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01517     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01518     omp\_set\_num\_threads(num\_threads);
+01519     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01520     \textcolor{keywordtype}{int} m = 1;
+01521     
+01522     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01523     \{
+01524         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01525         \{
+01526 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01527 \textcolor{preprocessor}{}
+01528             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01529             \{
+01530                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01531                 \{
+01532                     sum = -3*(get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value
+      (x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+5*(get\_pixel\_value(x-1, y, z, 
+      c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x-1, y-1, z, c));
+01533                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01534                     \{
+01535                         sum = 255;
+01536                     \}
+01537                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01538 \textcolor{preprocessor}{                    #pragma omp ordered}
+01539 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01540                 \}
+01541                 
+01542              \}
+01543              
+01544          \}
+01545     \}  
+01546     
+01547     \textcolor{keywordflow}{return} filtered;
+01548     
+01549 \}
+01550 
+01555 \hyperlink{class_image}{Image} \hyperlink{class_image_a3d99f369ce877076d9de45608566e5ab}{Image ::filter\_kirsch\_225}(\textcolor{keywordtype}{int} num\_threads)
+01556 \{
+01557     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01558     \textcolor{keywordtype}{int} sum;
+01559     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01560     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01561     omp\_set\_num\_threads(num\_threads);
+01562     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01563     \textcolor{keywordtype}{int} m = 1;
+01564     
+01565     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01566     \{
+01567         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01568         \{
+01569 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01570 \textcolor{preprocessor}{}
+01571             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01572             \{
+01573                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01574                 \{
+01575                     sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value
+      (x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c))+5*(get\_pixel\_value(x-1, y, z
+      , c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c));
+01576                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01577                     \{
+01578                         sum = 255;
+01579                     \}
+01580                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01581 \textcolor{preprocessor}{                    #pragma omp ordered}
+01582 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01583                 \}
+01584                 
+01585              \}
+01586              
+01587          \}
+01588     \}  
+01589     
+01590     \textcolor{keywordflow}{return} filtered;
+01591     
+01592 \}
+01593 
+01598 \hyperlink{class_image}{Image} \hyperlink{class_image_a3deff23888dd56ee45c6e2556bb2e407}{Image ::filter\_kirsch\_270}(\textcolor{keywordtype}{int} num\_threads)
+01599 \{
+01600     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01601     \textcolor{keywordtype}{int} sum;
+01602     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01603     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01604     omp\_set\_num\_threads(num\_threads);
+01605     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01606     \textcolor{keywordtype}{int} m = 1;
+01607     
+01608     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01609     \{
+01610         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01611         \{
+01612 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01613 \textcolor{preprocessor}{}
+01614             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01615             \{
+01616                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01617                 \{
+01618                     sum = -3*(get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value
+      (x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c))+5*(get\_pixel\_value(x, y+1, z, 
+      c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x-1, y+1, z, c));
+01619                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01620                     \{
+01621                         sum = 255;
+01622                     \}
+01623                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01624 \textcolor{preprocessor}{                    #pragma omp ordered}
+01625 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01626                 \}
+01627                 
+01628              \}
+01629              
+01630          \}
+01631     \}  
+01632     
+01633     \textcolor{keywordflow}{return} filtered;
+01634     
+01635 \}
+01636 
+01641 \hyperlink{class_image}{Image} \hyperlink{class_image_afaacfcecb4f65541f06dd2aebc6a8d0c}{Image ::filter\_kirsch\_315}(\textcolor{keywordtype}{int} num\_threads)
+01642 \{
+01643     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01644     \textcolor{keywordtype}{int} sum;
+01645     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01646     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01647     omp\_set\_num\_threads(num\_threads);
+01648     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01649     \textcolor{keywordtype}{int} m = 1;
+01650     
+01651     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01652     \{
+01653         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01654         \{
+01655 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01656 \textcolor{preprocessor}{}
+01657             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01658             \{
+01659                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01660                 \{
+01661                     sum = -3*(get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value
+      (x-1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c))+5*(get\_pixel\_value(x, y+1, z
+      , c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c));
+01662                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01663                     \{
+01664                         sum = 255;
+01665                     \}
+01666                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01667 \textcolor{preprocessor}{                    #pragma omp ordered}
+01668 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01669                 \}
+01670                 
+01671              \}
+01672              
+01673          \}
+01674     \}  
+01675     
+01676     \textcolor{keywordflow}{return} filtered;
+01677     
+01678 \}
+01679 
+01684 \hyperlink{class_image}{Image} \hyperlink{class_image_ab25fe6e85844905599119faf087968aa}{Image ::filter\_freeman\_0}(\textcolor{keywordtype}{int} num\_threads)
+01685 \{
+01686     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01687     \textcolor{keywordtype}{int} sum;
+01688     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01689     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01690     omp\_set\_num\_threads(num\_threads);
+01691     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01692     
+01693     \textcolor{keywordtype}{int} m = 1;
+01694     
+01695     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01696     \{
+01697         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01698         \{
+01699 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01700 \textcolor{preprocessor}{}
+01701             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01702             \{
+01703                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01704                 \{
+01705                     sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-
+      1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1,y,z,c))-1*(
+      get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01706                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01707                     \{
+01708                         sum = 255;
+01709                     \}
+01710                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01711 \textcolor{preprocessor}{                    #pragma omp ordered}
+01712 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01713                 \}
+01714                 
+01715              \}
+01716              
+01717          \}
+01718     \}  
+01719     
+01720     \textcolor{keywordflow}{return} filtered;
+01721     
+01722 \}
+01723 
+01727 \hyperlink{class_image}{Image} \hyperlink{class_image_a2f0919c597afa2427d139012d99eabd2}{Image ::filter\_freeman\_1}(\textcolor{keywordtype}{int} num\_threads)
+01728 \{
+01729     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01730     \textcolor{keywordtype}{int} sum;
+01731     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01732     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01733     omp\_set\_num\_threads(num\_threads);
+01734     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01735     
+01736     \textcolor{keywordtype}{int} m = 1;
+01737     
+01738     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01739     \{
+01740         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01741         \{
+01742 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01743 \textcolor{preprocessor}{}
+01744             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01745             \{
+01746                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01747                 \{
+01748                     sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(
+      x-1, y+1, z, c)+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1,y,z,c))-1*
+      (get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x, y+1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01749                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01750                     \{
+01751                         sum = 255;
+01752                     \}
+01753                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01754 \textcolor{preprocessor}{                    #pragma omp ordered}
+01755 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01756                 \}
+01757                 
+01758              \}
+01759              
+01760          \}
+01761     \}  
+01762     
+01763     \textcolor{keywordflow}{return} filtered;
+01764     
+01765 \}
+01766 
+01770 \hyperlink{class_image}{Image} \hyperlink{class_image_a0f095fc1129cd6d3856f98e0e0434f24}{Image ::filter\_freeman\_2}(\textcolor{keywordtype}{int} num\_threads)
+01771 \{
+01772     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01773     \textcolor{keywordtype}{int} sum;
+01774     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01775     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01776     omp\_set\_num\_threads(num\_threads);
+01777     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01778     
+01779     \textcolor{keywordtype}{int} m = 1;
+01780     
+01781     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01782     \{
+01783         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01784         \{
+01785 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01786 \textcolor{preprocessor}{}
+01787             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01788             \{
+01789                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01790                 \{
+01791                     sum = (get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+
+      1, y, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1,y+1,z,c))-1*(
+      get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y-1, z, c))+-2*get\_pixel\_value(x, y, z, c);
+01792                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01793                     \{
+01794                         sum = 255;
+01795                     \}
+01796                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01797 \textcolor{preprocessor}{                    #pragma omp ordered}
+01798 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01799                 \}
+01800                 
+01801              \}
+01802              
+01803          \}
+01804     \}  
+01805     
+01806     \textcolor{keywordflow}{return} filtered;
+01807     
+01808 \}
+01809 
+01813 \hyperlink{class_image}{Image} \hyperlink{class_image_a4efc2b9483472b31aa05ec3104569111}{Image ::filter\_freeman\_3}(\textcolor{keywordtype}{int} num\_threads)
+01814 \{
+01815     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01816     \textcolor{keywordtype}{int} sum;
+01817     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01818     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01819     omp\_set\_num\_threads(num\_threads);
+01820     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01821     
+01822     \textcolor{keywordtype}{int} m = 1;
+01823     
+01824     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01825     \{
+01826         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01827         \{
+01828 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01829 \textcolor{preprocessor}{}
+01830             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01831             \{
+01832                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01833                 \{
+01834                     sum = (get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+
+      1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x-1,y+1,z,c))-1*(get\_pixel\_value(x-1, y, z, c)+
+      get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x-1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01835                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01836                     \{
+01837                         sum = 255;
+01838                     \}
+01839                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01840 \textcolor{preprocessor}{                    #pragma omp ordered}
+01841 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01842                 \}
+01843                 
+01844              \}
+01845              
+01846          \}
+01847     \}  
+01848     
+01849     \textcolor{keywordflow}{return} filtered;
+01850     
+01851 \}
+01852 
+01856 \hyperlink{class_image}{Image} \hyperlink{class_image_a9bcd8a39cadee68de81ea8a35c832a94}{Image ::filter\_freeman\_4}(\textcolor{keywordtype}{int} num\_threads)
+01857 \{
+01858     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01859     \textcolor{keywordtype}{int} sum;
+01860     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01861     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01862     omp\_set\_num\_threads(num\_threads);
+01863     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01864     
+01865     \textcolor{keywordtype}{int} m = 1;
+01866     
+01867     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01868     \{
+01869         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01870         \{
+01871 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01872 \textcolor{preprocessor}{}
+01873             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01874             \{
+01875                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01876                 \{
+01877                     sum = (get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-1, y+1, z, c)+get\_pixel\_value(x,
+       y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c)+get\_pixel\_value(x+1, y, z, c))-1*(get\_pixel\_value(x-1, y-1, z, c
+      )+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01878                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01879                     \{
+01880                         sum = 255;
+01881                     \}
+01882                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01883 \textcolor{preprocessor}{                    #pragma omp ordered}
+01884 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01885                 \}
+01886                 
+01887              \}
+01888              
+01889          \}
+01890     \}  
+01891     
+01892     \textcolor{keywordflow}{return} filtered;
+01893     
+01894 \}
+01895 
+01896 
+01900 \hyperlink{class_image}{Image} \hyperlink{class_image_a22c69e4b9c06a20381be1f27c75c2745}{Image ::filter\_freeman\_5}(\textcolor{keywordtype}{int} num\_threads)
+01901 \{
+01902     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01903     \textcolor{keywordtype}{int} sum;
+01904     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01905     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01906     omp\_set\_num\_threads(num\_threads);
+01907     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01908     
+01909     \textcolor{keywordtype}{int} m = 1;
+01910     
+01911     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01912     \{
+01913         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01914         \{
+01915 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01916 \textcolor{preprocessor}{}
+01917             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01918             \{
+01919                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01920                 \{
+01921                     sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-
+      1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x+1, y+1, z, c))-1*(get\_pixel\_value(x+1, y, z, c
+      )+get\_pixel\_value(x, y-1, z, c)+get\_pixel\_value(x+1,y-1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01922                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01923                     \{
+01924                         sum = 255;
+01925                     \}
+01926                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01927 \textcolor{preprocessor}{                    #pragma omp ordered}
+01928 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01929                 \}
+01930                 
+01931              \}
+01932              
+01933          \}
+01934     \}  
+01935     
+01936     \textcolor{keywordflow}{return} filtered;
+01937     
+01938 \}
+01939 
+01940 
+01944 \hyperlink{class_image}{Image} \hyperlink{class_image_a09cddc961c37f59f8e4fe298d7bef2eb}{Image ::filter\_freeman\_6}(\textcolor{keywordtype}{int} num\_threads)
+01945 \{
+01946     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01947     \textcolor{keywordtype}{int} sum;
+01948     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01949     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01950     omp\_set\_num\_threads(num\_threads);
+01951     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01952     
+01953     \textcolor{keywordtype}{int} m = 1;
+01954     
+01955     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01956     \{
+01957         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+01958         \{
+01959 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+01960 \textcolor{preprocessor}{}
+01961             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+01962             \{
+01963                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+01964                 \{
+01965                     sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-
+      1, y+1, z, c)+get\_pixel\_value(x, y+1, z, c)+get\_pixel\_value(x, y-1, z, c))-1*(get\_pixel\_value(x+1, y-1, z, c
+      )+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1,y+1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+01966                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+01967                     \{
+01968                         sum = 255;
+01969                     \}
+01970                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+01971 \textcolor{preprocessor}{                    #pragma omp ordered}
+01972 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+01973                 \}
+01974                 
+01975              \}
+01976              
+01977          \}
+01978     \}  
+01979     
+01980     \textcolor{keywordflow}{return} filtered;
+01981     
+01982 \}
+01983 
+01987 \hyperlink{class_image}{Image} \hyperlink{class_image_abc60e72c623751597eaa64a5c295e65f}{Image ::filter\_freeman\_7}(\textcolor{keywordtype}{int} num\_threads)
+01988 \{
+01989     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+01990     \textcolor{keywordtype}{int} sum;
+01991     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+01992     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+01993     omp\_set\_num\_threads(num\_threads);
+01994     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+01995     
+01996     \textcolor{keywordtype}{int} m = 1;
+01997     
+01998     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+01999     \{
+02000         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02001         \{
+02002 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,sum)
+       shared(z,c,filtered,chunk)}
+02003 \textcolor{preprocessor}{}
+02004             \textcolor{keywordflow}{for}(x = m; x < this->get\_width()-m; x++)
+02005             \{
+02006                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height()-m; y++)
+02007                 \{
+02008                     sum = (get\_pixel\_value(x-1, y-1, z, c)+get\_pixel\_value(x-1, y, z, c)+get\_pixel\_value(x-
+      1, y+1, z, c)+get\_pixel\_value(x+1, y-1, z, c)+get\_pixel\_value(x, y-1, z, c))-1*(get\_pixel\_value(x, y+1, z, c
+      )+get\_pixel\_value(x+1, y, z, c)+get\_pixel\_value(x+1,y+1,z,c))+-2*get\_pixel\_value(x, y, z, c);
+02009                     \textcolor{keywordflow}{if} (sum > 255 || sum < -255)
+02010                     \{
+02011                         sum = 255;
+02012                     \}
+02013                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (abs(sum));
+02014 \textcolor{preprocessor}{                    #pragma omp ordered}
+02015 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+02016                 \}
+02017                 
+02018              \}
+02019              
+02020          \}
+02021     \}  
+02022     
+02023     \textcolor{keywordflow}{return} filtered;
+02024     
+02025 \}
+02026 
+02033 \hyperlink{class_image}{Image} \hyperlink{class_image_a42ddfccab80370efd993590850669837}{Image :: filter\_maximum}(\textcolor{keywordtype}{int} num\_threads)
+02034 \{
+02035     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+02036     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} max,pixel;
+02037     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02038     omp\_set\_num\_threads(num\_threads);
+02039     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+02040     
+02041     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02042     \{
+02043         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02044         \{
+02045 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,max,x,y)
+       shared(z,c,filtered,chunk)}
+02046 \textcolor{preprocessor}{}
+02047             \textcolor{keywordflow}{for}(x = 1; x < this->get\_width()-1; x++)
+02048             \{
+02049                 \textcolor{keywordflow}{for}(y = 1; y < this->get\_height()-1; y++)
+02050                 \{
+02051                     max = 0;
+02052                     
+02053                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-1; i< x+2; i++)
+02054                     \{
+02055                         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-1; j< y+2; j++)
+02056                         \{
+02057                             pixel = (this->get\_pixel\_value(i, j, z, c));
+02058                              
+02059                             \textcolor{keywordflow}{if} (pixel > max)
+02060                             \{
+02061                                 max = this->get\_pixel\_value(i, j, z, c);
+02062                             \}
+02063                         \} 
+02064                     \}
+02065 \textcolor{preprocessor}{                    #pragma omp ordered}
+02066 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, max);
+02067                 \}
+02068                 
+02069              \}
+02070              
+02071          \}
+02072     \}  
+02073     \textcolor{keywordflow}{return} filtered;
+02074 \}
+02075 
+02076 
+02082 \hyperlink{class_image}{Image} \hyperlink{class_image_af37690485375d17d0c55a3d89e5c0292}{Image :: filter\_minimum}(\textcolor{keywordtype}{int} num\_threads)
+02083 \{
+02084     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+02085     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} minimun;
+02086     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02087     omp\_set\_num\_threads(num\_threads);
+02088     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+02089     
+02090     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02091     \{
+02092         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02093         \{
+02094 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(minimun,x,y)
+       shared(z,c,filtered,chunk)}
+02095 \textcolor{preprocessor}{}
+02096             \textcolor{keywordflow}{for}(x = 1; x < this->get\_width()-1; x++)
+02097             \{
+02098                 \textcolor{keywordflow}{for}(y = 1; y < this->get\_height()-1; y++)
+02099                 \{
+02100                     minimun = 255;
+02101                     
+02102                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-1; i< x+2; i++)
+02103                     \{
+02104                         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-1; j< y+2; j++)
+02105                         \{
+02106                             \textcolor{keywordflow}{if} ((this->get\_pixel\_value(i, j, z, c)) < minimun)
+02107                             \{
+02108                                 minimun = this->get\_pixel\_value(i, j, z, c);
+02109                             \}
+02110                         \} 
+02111                     \}
+02112                     
+02113                     filtered.set\_pixel\_value(x, y, z, c, minimun);
+02114                 \}
+02115                 
+02116              \}
+02117              
+02118          \}
+02119     \}  
+02120      \textcolor{keywordflow}{return} filtered;
+02121 \}
+02122 
+02123 \hyperlink{class_image}{Image} \hyperlink{class_image_a44679d228a0d6864fb1cfe4fb2dc83af}{Image :: filter\_order\_stadistics}(\textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{int} order, \textcolor{keywordtype}{int} 
+      num\_threads)
+02124 \{
+02125     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,c,z,x;
+02126     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+02127     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02128     omp\_set\_num\_threads(num\_threads);
+02129     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+02130     
+02131     
+02132     \textcolor{keywordtype}{int} m = (dim-1)/2;
+02133     
+02134     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_values [dim*dim];
+02135     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} temp;
+02136     
+02137     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02138     \{
+02139         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02140         \{
+02141 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel,x,y,pixel\_values,temp)
+       shared(z,c,filtered,chunk)}
+02142 \textcolor{preprocessor}{}
+02143             \textcolor{keywordflow}{for}(x = m; x < this->get\_width(); x++)
+02144             \{
+02145                 \textcolor{keywordflow}{for}(y = m; y < this->get\_height(); y++)
+02146                 \{
+02147                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-m; i < x+m+1; i++)
+02148                     \{
+02149                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-m; j< y+m+1; j++)
+02150                         \{
+02151                             pixel\_values [(i-x+m)*dim + (j-y+m)]= this->get\_pixel\_value(i, j, z, c);
+02152                             
+02153                         \}   
+02154                     \}
+02155                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} k=0; k<dim*dim ; k++)
+02156                     \{
+02157                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} p=k+1 ; p<dim*dim ; p++)
+02158                         \{
+02159                             \textcolor{keywordflow}{if}(pixel\_values[p] < pixel\_values[k])
+02160                             \{
+02161                             \textcolor{comment}{// Intercambiar los valores}
+02162                             temp = pixel\_values[k];
+02163                             pixel\_values[k] = pixel\_values[p];
+02164                             pixel\_values[p] = temp;
+02165                             \}
+02166                         \}
+02167                     \}                   
+02168                     pixel = pixel\_values[order];
+02169 \textcolor{preprocessor}{                    #pragma omp ordered}
+02170 \textcolor{preprocessor}{}                    filtered.set\_pixel\_value(x, y, z, c, pixel);
+02171                 \}
+02172                 
+02173              \}
+02174              
+02175          \}
+02176     \}  
+02177      \textcolor{keywordflow}{return} filtered;
+02178 \}
+02179 
+02180 
+02181 \textcolor{comment}{// *************************************************************************}
+02182 \textcolor{comment}{// ****************************** NOISES ***********************************}
+02183 \textcolor{comment}{// *************************************************************************}
+02184 
+02189 \textcolor{keywordtype}{void} \hyperlink{class_image_a1afcd22275fa41ca473fc419719d3389}{Image :: salt\_pepper}(\textcolor{keywordtype}{double} intensity, \textcolor{keywordtype}{int} num\_threads)
+02190 \{
+02191     srand(1);
+02192     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,z,c;
+02193     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02194     \textcolor{keywordtype}{double} percentage = 1-(intensity/100);
+02195     omp\_set\_num\_threads(num\_threads);
+02196     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02197     \{
+02198         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02199         \{
+02200 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y) shared(z,c,chunk)}
+02201 \textcolor{preprocessor}{}
+02202             \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+02203             \{
+02204                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+02205                 \{
+02206                     \textcolor{keywordtype}{double} random= 2.0*(rand()-RAND\_MAX/2.0)/RAND\_MAX;
+02207                     \textcolor{keywordflow}{if}(random > percentage)
+02208                     \{
+02209 \textcolor{preprocessor}{                        #pragma omp ordered}
+02210 \textcolor{preprocessor}{}                        (*(this->Img))(x, y, z, c)= 255;
+02211                     \}   
+02212 
+02213                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(random<-1*percentage)
+02214                     \{
+02215 \textcolor{preprocessor}{                        #pragma omp ordered}
+02216 \textcolor{preprocessor}{}                        (*(this->Img))(x, y, z, c)= 0;                  
+02217                     \}
+02218                 \}
+02219                 
+02220                 
+02221              \}
+02222              
+02223          \}
+02224     \}  
+02225      
+02226 \}
+02227 
+02233 \textcolor{keywordtype}{void} \hyperlink{class_image_a16390bf8509b67dedec6ca9ece27eb39}{Image :: gaussian\_noise}(\textcolor{keywordtype}{double} variance, \textcolor{keywordtype}{int} num\_threads)
+02234 \{
+02235     srand(1);
+02236     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,z,c;
+02237     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+02238     \textcolor{keywordtype}{double} random;
+02239     omp\_set\_num\_threads(num\_threads);
+02240     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02241     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02242     \{
+02243         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02244         \{
+02245 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,pixel, random)
+       shared(z,c,chunk)}
+02246 \textcolor{preprocessor}{}            
+02247             \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+02248             \{
+02249                 \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+02250                 \{
+02251                     random= variance*(rand()-RAND\_MAX/\hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{variance})/RAND\_MAX;
+02252                     pixel= this->get\_pixel\_value(x,y,z,c) + random;
+02253                     
+02254                     \textcolor{keywordflow}{if}((pixel<255) & (pixel>0))
+02255                     \{
+02256 \textcolor{preprocessor}{                        #pragma omp ordered}
+02257 \textcolor{preprocessor}{}                        (*(this->Img))(x, y, z, c)= pixel;
+02258                     \}   
+02259 
+02260                 \}
+02261                 
+02262                 
+02263              \}
+02264              
+02265          \}
+02266     \}  
+02267      
+02268 \}
+02269 
+02270 
+02276 \hyperlink{class_image}{Image} \hyperlink{class_image_ae6f9753e39897f50a1483f32fb84133b}{Image :: interpolation}(\textcolor{keywordtype}{int} num\_threads)
+02277 \{
+02278     \textcolor{keywordtype}{int} i,j=0;
+02279     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,z,c;
+02280     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+02281     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02282     omp\_set\_num\_threads(num\_threads);
+02283     \hyperlink{class_image}{Image} result (2*this->get\_width(),2*this->get\_height(),this->get\_depth(),this->get\_spectrum(),0);
+02284     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02285     \{
+02286         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02287         \{
+02288 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,pixel) shared(z,c,chunk)}
+02289 \textcolor{preprocessor}{}            
+02290             \textcolor{keywordflow}{for}(y = 0; y < this->get\_width(); y++)
+02291             \{
+02292                 \textcolor{keywordflow}{for}(x = 0; x < this->get\_height(); x++)
+02293                 \{
+02294                     pixel=this->get\_pixel\_value(x,y,z,c);
+02295                     
+02296 \textcolor{preprocessor}{                    #pragma omp ordered}
+02297 \textcolor{preprocessor}{}                    \{
+02298                         result.set\_pixel\_value(x+i,y+j,z,c,pixel);
+02299                         result.set\_pixel\_value(x+1+i,y+j,z,c,pixel);
+02300                         result.set\_pixel\_value(x+i,y+1+j,z,c,pixel);
+02301                         result.set\_pixel\_value(x+1+i,y+1+j,z,c,pixel);
+02302                     \}
+02303                     ++i;
+02304                 \}
+02305                 i=0;
+02306                 ++j;
+02307             \}
+02308             j=0;
+02309         \}
+02310     \}
+02311     \textcolor{keywordflow}{return} result;
+02312 \}
+02313 
+02327 CImg<float> \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{Image:: autocovariance} (\textcolor{keywordtype}{int} hor\_dis, \textcolor{keywordtype}{int} ver\_dis,\textcolor{keywordtype}{int} num\_threads)
+02328 \{
+02329     CImg<float> \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance} (this->get\_width() , this->get\_height(), this->get\_depth(), 
+      this->get\_spectrum(), 0); 
+02330     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02331     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,z,c;
+02332     \textcolor{keywordtype}{int} sum;
+02333     omp\_set\_num\_threads(num\_threads);
+02334     \hyperlink{class_image}{Image} average = this->\hyperlink{class_image_a7d67ea957e3525bcc60ca436fe0d8862}{filter\_average}(1,num\_threads);
+02335 
+02336     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02337     \{
+02338         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02339         \{
+02340 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,sum) shared(z,c,chunk)}
+02341 \textcolor{preprocessor}{}            
+02342             \textcolor{keywordflow}{for}(x = 3+hor\_dis; x < this->get\_width()-(3+hor\_dis); x++)
+02343             \{
+02344                 \textcolor{keywordflow}{for}(y = 3+ver\_dis; y < this->get\_height()-(3+ver\_dis); y++)
+02345                 \{
+02346                     sum = 0;
+02347                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-3; i<x+4; i++)
+02348                     \{
+02349                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j= y-3; j<y+4; j++)
+02350                         \{
+02351                             sum += ( (this->get\_pixel\_value(i,j,z,c))  -  average.get\_pixel\_value(i,j,z,c))
+       * ( (this->get\_pixel\_value(i+hor\_dis,j+ver\_dis,z,c))  -  average.get\_pixel\_value(i+hor\_dis,j+ver\_dis,z,c)) 
+      ;
+02352                         \}
+02353                     \}
+02354 \textcolor{preprocessor}{                    #pragma omp ordered}
+02355 \textcolor{preprocessor}{}                    \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance}(x,y,z,c) = sum/49;
+02356                 \}
+02357             \}
+02358         \}
+02359      \}
+02360     \textcolor{keywordflow}{return} \hyperlink{class_image_a42c17e010d45f8ec72dc89d7cdd76249}{autocovariance};
+02361 \}
+02362 
+02369 \hyperlink{class_image}{Image} \hyperlink{class_image_aad9aac9600334fb18ae54e4807a12dc5}{Image :: variance}(\textcolor{keywordtype}{int} dim, \textcolor{keywordtype}{int} num\_threads)
+02370 \{
+02371     \hyperlink{class_image}{Image} filtered (this->get\_width() , this->get\_height(), this->get\_depth(), this->get\_spectrum(), 0
+      ); 
+02372     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02373     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x,y,z,c;
+02374     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel;
+02375     \textcolor{keywordtype}{int} sum;
+02376     omp\_set\_num\_threads(num\_threads);
+02377     \textcolor{keywordflow}{for}(c = 0; c < this->get\_spectrum(); c++)
+02378     \{
+02379         \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02380         \{
+02381 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,sum, pixel)
+       shared(z,c,chunk)}
+02382 \textcolor{preprocessor}{}            
+02383             \textcolor{keywordflow}{for}(x = dim; x < this->get\_width()-dim; x++)
+02384             \{
+02385                 \textcolor{keywordflow}{for}(y = dim; y < this->get\_height()-dim; y++)
+02386                 \{
+02387                     sum = 0;
+02388                     \textcolor{keywordtype}{double} variance=0;
+02389                     \textcolor{keywordtype}{int} kernel\_values[(dim*2+1)*(dim*2+1)];
+02390                     \textcolor{keywordtype}{int} cont=0;
+02391 
+02392                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = x-dim; i<= x+dim; i++)
+02393                     \{
+02394                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j = y-dim; j<= y+dim; j++)
+02395                         \{
+02396                             sum += this->get\_pixel\_value(i, j, z, c);
+02397                             kernel\_values[cont]=this->get\_pixel\_value(i, j, z, c);
+02398                             cont++;
+02399                         \}
+02400                     \}
+02401             
+02402                     \textcolor{keywordtype}{double} average =  sum/((dim*2+1)*(dim*2+1));
+02403                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i<(dim*2+1)*(dim*2+1);i++)
+02404                     \{
+02405                         variance+=pow(kernel\_values[i]-average,2)/((dim*2+1)*(dim*2+1));
+02406                     \}
+02407                     
+02408                     
+02409                     pixel = (\textcolor{keywordtype}{unsigned} char)static\_cast<unsigned char> (variance);
+02410 \textcolor{preprocessor}{                    #pragma omp ordered}
+02411 \textcolor{preprocessor}{}                    filtered.\hyperlink{class_image_a4800a984610ffce53488c13d223a5b38}{set\_pixel\_value}(x, y, z, c, pixel);
+02412                 \}
+02413                 
+02414              \}
+02415              
+02416          \}
+02417     \}  
+02418      \textcolor{keywordflow}{return} filtered;
+02419 \}
+02420 
+02428 \hyperlink{class_image}{Image} \hyperlink{class_image_ab9ffca5856cd3e5032166d312719333d}{Image :: gray\_scale}(\textcolor{keywordtype}{int} num\_threads)
+02429 \{
+02430     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y,z,x;
+02431     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} pixel\_intensity;
+02432     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02433     omp\_set\_num\_threads(num\_threads);
+02434     \hyperlink{class_image}{Image} gray\_image (this->get\_width() , this->get\_height(), this->get\_depth(), 1, 0); 
+02435 
+02436 
+02437     \textcolor{keywordflow}{for}(z = 0; z < this->get\_depth(); z++)
+02438     \{
+02439 \textcolor{preprocessor}{        #pragma omp parallel for ordered schedule(dynamic,chunk) private(pixel\_intensity,x,y)
+       shared(z,gray\_image,chunk)}
+02440 \textcolor{preprocessor}{}
+02441         \textcolor{keywordflow}{for}(x = 0; x < this->get\_width(); x++)
+02442         \{
+02443             \textcolor{keywordflow}{for}(y = 0; y < this->get\_height(); y++)
+02444             \{
+02445             
+02446                 pixel\_intensity = 0.56*this->get\_pixel\_value(x,y,z,1)+0.14*this->get\_pixel\_value(x,y,z,0)+0
+      .11*this->get\_pixel\_value(x,y,z,2);
+02447 \textcolor{preprocessor}{                #pragma omp ordered}
+02448 \textcolor{preprocessor}{}                gray\_image.set\_pixel\_value(x, y, z, 0, pixel\_intensity);
+02449                 
+02450             \}
+02451              
+02452          \}
+02453     \}  
+02454      \textcolor{keywordflow}{return} gray\_image; 
+02455 \} 
+02456 
+02463 \hyperlink{class_image}{Image} \hyperlink{class_image_ace5b005b225d2ec360695cd8a3dfdf98}{Image :: coorrelogram}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ver,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} hor, \textcolor{keywordtype}{int} num\_threads)
+02464 \{
+02465     
+02466     \hyperlink{class_image}{Image} result (256,256, 1, 1, 0);   
+02467     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02468     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i,j,x,y;
+02469     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} pixel;
+02470     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first, secnd;
+02471     omp\_set\_num\_threads(num\_threads);
+02472     \textcolor{keywordflow}{for}(i = 0; i < 256; i++)
+02473     \{
+02474         \textcolor{keywordflow}{for}(j=0; j< 256; j++)
+02475         \{
+02476             pixel = 0;
+02477             
+02478 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,first, secnd, pixel)
+       shared(i,j,chunk)}
+02479 \textcolor{preprocessor}{}            
+02480             \textcolor{keywordflow}{for}(x=0; x< (this->get\_width()-hor);++x)
+02481             \{
+02482                 
+02483                 \textcolor{keywordflow}{for}(y=0; y< (this->get\_height()-ver);++y)
+02484                 \{
+02485                     first = (this->get\_pixel\_value(x,y,0,0));
+02486                     secnd = (this->get\_pixel\_value(x+hor, y+ver, 0, 0));
+02487                     
+02488                     \textcolor{keywordflow}{if}(first == i && secnd == j)
+02489                     \{
+02490                         pixel ++;
+02491                     \}
+02492                 \}
+02493             \}
+02494             \textcolor{keywordflow}{if}(pixel>255)
+02495             \{
+02496                 pixel=255;
+02497             \}
+02498 \textcolor{preprocessor}{            #pragma omp ordered}
+02499 \textcolor{preprocessor}{}            result.set\_pixel\_value(i, j, 0, 0, pixel);
+02500             
+02501         \}
+02502         
+02503         cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<i<<\textcolor{stringliteral}{"\(\backslash\)n"}<<endl;  
+02504     \}
+02505     \textcolor{keywordflow}{return} result;
+02506 
+02507 \}
+02508 
+02517 \hyperlink{class_image}{Image} \hyperlink{class_image_a1c2b2ed567925faeda7d1fbbe6888554}{Image :: coorrelogram\_ZC}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} ver,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} hor, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}
+       z, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} c, \textcolor{keywordtype}{int} num\_threads)
+02518 \{
+02519     
+02520     \hyperlink{class_image}{Image} result (256,256, 1, 1, 0);   
+02521     \textcolor{keywordtype}{int} chunk= (this->get\_width()/num\_threads);
+02522     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i,j,x,y;
+02523     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} pixel;
+02524     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} first, secnd;
+02525     omp\_set\_num\_threads(num\_threads);
+02526     \textcolor{keywordflow}{for}(i = 0; i < 256; i++)
+02527     \{
+02528         \textcolor{keywordflow}{for}(j=0; j< 256; j++)
+02529         \{
+02530             pixel = 0;
+02531 \textcolor{preprocessor}{            #pragma omp parallel for ordered schedule(dynamic,chunk) private(x,y,first, secnd, pixel)
+       shared(i,j,chunk)}
+02532 \textcolor{preprocessor}{}            
+02533             \textcolor{keywordflow}{for}(x=0; x< (this->get\_width()-hor);++x)
+02534             \{
+02535                 
+02536                 \textcolor{keywordflow}{for}(y=0; y< (this->get\_height()-ver);++y)
+02537                 \{
+02538                     first = (this->get\_pixel\_value(x,y,z,c));
+02539                     secnd = (this->get\_pixel\_value(x+hor, y+ver, z, c));
+02540                     \textcolor{keywordflow}{if}(first == i && secnd == j)
+02541                     \{
+02542                         pixel ++;
+02543                     \}
+02544                 \}
+02545             \}
+02546             \textcolor{keywordflow}{if}(pixel>255)
+02547             \{
+02548                 pixel=255;
+02549             \}
+02550 \textcolor{preprocessor}{            #pragma omp ordered}
+02551 \textcolor{preprocessor}{}            result.set\_pixel\_value(i, j, 0, 0, pixel);
+02552             
+02553         \}
+02554         
+02555     \}
+02556     \textcolor{keywordflow}{return} result;
+02557 
+02558 \}
+02559 
+02560 
+02561 
+02562 
+\end{DoxyCode}
