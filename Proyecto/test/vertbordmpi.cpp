@@ -68,7 +68,6 @@ int main(int argc, char** argv)
 	for(i=1; i<local_size-1; ++i)
 	{
 		result_local[i] = matrix_local[i-1]-matrix_local[i+1];
-	
 	}
 	free(matrix_local);
 	MPI_Gather(result_local, local_size, MPI_INT, mat_result, local_size, MPI_INT, 0, MPI_COMM_WORLD);
