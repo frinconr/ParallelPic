@@ -1,4 +1,4 @@
-all: doxygen pdf doc latex
+all: doxygen latex
 
 pdf: Propuesta.pdf Usage.pdf Technical_Report.pdf
 
