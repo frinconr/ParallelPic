@@ -1,6 +1,0 @@
-#!/bin/bash
-touch Data.txt
-for ((i=0;i<3;++i))
-do
-	./average_omp.exe>>Data.txt
-done
